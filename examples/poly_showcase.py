@@ -72,7 +72,7 @@ ses = {
 colors = [KORALL, PRIME_BLUE, PRIME_DGREY]   # C1, C2, C3
 
 fig, ax = plt.subplots(figsize=(6, 4.5))     # 4:3
-fig.subplots_adjust(top=0.82)
+fig.subplots_adjust(top=0.88)
 fig.suptitle("Charité", fontsize=16, y=0.95, color=PRIME_BLUE)
 fig.text(0.5, 0.90, "mpl Theme", ha="center", va="top", fontsize=9.5, color=TEXT_GREY)
 
@@ -80,9 +80,25 @@ for (label, mean), se, color in zip(means.items(), ses.values(), colors):
     ax.fill_between(t_axis, mean - se, mean + se, alpha=0.25, color=color, linewidth=0)
     ax.plot(t_axis, mean, lw=2, label=label, color=color)
 
+ax.set_xlim(left=0)
+ax.set_ylim(bottom=0)
 ax.set_xlabel("Time")
 ax.set_ylabel("Signal")
 ax.legend(frameon=False)
+
+# despine: offset spines outward and trim to tick extent (seaborn-style)
+for side in ("left", "bottom"):
+    ax.spines[side].set_position(("outward", 0))
+for side in ("top", "right"):
+    ax.spines[side].set_visible(False)
+xt = np.asarray(ax.get_xticks())
+xt = xt[(xt >= ax.get_xlim()[0]) & (xt <= ax.get_xlim()[1])]
+if xt.size:
+    ax.spines["bottom"].set_bounds(xt[0], xt[-1])
+yt = np.asarray(ax.get_yticks())
+yt = yt[(yt >= ax.get_ylim()[0]) & (yt <= ax.get_ylim()[1])]
+if yt.size:
+    ax.spines["left"].set_bounds(yt[0], yt[-1])
 
 # ── save ───────────────────────────────────────────────────────────────────
 out = pathlib.Path(__file__).parent.parent / "docs" / "assets" / "theme_example.png"

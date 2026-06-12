@@ -19,10 +19,12 @@ apply_theme(theme_charite())
 MAX_COLS = max(len(p) for p in PALETTES.values())
 names    = list(PALETTES.keys())
 
+LABEL_PAD = 0.4   # data-units reserved to the left for labels at font size 12
+
 fig, axes = plt.subplots(
     len(names), 1,
-    figsize=(6.5, len(names) * 0.52 + 0.3),
-    gridspec_kw={"hspace": 0.35},
+    figsize=(7.5, len(names) * 0.58 + 0.3),
+    gridspec_kw={"hspace": 0},
 )
 
 for ax, name in zip(axes, names):
@@ -32,9 +34,9 @@ for ax, name in zip(axes, names):
             (i, 0), 1.0, 0.82,
             facecolor=color, edgecolor="none",
         ))
-    ax.set_xlim(-0.05, MAX_COLS)
+    ax.set_xlim(-LABEL_PAD, MAX_COLS)
     ax.set_ylim(-0.1, 1.0)
-    ax.text(-0.15, 0.41, name, ha="right", va="center", fontsize=9.5)
+    ax.text(-LABEL_PAD, 0.41, name, ha="right", va="center", fontsize=12)
     ax.axis("off")
 
 
