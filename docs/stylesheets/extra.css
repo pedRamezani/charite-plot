@@ -1,0 +1,50 @@
+/* Charité corporate identity colors */
+:root,
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color:               #004d9b;
+  --md-primary-fg-color--light:        #007bc3;
+  --md-primary-fg-color--dark:         #002552;
+  --md-accent-fg-color:                #007bc3;
+  --md-accent-fg-color--transparent:   rgba(0, 123, 195, 0.1);
+}
+
+/* Color swatch grid */
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+
+.color-swatch .chip {
+  height: 52px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.color-swatch .name {
+  display: block;
+  font-size: 0.78em;
+  font-weight: 600;
+  color: var(--md-default-fg-color);
+}
+
+.color-swatch .hex {
+  font-size: 0.75em;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Palette strip */
+.palette-strip {
+  display: flex;
+  height: 44px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 0.5rem 0 1.25rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.palette-strip div {
+  flex: 1;
+}

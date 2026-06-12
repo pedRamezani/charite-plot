@@ -1,0 +1,58 @@
+site_name: charite-plot
+site_description: Matplotlib and Altair themes for Charité – Universitätsmedizin Berlin
+site_author: Pedram Ramezani
+repo_url: https://github.com/pedramramezani/charite-plot
+repo_name: charite-plot
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - toc.follow
+    - content.code.copy
+    - content.code.annotate
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: numpy
+            show_source: false
+            show_root_heading: true
+            show_root_full_path: false
+            heading_level: 2
+            members_order: source
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - User Guide:
+    - Colors: colors.md
+    - Palettes: palettes.md
+    - Matplotlib: matplotlib.md
+    - Altair: altair.md
+  - API Reference:
+    - colors: api/colors.md
+    - palettes: api/palettes.md
+    - mpl_themes: api/mpl_themes.md
+    - altair_themes: api/altair_themes.md
+    - fonts: api/fonts.md

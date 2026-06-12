@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "charite-plot"
+dynamic = ["version"]
+description = "Matplotlib and Altair themes for Charité – Universitätsmedizin Berlin"
+authors = [
+    { name = "Pedram Ramezani", email = "pedramramezani.pr@gmail.com" },
+]
+license = { file = "LICENSE.md" }
+requires-python = ">=3.9"
+dependencies = [
+    "matplotlib>=3.5",
+    "cycler",
+]
+
+[project.optional-dependencies]
+altair = ["altair>=5.5", "vega-datasets"]
+all    = ["altair>=5.5", "vega-datasets"]
+docs   = ["mkdocs-material>=9.0", "mkdocstrings[python]>=0.24"]
+
+[tool.hatch.version]
+path = "charite_plot/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["charite_plot"]
