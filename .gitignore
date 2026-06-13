@@ -1,3 +1,4 @@
+dist
 examples/**
 !examples/*.py
 site

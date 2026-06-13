@@ -6,15 +6,39 @@ build-backend = "hatchling.build"
 name = "charite-plot"
 dynamic = ["version"]
 description = "Matplotlib and Altair themes for Charité – Universitätsmedizin Berlin"
+readme = "README.md"
 authors = [
     { name = "Pedram Ramezani", email = "pedramramezani.pr@gmail.com" },
 ]
 license = { file = "LICENSE.md" }
 requires-python = ">=3.9"
+keywords = ["matplotlib", "altair", "theme", "visualization", "charite"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Framework :: Matplotlib",
+    "Typing :: Typed",
+]
 dependencies = [
     "matplotlib>=3.5",
     "cycler",
 ]
+
+[project.urls]
+Homepage      = "https://github.com/pedramramezani/charite-plot"
+Documentation = "https://pedramramezani.github.io/charite-plot"
+Repository    = "https://github.com/pedramramezani/charite-plot"
+"Bug Tracker" = "https://github.com/pedramramezani/charite-plot/issues"
 
 [project.optional-dependencies]
 altair = ["altair>=5.5", "vega-datasets"]
