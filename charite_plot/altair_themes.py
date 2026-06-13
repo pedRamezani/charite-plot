@@ -15,6 +15,11 @@ from .colors import (
 from .palettes import PALETTES
 from .fonts import build_font_stack
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from altair.theme import ThemeConfig
+
 
 def _css_font_stack(preferred: str | None) -> str:
     """Return a CSS font-family string (comma-separated, quoted if needed)."""
@@ -30,7 +35,7 @@ def theme_charite(
     grid: bool = False,
     palette: str | list[str] = "primary",
     background: str = "white",
-) -> dict:
+) -> "ThemeConfig":
     """Return an Altair theme config dict for the Charité corporate theme.
 
     Parameters
