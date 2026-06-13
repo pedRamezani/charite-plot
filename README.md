@@ -83,11 +83,9 @@ enable(palette="berryseason", font_size=13)
 
 The fallback chain follows the official Charité brand guidelines:
 
-**Charité Text Office → Charit? Text Office → Calibri → DejaVu Sans**
+**Charité Text Office → Charit? Text Office → Calibri → DejaVu Sans → sans-serif**
 
-> **Ersatzschrift „Calibri"** — Falls die Hausschrift aus technischen Gründen nicht verwendet werden kann, ersetzt die Systemschriftart „Calibri" die Hausschrift. Dies ist beispielsweise bei der E-Mail-Korrespondenz der Fall.
-
-`DejaVu Sans` ships with Matplotlib and is always available as the final fallback. To override the preferred font:
+`DejaVu Sans` ships with Matplotlib and is always available as the penultimate fallback; `sans-serif` lets the browser or system choose if nothing else matches (important for Altair/Vega-Lite). To override the preferred font:
 
 ```python
 apply_theme(theme_charite(font="Arial"))

@@ -22,7 +22,7 @@ def theme_charite(
     ----------
     font:
         Preferred font family. Falls back through Charité Text Office →
-        Charit? Text Office → Calibri → DejaVu Sans if the requested font is not installed.
+        Charit? Text Office → Calibri → DejaVu Sans → sans-serif if the requested font is not installed.
     font_size:
         Base font size in points. Defaults to 10 for screen; use 8 for print.
     thickness:

@@ -2,7 +2,7 @@
 
 import warnings
 
-FONT_STACK = ["Charité Text Office", "Charit? Text Office", "Calibri", "DejaVu Sans"]
+FONT_STACK = ["Charité Text Office", "Charit? Text Office", "Calibri", "DejaVu Sans", "sans-serif"]
 
 
 def _available_fonts() -> set[str]:
@@ -19,7 +19,7 @@ def check_font(font: str) -> bool:
         return True
     warnings.warn(
         f"Font '{font}' is not installed on this system. "
-        "Using the fallback chain: Charité Text Office → Charit? Text Office → Calibri → DejaVu Sans.",
+        "Using the fallback chain: Charité Text Office → Charit? Text Office → Calibri → DejaVu Sans → sans-serif.",
         UserWarning,
         stacklevel=3,
     )

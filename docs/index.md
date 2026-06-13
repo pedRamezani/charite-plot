@@ -59,4 +59,4 @@ chart = alt.Chart(df).mark_bar().encode(...)
 
 - **Single source of truth** — colors are defined once in `colors.py` and imported by every other module.
 - **No side effects on import** — theme functions return plain dicts; you opt in with `apply_theme()`, `using()`, or `enable()`.
-- **Font fallback** — if Charité Text Office is not installed, the theme cascades to Charit? Text Office, then Calibri and DejaVu Sans automatically, following the official brand guidelines.
+- **Font fallback** — if Charité Text Office is not installed, the theme cascades to Charit? Text Office, then Calibri, DejaVu Sans, and finally sans-serif automatically, following the official brand guidelines.

@@ -27,9 +27,10 @@ pip install "charite-plot[docs]"        # mkdocs-material + mkdocstrings
 
 charite-plot works out of the box with any system. The font fallback chain is:
 
-**Charité Text Office → Charit? Text Office → Calibri → DejaVu Sans**
+**Charité Text Office → Charit? Text Office → Calibri → DejaVu Sans → sans-serif**
 
-- `DejaVu Sans` ships with Matplotlib and is always available as the final fallback.
+- `sans-serif` is the final fallback, letting the browser or system choose a suitable font — this is particularly important for Altair/Vega-Lite charts.
+- `DejaVu Sans` ships with Matplotlib and is always available as the penultimate fallback.
 - `Calibri` is pre-installed on Windows and macOS (via Microsoft Office) and serves as the official replacement font, as defined in the Charité brand guidelines.
 - `Charité Text Office` must be installed manually — it is available to Charité employees via the Markenportal. On some systems the `é` is not decoded correctly and the font is registered as `Charit? Text Office`; both names are tried automatically.
 

@@ -52,7 +52,7 @@ mpl.rcParams.update(params)
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `font` | `str | None` | `None` | Preferred font. Falls back through Charité Text Office → Charit? Text Office → Calibri → DejaVu Sans. |
+| `font` | `str | None` | `None` | Preferred font. Falls back through Charité Text Office → Charit? Text Office → Calibri → DejaVu Sans → sans-serif. |
 | `font_size` | `float` | `10` | Base font size in points. Use `8` for print/journal figures. |
 | `thickness` | `float` | `0.5` | Axis line and tick width. |
 | `grid` | `bool` | `False` | Show major grid lines. |

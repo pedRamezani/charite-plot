@@ -42,7 +42,7 @@ alt.theme.enable("charite")   # enable later
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `font` | `str | None` | `None` | Preferred font. CSS fallback: Charité Text Office → Charit? Text Office → Calibri → DejaVu Sans. |
+| `font` | `str | None` | `None` | Preferred font. CSS fallback: Charité Text Office → Charit? Text Office → Calibri → DejaVu Sans → sans-serif. |
 | `font_size` | `int` | `12` | Base font size in pixels. |
 | `grid` | `bool` | `False` | Show axis grid lines. |
 | `palette` | `str | list[str]` | `"primary"` | Named palette or list of hex strings for the categorical color range. |

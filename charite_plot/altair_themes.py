@@ -41,7 +41,7 @@ def theme_charite(
     Parameters
     ----------
     font:
-        Preferred font. Falls back through Charité Text Office → Charit? Text Office → Calibri → DejaVu Sans.
+        Preferred font. Falls back through Charité Text Office → Charit? Text Office → Calibri → DejaVu Sans → sans-serif.
     font_size:
         Base font size in pixels.
     grid:
