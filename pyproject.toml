@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "Matplotlib and Altair themes for Charité – Universitätsmedizin Berlin"
 readme = "README.md"
 authors = [
-    { name = "Pedram Ramezani", email = "pedramramezani.pr@gmail.com" },
+    { name = "Pedram Ramezani", email = "me@pedramramezani.de" },
 ]
 license = { file = "LICENSE.md" }
 requires-python = ">=3.9"
@@ -35,10 +35,11 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage      = "https://github.com/pedramramezani/charite-plot"
-Documentation = "https://pedramramezani.github.io/charite-plot"
-Repository    = "https://github.com/pedramramezani/charite-plot"
-"Bug Tracker" = "https://github.com/pedramramezani/charite-plot/issues"
+Homepage      = "https://github.com/pedramezani/charite-plot"
+Documentation = "https://pedramezani.github.io/charite-plot"
+Repository    = "https://github.com/pedramezani/charite-plot"
+"Bug Tracker" = "https://github.com/pedramezani/charite-plot/issues"
+Changelog     = "https://github.com/pedramezani/charite-plot/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 altair = ["altair>=5.5", "vega-datasets"]

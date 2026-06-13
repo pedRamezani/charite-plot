@@ -14,13 +14,13 @@ pip install "charite-plot[altair]"         # with Altair support
 Visualize your data with `theme_charite()` to match the Charité corporate style.
 
 <p align="center">
-<img src="docs/assets/theme_example.png" width="80%"/>
+<img src="https://raw.githubusercontent.com/pedramezani/charite-plot/main/docs/assets/theme_example.png" width="80%"/>
 </p>
 
 Preview the available colour palettes.
 
 <p align="center">
-<img src="docs/assets/palette_preview.png" width="80%"/>
+<img src="https://raw.githubusercontent.com/pedramezani/charite-plot/main/docs/assets/palette_preview.png" width="80%"/>
 </p>
 
 ## Quick start

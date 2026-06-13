@@ -1,7 +1,7 @@
 site_name: charite-plot
 site_description: Matplotlib and Altair themes for Charité – Universitätsmedizin Berlin
 site_author: Pedram Ramezani
-repo_url: https://github.com/pedramramezani/charite-plot
+repo_url: https://github.com/pedramezani/charite-plot
 repo_name: charite-plot
 
 theme:
