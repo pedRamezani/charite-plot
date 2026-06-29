@@ -91,6 +91,21 @@ The fallback chain follows the official Charité brand guidelines:
 apply_theme(theme_charite(font="Arial"))
 ```
 
+## How to cite
+
+If you use charite-plot in your work, please cite it as:
+
+```bibtex
+@software{ramezani2026chariteplot,
+  author    = {Ramezani, Pedram},
+  title     = {charite-plot: Matplotlib and Altair Themes for Charité – Universitätsmedizin Berlin},
+  year      = {2026},
+  version   = {0.1.1},
+  url       = {https://github.com/pedramezani/charite-plot},
+  license   = {MIT},
+}
+```
+
 ## License
 
 MIT © 2026 Pedram Ramezani

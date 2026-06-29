@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "charite-plot: Matplotlib and Altair Themes for Charité – Universitätsmedizin Berlin"
+authors:
+  - family-names: Ramezani
+    given-names: Pedram
+    email: pedram.ramezani@charite.de
+version: 0.1.1
+date-released: 2026-06-13
+license: MIT
+url: "https://github.com/pedramezani/charite-plot"
+repository-code: "https://github.com/pedramezani/charite-plot"
+keywords:
+  - matplotlib
+  - altair
+  - theme
+  - visualization
+  - charite
