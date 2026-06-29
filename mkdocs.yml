@@ -50,6 +50,7 @@ nav:
     - Palettes: palettes.md
     - Matplotlib: matplotlib.md
     - Altair: altair.md
+  - Citing: citing.md
   - API Reference:
     - colors: api/colors.md
     - palettes: api/palettes.md
