@@ -57,6 +57,7 @@ mpl.rcParams.update(params)
 | `thickness` | `float` | `0.5` | Axis line and tick width. |
 | `grid` | `bool` | `False` | Show major grid lines. |
 | `palette` | `str | list[str]` | `"primary"` | Named palette or list of hex strings for `axes.prop_cycle`. |
+| `interactive` | `bool` | `False` | Enable interactive mode (equivalent to `plt.ion()`). Useful in notebooks or scripts where plots should display without blocking. |
 
 ---
 

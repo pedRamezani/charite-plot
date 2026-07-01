@@ -15,6 +15,7 @@ def theme_charite(
     thickness: float = 0.5,
     grid: bool = False,
     palette: str | list[str] = "primary",
+    interactive: bool = False,
 ) -> dict:
     """Return matplotlib rcParams dict for the Charité corporate identity theme.
 
@@ -32,6 +33,10 @@ def theme_charite(
     palette:
         Name of a built-in palette or a list of hex color strings used for the
         ``axes.prop_cycle``.
+    interactive:
+        Enable matplotlib interactive mode (equivalent to ``plt.ion()``).
+        Useful in notebooks or scripts where you want plots to display
+        without blocking.
     """
     colors = PALETTES[palette] if isinstance(palette, str) else list(palette)
 
@@ -114,6 +119,9 @@ def theme_charite(
         "legend.fontsize":       round(font_size * 0.9),
         "legend.title_fontsize": font_size,
         "legend.labelcolor":     TEXT_GREY,
+
+        # Interactive mode
+        "interactive": interactive,
 
         # Save
         "savefig.dpi":         300,
