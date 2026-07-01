@@ -36,9 +36,10 @@ def theme_charite(
     colors = PALETTES[palette] if isinstance(palette, str) else list(palette)
 
     return {
-        # Font
+        # Font — monospace is a fallback for latex mathtt, code blocks, etc.
         "font.family":     "sans-serif",
         "font.sans-serif": build_font_stack(preferred=font),
+        "font.monospace": ["Andale Mono", "Nimbus Mono L", "Courier New", "Courier", "Fixed", "Terminal", "monospace"],
         "font.size":       font_size,
 
         # Spines — only bottom and left visible (mirrors theme_classic in R)
@@ -55,6 +56,10 @@ def theme_charite(
         "axes.edgecolor":  BLACK,
         "axes.facecolor":  "white",
         "axes.grid":       grid,
+        "axes.axisbelow":  True,
+        "axes3d.xaxis.panecolor": "white",
+        "axes3d.yaxis.panecolor": "white",
+        "axes3d.zaxis.panecolor": "white",
 
         # Grid (only visible when grid=True)
         "grid.color":     PRIME_LGREY,
@@ -70,6 +75,8 @@ def theme_charite(
         "ytick.labelcolor":    TEXT_GREY,
         "xtick.major.size":    3,
         "ytick.major.size":    3,
+        "xtick.major.pad":     6,
+        "ytick.major.pad":     6,
         "xtick.major.width":   thickness,
         "ytick.major.width":   thickness,
         "xtick.minor.visible": False,
@@ -77,20 +84,32 @@ def theme_charite(
 
         # Text
         "text.color": TEXT_GREY,
+        "text.antialiased": True,
 
         # Figure
-        "figure.facecolor": "white",
-        "figure.edgecolor": "white",
-        "figure.dpi":       100,
+        "figure.facecolor":      "white",
+        "figure.edgecolor":      "white",
+        "figure.dpi":            100,
+        "figure.figsize":        (11, 8),
+        "figure.subplot.hspace": 0.5,
+        "figure.titlesize":      round(font_size * 1.2),
+        "figure.labelsize":      font_size,
 
         # Lines / markers
-        "lines.linewidth":  1.5,
-        "lines.markersize": 6,
+        "lines.linewidth":   1.5,
+        "lines.markersize":  6,
+        "lines.antialiased": True,
 
         # Patches (bars, etc.)
-        "patch.linewidth": 0,
+        "patch.linewidth":   0,
+        "patch.force_edgecolor": False,
+        "patch.antialiased": True,
+
+        # Histograms
+        "hist.bins": "auto",
 
         # Legend
+        "legend.fancybox":       True,
         "legend.frameon":        False,
         "legend.fontsize":       round(font_size * 0.9),
         "legend.title_fontsize": font_size,
