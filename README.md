@@ -1,5 +1,12 @@
 # charite-plot
 
+![PyPI Version](https://img.shields.io/pypi/v/charite-plot?link=https%3A%2F%2Fpypi.org%2Fproject%2Fcharite-plot%2F)
+![PyPI License](https://img.shields.io/pypi/l/charite_plot)
+![PyPI Python Version](https://img.shields.io/pypi/pyversions/charite-plot)
+![PyPI Types](https://img.shields.io/pypi/types/charite-plot)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/pedRamezani/charite-plot/ci.yml)
+![Website](https://img.shields.io/website?url=https%3A%2F%2Fpedramezani.github.io%2Fcharite-plot%2F&style=social&logo=materialformkdocs&label=documentation)
+
 A Python package with a Charité-styled Matplotlib theme, [visual identity](https://marke.charite.de/d/Y3FxSwD6Tz3a) colour palettes, and an Altair theme — ported from the [`charite` R package](https://github.com/johannesjuliusm/charite).
 
 ## Installation
