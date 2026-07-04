@@ -100,12 +100,18 @@ If you use charite-plot in your work, please cite it as:
   author    = {Ramezani, Pedram},
   title     = {charite-plot: Matplotlib and Altair Themes for Charité – Universitätsmedizin Berlin},
   year      = {2026},
-  version   = {0.1.1},
+  version   = {0.2.0},
   url       = {https://github.com/pedramezani/charite-plot},
   license   = {MIT},
 }
 ```
 
+## Acknowledgements
+
+This package is based on the original [`charite` R package](https://github.com/johannesjuliusm/charite) developed by Johannes Julius Mohn.
+
 ## License
 
 MIT © 2026 Pedram Ramezani
+
+The original `charite` R package by Johannes Julius Mohn is likewise MIT licensed.

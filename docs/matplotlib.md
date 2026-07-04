@@ -58,6 +58,7 @@ mpl.rcParams.update(params)
 | `grid` | `bool` | `False` | Show major grid lines. |
 | `palette` | `str | list[str]` | `"primary"` | Named palette or list of hex strings for `axes.prop_cycle`. |
 | `interactive` | `bool` | `False` | Enable interactive mode (equivalent to `plt.ion()`). Useful in notebooks or scripts where plots should display without blocking. |
+| `tiny_margins` | `bool` | `False` | Minimise all margins and paddings around the plot panel. Useful for dense layouts. |
 
 ---
 
@@ -87,4 +88,16 @@ apply_theme(theme_charite(palette=["#004d9b", "#ea5451", "#fab600"]))
 
 ```python
 apply_theme(theme_charite(grid=True))
+```
+
+### Dense layout with minimal margins
+
+```python
+apply_theme(theme_charite(tiny_margins=True))
+```
+
+### Interactive mode (notebooks / REPL)
+
+```python
+apply_theme(theme_charite(interactive=True))   # equivalent to plt.ion()
 ```

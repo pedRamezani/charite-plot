@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-07-01
+
+### Added
+
+- `theme_charite` (matplotlib) gained `interactive` and `tiny_margins` parameters.
+- `theme_charite` (Altair) gained `thickness` and `tiny_margins` parameters, bringing it to parity with the matplotlib backend.
+
+### Changed
+
+- Font-size ramp is now shared between both backends: labels scale at 1× and legend text at 0.8× the base size. Altair legend labels are slightly smaller and axis labels slightly larger as a result.
+
 ## [0.1.1] - 2026-06-13
 
 ### Fixed

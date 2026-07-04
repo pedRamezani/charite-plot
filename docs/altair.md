@@ -44,9 +44,11 @@ alt.theme.enable("charite")   # enable later
 |-----------|------|---------|-------------|
 | `font` | `str | None` | `None` | Preferred font. CSS fallback: Charité Text Office → Charit? Text Office → Calibri → DejaVu Sans → sans-serif. |
 | `font_size` | `int` | `12` | Base font size in pixels. |
+| `thickness` | `float` | `0.5` | Axis line and tick width. |
 | `grid` | `bool` | `False` | Show axis grid lines. |
 | `palette` | `str | list[str]` | `"primary"` | Named palette or list of hex strings for the categorical color range. |
 | `background` | `str` | `"white"` | Chart background color. |
+| `tiny_margins` | `bool` | `False` | Minimise all paddings around the chart. Useful for dense layouts. |
 
 ---
 
@@ -94,4 +96,16 @@ alt.Chart(df).mark_point().encode(
 
 ```python
 enable(background="transparent")
+```
+
+### Dense layout with minimal margins
+
+```python
+enable(tiny_margins=True)
+```
+
+### Thicker axis lines
+
+```python
+enable(thickness=1.0)
 ```

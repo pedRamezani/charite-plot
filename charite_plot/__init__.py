@@ -26,5 +26,5 @@ from .palettes import PALETTES, make_palette  # noqa: F401
 from . import mpl_themes  # noqa: F401
 from . import altair_themes  # noqa: F401
 
-__version__ = "0.1.1"
+__version__ = "0.2.0"
 __author__ = "Pedram Ramezani"
