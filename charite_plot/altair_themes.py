@@ -8,6 +8,8 @@ Register and enable with::
     enable(font="Arial", font_size=13)    # font override
 """
 
+from __future__ import annotations
+
 from .colors import (
     BLACK, WHITE, TEXT_GREY, PRIME_BLUE, PRIME_LGREY,
     SECOND_DBLUE, KORALL,
@@ -18,7 +20,7 @@ from .fonts import build_font_stack
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from altair.theme import ThemeConfig
+    from altair.theme import AxisConfigKwds, ThemeConfig
 
 
 def _css_font_stack(preferred: str | None) -> str:
@@ -35,7 +37,7 @@ def theme_charite(
     grid: bool = False,
     palette: str | list[str] = "primary",
     background: str = "white",
-) -> "ThemeConfig":
+) -> ThemeConfig:
     """Return an Altair theme config dict for the Charité corporate theme.
 
     Parameters
@@ -56,7 +58,7 @@ def theme_charite(
     label_size = font_size - 1
     title_size = round(font_size * 1.2)
 
-    axis = {
+    axis: AxisConfigKwds = {
         "labelFont":     font_str,
         "titleFont":     font_str,
         "labelFontSize": label_size,
