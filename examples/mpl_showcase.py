@@ -41,7 +41,7 @@ fig.suptitle(
     fontsize=16,
     y=1.01,
 )
-sub = fig.add_gridspec(3, 3, hspace=0.45, wspace=0.35)
+sub = fig.add_gridspec(3, 3, hspace=0.125, wspace=0.1)
 
 cats = ["A", "B", "C"]
 
@@ -178,7 +178,9 @@ ax9.set_yticks([n_rows - i - 0.6 for i in range(n_rows)])
 ax9.set_yticklabels(palette_names, fontsize=7)
 ax9.set_xticks([])
 ax9.spines["left"].set_visible(False)
+ax9.spines["bottom"].set_visible(False)
 ax9.tick_params(left=False)
+ax9.tick_params(bottom=False)
 ax9.set_title("Color Palettes")
 
 

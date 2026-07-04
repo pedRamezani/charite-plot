@@ -94,7 +94,7 @@ t_axis, means, ses = _generate_data()
 
 
 # ── single: Charité theme ───────────────────────────────────────────────────
-apply_theme(theme_charite(font_size=14))
+apply_theme(theme_charite(font_size=14, thickness=1))
 
 fig, ax = plt.subplots(figsize=(6, 4.5))
 fig.subplots_adjust(top=0.88)
