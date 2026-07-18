@@ -8,6 +8,8 @@ ratios are shared so both backends scale identically from their base size
 
 from typing import NamedTuple
 
+__all__ = ["FontSizes", "Margins", "Thickness", "resolve_font_sizes"]
+
 
 class FontSizes(NamedTuple):
     """Derived font sizes, all scaled from the base ``font_size``."""

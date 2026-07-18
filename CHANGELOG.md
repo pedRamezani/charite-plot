@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `theme_charite` (matplotlib) gained a `background` parameter (sets figure and axes facecolor).
 - Altair now provides a `using()` context manager mirroring the matplotlib one, for scoping the theme to a `with` block.
+- Explicit `__all__` declarations on every module (and the package) to define the public API surface for `from charite_plot import *` and tooling.
 
 ### Changed
 

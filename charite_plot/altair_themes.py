@@ -26,6 +26,8 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from altair.theme import AxisConfigKwds, ThemeConfig
 
+__all__ = ["theme_charite", "enable", "using", "register"]
+
 
 def _css_font_stack(preferred: str | None) -> str:
     """Return a CSS font-family string (comma-separated, quoted if needed)."""

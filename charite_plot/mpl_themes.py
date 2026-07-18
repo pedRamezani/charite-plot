@@ -9,6 +9,8 @@ from .palettes import PALETTES
 from .fonts import build_font_stack
 from ._theme_common import Margins, Thickness, resolve_font_sizes
 
+__all__ = ["theme_charite", "enable", "using"]
+
 
 def theme_charite(
     font: str | None = None,

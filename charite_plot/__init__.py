@@ -21,10 +21,19 @@ Altair::
     # charts rendered after this call use the theme automatically
 """
 
-from .colors import *  # noqa: F401, F403  (all color constants + CHARITE_COLORS)
-from .palettes import PALETTES, make_palette  # noqa: F401
-from . import mpl_themes  # noqa: F401
-from . import altair_themes  # noqa: F401
+from .colors import *  # noqa: F403  (all color constants + CHARITE_COLORS)
+from .colors import __all__ as _COLOR_ALL
+from .palettes import PALETTES, make_palette
+from . import mpl_themes
+from . import altair_themes
 
 __version__ = "0.3.0"
 __author__ = "Pedram Ramezani"
+
+__all__ = [
+    *_COLOR_ALL,
+    "PALETTES",
+    "make_palette",
+    "mpl_themes",
+    "altair_themes",
+]

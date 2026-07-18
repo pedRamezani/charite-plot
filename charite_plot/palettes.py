@@ -9,6 +9,8 @@ from .colors import (
     WEINROT, HIMBEER, ROT, MANGO, RAPSGELB,
 )
 
+__all__ = ["PALETTES", "make_palette"]
+
 PALETTES: dict[str, list[str]] = {
     "primary":     [PRIME_BLUE, PRIME_DGREY, PRIME_LGREY],
     "secondary":   [SECOND_DBLUE, SECOND_LBLUE, KORALL],

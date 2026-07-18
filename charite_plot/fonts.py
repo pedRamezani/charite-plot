@@ -2,6 +2,8 @@
 
 import warnings
 
+__all__ = ["FONT_STACK", "check_font", "build_font_stack"]
+
 FONT_STACK = ["Charité Text Office", "Charit? Text Office", "Calibri", "DejaVu Sans", "sans-serif"]
 
 
