@@ -2,15 +2,15 @@
 
 ## Applying the theme
 
-### Permanently — `apply_theme`
+### Permanently — `enable`
 
 Sets rcParams globally for the rest of the session:
 
 ```python
 import matplotlib.pyplot as plt
-from charite_plot.mpl_themes import theme_charite, apply_theme
+from charite_plot.mpl_themes import enable
 
-apply_theme(theme_charite())
+enable()
 
 fig, ax = plt.subplots()
 ax.plot([1, 2, 3], [4, 7, 3])
@@ -25,9 +25,9 @@ plt.show()
 Applies the theme only inside the `with` block, then restores the previous rcParams:
 
 ```python
-from charite_plot.mpl_themes import theme_charite, using
+from charite_plot.mpl_themes import using
 
-with using(theme_charite(palette="goldelse")):
+with using(palette="goldelse"):
     fig, ax = plt.subplots()
     ax.bar(["A", "B", "C", "D"], [3, 7, 5, 9])
 ```
@@ -57,8 +57,9 @@ mpl.rcParams.update(params)
 | `thickness` | `float` | `0.5` | Axis line and tick width. |
 | `grid` | `bool` | `False` | Show major grid lines. |
 | `palette` | `str | list[str]` | `"primary"` | Named palette or list of hex strings for `axes.prop_cycle`. |
-| `interactive` | `bool` | `False` | Enable interactive mode (equivalent to `plt.ion()`). Useful in notebooks or scripts where plots should display without blocking. |
+| `background` | `str` | `"white"` | Figure and axes background color. |
 | `tiny_margins` | `bool` | `False` | Minimise all margins and paddings around the plot panel. Useful for dense layouts. |
+| `interactive` | `bool` | `False` | Enable interactive mode (equivalent to `plt.ion()`). Matplotlib-specific. |
 
 ---
 
@@ -67,37 +68,37 @@ mpl.rcParams.update(params)
 ### Palette switcher
 
 ```python
-from charite_plot.mpl_themes import theme_charite, apply_theme
+from charite_plot.mpl_themes import enable
 
-apply_theme(theme_charite(palette="berryseason"))
+enable(palette="berryseason")
 ```
 
 ### Custom font size for a journal figure
 
 ```python
-apply_theme(theme_charite(font_size=8, thickness=0.4))
+enable(font_size=8, thickness=0.4)
 ```
 
 ### Custom color list
 
 ```python
-apply_theme(theme_charite(palette=["#004d9b", "#ea5451", "#fab600"]))
+enable(palette=["#004d9b", "#ea5451", "#fab600"])
 ```
 
 ### Grid on
 
 ```python
-apply_theme(theme_charite(grid=True))
+enable(grid=True)
 ```
 
 ### Dense layout with minimal margins
 
 ```python
-apply_theme(theme_charite(tiny_margins=True))
+enable(tiny_margins=True)
 ```
 
 ### Interactive mode (notebooks / REPL)
 
 ```python
-apply_theme(theme_charite(interactive=True))   # equivalent to plt.ion()
+enable(interactive=True)   # equivalent to plt.ion()
 ```

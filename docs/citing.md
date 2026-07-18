@@ -9,7 +9,7 @@ If you use charite-plot in your research or work, please cite it. A `CITATION.cf
   author    = {Ramezani, Pedram},
   title     = {charite-plot: Matplotlib and Altair Themes for Charité – Universitätsmedizin Berlin},
   year      = {2026},
-  version   = {0.2.0},
+  version   = {0.3.0},
   url       = {https://github.com/pedramezani/charite-plot},
   license   = {MIT},
 }

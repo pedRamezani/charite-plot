@@ -37,9 +37,9 @@ charite-plot works out of the box with any system. The font fallback chain is:
 To use a different preferred font, pass it explicitly:
 
 ```python
-from charite_plot.mpl_themes import theme_charite, apply_theme
+from charite_plot.mpl_themes import enable
 
-apply_theme(theme_charite(font="Arial"))
+enable(font="Arial")
 ```
 
 A warning is shown if the requested font cannot be found on the system.

@@ -4,5 +4,5 @@
     options:
       members:
         - theme_charite
-        - apply_theme
+        - enable
         - using

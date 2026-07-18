@@ -5,4 +5,5 @@
       members:
         - theme_charite
         - enable
+        - using
         - register

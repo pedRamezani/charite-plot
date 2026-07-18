@@ -36,9 +36,9 @@ Preview the available colour palettes.
 
 ```python
 import matplotlib.pyplot as plt
-from charite_plot.mpl_themes import theme_charite, apply_theme
+from charite_plot.mpl_themes import enable
 
-apply_theme(theme_charite())
+enable()
 
 fig, ax = plt.subplots()
 ax.plot([1, 2, 3], [4, 7, 3])
@@ -49,9 +49,9 @@ plt.show()
 Use as a context manager to scope the theme to a single figure:
 
 ```python
-from charite_plot.mpl_themes import theme_charite, using
+from charite_plot.mpl_themes import using
 
-with using(theme_charite(palette="goldelse")):
+with using(palette="goldelse"):
     fig, ax = plt.subplots()
     ax.bar(["A", "B", "C"], [3, 7, 5])
 ```
@@ -77,11 +77,13 @@ enable(palette="berryseason", font_size=13)
 
 | Symbol | Description |
 |--------|-------------|
-| `mpl_themes.theme_charite()` | Returns a matplotlib rcParams dict for the Charité theme |
-| `mpl_themes.apply_theme(params)` | Applies a theme dict permanently to `rcParams` |
-| `mpl_themes.using(params)` | Context manager: applies theme temporarily |
-| `altair_themes.theme_charite()` | Returns a Vega-Lite config dict for the Charité theme |
+| `mpl_themes.theme_charite(**kwargs)` | Returns a matplotlib rcParams dict for the Charité theme |
+| `mpl_themes.enable(**kwargs)` | Applies the theme permanently to `rcParams` |
+| `mpl_themes.using(**kwargs)` | Context manager: applies the theme temporarily |
+| `altair_themes.theme_charite(**kwargs)` | Returns a Vega-Lite config dict for the Charité theme |
 | `altair_themes.enable(**kwargs)` | Registers and enables the theme in Altair |
+| `altair_themes.using(**kwargs)` | Context manager: enables the theme temporarily |
+| `altair_themes.register()` | Registers the theme without enabling it (Altair-only) |
 | `PALETTES` | Dict of 10 named colour palettes |
 | `make_palette(name, n, reverse)` | Subsample or interpolate any palette |
 | `CHARITE_COLORS` | Dict of all 27 hex colour constants |
@@ -95,7 +97,7 @@ The fallback chain follows the official Charité brand guidelines:
 `DejaVu Sans` ships with Matplotlib and is always available as the penultimate fallback; `sans-serif` lets the browser or system choose if nothing else matches (important for Altair/Vega-Lite). To override the preferred font:
 
 ```python
-apply_theme(theme_charite(font="Arial"))
+enable(font="Arial")
 ```
 
 ## How to cite
@@ -107,7 +109,7 @@ If you use charite-plot in your work, please cite it as:
   author    = {Ramezani, Pedram},
   title     = {charite-plot: Matplotlib and Altair Themes for Charité – Universitätsmedizin Berlin},
   year      = {2026},
-  version   = {0.2.0},
+  version   = {0.3.0},
   url       = {https://github.com/pedramezani/charite-plot},
   license   = {MIT},
 }

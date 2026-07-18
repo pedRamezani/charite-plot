@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-07-18
+
+### Added
+
+- `theme_charite` (matplotlib) gained a `background` parameter (sets figure and axes facecolor).
+- Altair now provides a `using()` context manager mirroring the matplotlib one, for scoping the theme to a `with` block.
+
+### Changed
+
+- **Unified API across backends.** The matplotlib activate function was renamed `apply_theme(params)` → `enable(**kwargs)`, and `using()` now takes theme keyword arguments instead of a pre-built dict — matching the Altair backend. Migrate `apply_theme(theme_charite(palette="x"))` to `enable(palette="x")` and `using(theme_charite(palette="x"))` to `using(palette="x")`. `theme_charite()` still returns a plain dict if you prefer to apply it manually via `mpl.rcParams.update()`.
+
+### Removed
+
+- `mpl_themes.apply_theme()` — replaced by `mpl_themes.enable()` (see above).
+
 ## [0.2.0] - 2026-07-01
 
 ### Added

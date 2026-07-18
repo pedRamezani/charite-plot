@@ -16,8 +16,9 @@ def theme_charite(
     thickness: float = 0.5,
     grid: bool = False,
     palette: str | list[str] = "primary",
-    interactive: bool = False,
+    background: str = "white",
     tiny_margins: bool = False,
+    interactive: bool = False,
 ) -> dict:
     """Return matplotlib rcParams dict for the Charité corporate identity theme.
 
@@ -35,13 +36,16 @@ def theme_charite(
     palette:
         Name of a built-in palette or a list of hex color strings used for the
         ``axes.prop_cycle``.
+    background:
+        Figure and axes background color.
+    tiny_margins:
+        Minimise all margins around the plot panel. Useful for dense layouts or
+        when saving figures with little surrounding whitespace.
     interactive:
         Enable matplotlib interactive mode (equivalent to ``plt.ion()``).
         Useful in notebooks or scripts where you want plots to display
-        without blocking.
-    tiny_margins:
-        Minimise all margins around the plot panel. Useful for dense layouts or 
-        when saving figures with little surrounding whitespace.
+        without blocking. Matplotlib-specific (Altair charts use
+        ``.interactive()``).
     """
     sans_font_stack = build_font_stack(preferred=font)
     monospace_font_stack = ["Andale Mono", "Nimbus Mono L", "Courier New", "Courier", "Fixed", "Terminal", "monospace"]
@@ -82,7 +86,7 @@ def theme_charite(
         "axes.labelcolor": TEXT_GREY,
         "axes.labelpad":   MARGINS.label,
         "axes.edgecolor":  BLACK,
-        "axes.facecolor":  WHITE,
+        "axes.facecolor":  background,
         "axes.grid":       grid,
         "axes.axisbelow":  True,
         "axes.spines.top":   False,
@@ -123,8 +127,8 @@ def theme_charite(
         "text.antialiased": True,
 
         # Figure
-        "figure.facecolor":      WHITE,
-        "figure.edgecolor":      WHITE,
+        "figure.facecolor":      background,
+        "figure.edgecolor":      background,
         "figure.dpi":            100,
         "figure.figsize":        (11, 8),
         "figure.subplot.hspace": MARGINS.hspace,
@@ -165,24 +169,45 @@ def theme_charite(
     }
 
 
-def apply_theme(params: dict) -> None:
-    """Apply a theme dict as the active matplotlib rcParams (permanent until reset)."""
-    import matplotlib as mpl
-    mpl.rcParams.update(params)
+def enable(**kwargs) -> None:
+    """Apply the Charité theme to matplotlib's global rcParams (permanent until reset).
 
-
-@contextmanager
-def using(params: dict):
-    """Context manager: temporarily apply *params* then restore previous rcParams.
+    Parameters
+    ----------
+    **kwargs:
+        Any parameter accepted by :func:`theme_charite` (``font``,
+        ``font_size``, ``thickness``, ``grid``, ``palette``, ``background``,
+        ``tiny_margins``, ``interactive``).
 
     Examples
     --------
     ```python
-    with using(theme_charite(palette="goldelse")):
+    from charite_plot.mpl_themes import enable
+    enable(palette="goldelse", font_size=8)
+    ```
+    """
+    import matplotlib as mpl
+    mpl.rcParams.update(theme_charite(**kwargs))
+
+
+@contextmanager
+def using(**kwargs):
+    """Temporarily apply the Charité theme, restoring the previous rcParams on exit.
+
+    Parameters
+    ----------
+    **kwargs:
+        Any parameter accepted by :func:`theme_charite`.
+
+    Examples
+    --------
+    ```python
+    from charite_plot.mpl_themes import using
+    with using(palette="goldelse"):
         fig, ax = plt.subplots()
         ax.plot([1, 2, 3])
     ```
     """
     import matplotlib as mpl
-    with mpl.rc_context(params):
+    with mpl.rc_context(theme_charite(**kwargs)):
         yield

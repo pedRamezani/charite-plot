@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import matplotlib.ticker as mticker
 
-from charite_plot.mpl_themes import theme_charite, apply_theme
+from charite_plot.mpl_themes import enable
 from charite_plot.palettes import PALETTES
 
 rng = np.random.default_rng(42)
@@ -28,7 +28,7 @@ COMMON = {
 MARKERS = {"A": "o", "B": "s", "C": "^"}
 
 # ── apply theme globally ───────────────────────────────────────────────────
-apply_theme(theme_charite(palette="primary"))
+enable(palette="primary")
 COLORS = PALETTES["primary"]
 
 # ── figure layout ──────────────────────────────────────────────────────────

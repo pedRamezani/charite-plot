@@ -18,7 +18,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 import numpy as np
 import matplotlib.pyplot as plt
 
-from charite_plot.mpl_themes import theme_charite, apply_theme
+from charite_plot.mpl_themes import enable
 from charite_plot.colors import PRIME_BLUE, PRIME_DGREY, KORALL, TEXT_GREY
 
 COLORS = [KORALL, PRIME_BLUE, PRIME_DGREY]   # C1, C2, C3
@@ -94,7 +94,7 @@ t_axis, means, ses = _generate_data()
 
 
 # ── single: Charité theme ───────────────────────────────────────────────────
-apply_theme(theme_charite(font_size=14, thickness=1))
+enable(font_size=14, thickness=1)
 
 fig, ax = plt.subplots(figsize=(6, 4.5))
 fig.subplots_adjust(top=0.88)

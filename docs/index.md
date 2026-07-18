@@ -22,9 +22,9 @@ Preview the available colour palettes.
 
 ```python
 import matplotlib.pyplot as plt
-from charite_plot.mpl_themes import theme_charite, apply_theme
+from charite_plot.mpl_themes import enable
 
-apply_theme(theme_charite())
+enable()
 
 fig, ax = plt.subplots()
 ax.plot([1, 2, 3], [4, 7, 3])
@@ -35,9 +35,9 @@ plt.show()
 Use as a context manager to scope the theme to a single figure:
 
 ```python
-from charite_plot.mpl_themes import theme_charite, using
+from charite_plot.mpl_themes import using
 
-with using(theme_charite(palette="goldelse")):
+with using(palette="goldelse"):
     fig, ax = plt.subplots()
     ax.bar(["A", "B", "C"], [3, 7, 5])
 ```
@@ -58,5 +58,5 @@ chart = alt.Chart(df).mark_bar().encode(...)
 ## Design principles
 
 - **Single source of truth** — colors are defined once in `colors.py` and imported by every other module.
-- **No side effects on import** — theme functions return plain dicts; you opt in with `apply_theme()`, `using()`, or `enable()`.
+- **No side effects on import** — theme functions return plain dicts; you opt in with `enable()` or `using()`.
 - **Font fallback** — if Charité Text Office is not installed, the theme cascades to Charit? Text Office, then Calibri, DejaVu Sans, and finally sans-serif automatically, following the official brand guidelines.

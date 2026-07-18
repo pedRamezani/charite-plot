@@ -14,10 +14,10 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
-from charite_plot.mpl_themes import theme_charite, apply_theme
+from charite_plot.mpl_themes import enable
 from charite_plot.palettes import PALETTES
 
-apply_theme(theme_charite())
+enable()
 
 MAX_COLS = max(len(p) for p in PALETTES.values())
 names = list(PALETTES.keys())

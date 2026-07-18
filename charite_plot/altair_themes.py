@@ -10,6 +10,9 @@ Register and enable with::
 
 from __future__ import annotations
 
+from contextlib import contextmanager
+from uuid import uuid4
+
 from .colors import (
     BLACK, WHITE, TEXT_GREY, PRIME_BLUE, PRIME_LGREY,
     SECOND_DBLUE, KORALL,
@@ -184,3 +187,39 @@ def enable(**kwargs) -> None:
     import altair as alt
     func = (lambda: theme_charite(**kwargs)) if kwargs else theme_charite
     alt.theme.register("charite", enable=True)(func)
+
+
+@contextmanager
+def using(**kwargs):
+    """Temporarily enable the Charité theme, restoring the previous theme on exit.
+
+    Mirrors :func:`charite_plot.mpl_themes.using`. Charts created (or serialised
+    with ``chart.to_json()`` / ``chart.to_dict()``) inside the ``with`` block use
+    the Charité theme; the previously active theme is restored afterwards.
+
+    Parameters
+    ----------
+    **kwargs:
+        Any parameter accepted by ``theme_charite``.
+
+    Examples
+    --------
+    ```python
+    from charite_plot.altair_themes import using
+    with using(palette="goldelse"):
+        spec = chart.to_json()
+    ```
+    """
+    import altair as alt
+    func = (lambda: theme_charite(**kwargs)) if kwargs else theme_charite
+    # Register under a unique throwaway name so we don't clobber the primary
+    # "charite" registration and so nested ``using`` blocks don't collide.
+    # ``alt.theme.enable`` restores the previous theme on exit; the temporary
+    # registration is removed afterwards to keep the registry clean.
+    name = f"_charite_{uuid4().hex}"
+    alt.theme.register(name, enable=False)(func)
+    try:
+        with alt.theme.enable(name):
+            yield
+    finally:
+        alt.theme.unregister(name)

@@ -5,12 +5,12 @@ Quick start
 Matplotlib::
 
     import matplotlib.pyplot as plt
-    from charite_plot.mpl_themes import theme_charite, apply_theme
+    from charite_plot.mpl_themes import enable
 
-    apply_theme(theme_charite())            # permanent
+    enable()            # permanent
     # or temporarily:
     from charite_plot.mpl_themes import using
-    with using(theme_charite(palette="goldelse")):
+    with using(palette="goldelse"):
         fig, ax = plt.subplots()
         ax.plot([1, 2, 3])
 
@@ -26,5 +26,5 @@ from .palettes import PALETTES, make_palette  # noqa: F401
 from . import mpl_themes  # noqa: F401
 from . import altair_themes  # noqa: F401
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 __author__ = "Pedram Ramezani"

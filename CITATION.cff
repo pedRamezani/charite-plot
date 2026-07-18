@@ -6,7 +6,7 @@ authors:
   - family-names: Ramezani
     given-names: Pedram
     email: pedram.ramezani@charite.de
-version: 0.2.0
+version: 0.3.0
 date-released: 2026-07-01
 license: MIT
 url: "https://github.com/pedramezani/charite-plot"
