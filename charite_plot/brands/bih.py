@@ -5,8 +5,11 @@ Source: BIH Markenhandbuch (draft, 2026-01) and Markenportal "Farbwelt" / "Farba
 Deliberate deviation from the handbook: text, tick labels and axes are black
 instead of BIH-Blau, because scientific journals expect black figure text.
 Titles stay BIH-Blau. Dunkelrot and Hellrosa are text-only colors in the
-handbook, so they are not used in any palette. Tints are only allowed in
-10 % steps of the five diagram colors (Blau, Korall, Gold, Mineral, Lavendel).
+handbook, so they are not used in any palette. The discrete palettes only use
+tints in 10 % steps of the five diagram colors (Blau, Korall, Gold, Mineral,
+Lavendel), as the handbook requires; ``mono`` uses black tints, following the
+black-text deviation. Continuous colormaps (:func:`charite_plot.make_cmap`)
+are smooth gradients and deliberately not restricted to 10 % steps.
 """
 
 from ..brand import Brand, Roles, tint
@@ -34,16 +37,13 @@ BIH_COLORS: dict[str, str] = {
     "lavendel":  LAVENDEL,
 }
 
+# Blau and Weiß are the primary brand colors; Korall, Gold, Mineral and Lavendel are accent colors.
 BIH_PALETTES: dict[str, list[str]] = {
-    "primary":   [BLAU, KORALL, MINERAL, GOLD, LAVENDEL],
-    "secondary": [MINERAL, LAVENDEL, GOLD],
-    "light":     [tint(c, 50) for c in (BLAU, KORALL, MINERAL, GOLD, LAVENDEL)],
-    "versus":    [BLAU, KORALL],
-    "blau":      [tint(BLAU, p) for p in (100, 70, 40)],
-    "korall":    [tint(KORALL, p) for p in (100, 70, 40)],
-    "gold":      [tint(GOLD, p) for p in (100, 70, 40)],
-    "mineral":   [tint(MINERAL, p) for p in (100, 70, 40)],
-    "lavendel":  [tint(LAVENDEL, p) for p in (100, 70, 40)],
+    "accents": [BLAU, KORALL, MINERAL, GOLD, LAVENDEL],
+    "primary": [BLAU, tint(BLAU, 60), tint(BLAU, 30)],
+    "mono":    [BLACK, tint(BLACK, 60), tint(BLACK, 30)],  # greys, like Charité's mono
+    "light":   [tint(c, 50) for c in (BLAU, KORALL, MINERAL, GOLD, LAVENDEL)],
+    "versus":  [BLAU, KORALL],
 }
 # fmt: on
 
@@ -63,7 +63,7 @@ BIH = Brand(
         sequential=(WHITE, BLAU),
     ),
     font_stack=BIH_FONT_STACK,
-    default_palette="primary",
+    default_palette="accents",
 )
 
 # fmt: off

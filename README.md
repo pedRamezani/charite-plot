@@ -90,12 +90,22 @@ from charite_plot import mpl_themes, altair_themes
 
 mpl_themes.enable(brand="bih")
 altair_themes.enable(brand="bih", palette="versus")
-params = mpl_themes.theme_bih(font_size=8)   # = mpl_themes.theme(font_size=8, brand="bih")
+params = mpl_themes.theme_bih(font_size=8)  # = mpl_themes.theme(font_size=8, brand="bih")
 ```
 
 The BIH theme follows the BIH brand handbook (colours, Trebuchet MS, tints in 10 % steps) with one
 deliberate deviation: text and axes are **black** instead of BIH-Blau, as expected by scientific journals.
 Titles stay BIH-Blau.
+
+### Continuous colormaps
+
+```python
+from charite_plot import make_cmap, ramp
+
+ax.imshow(data, cmap=make_cmap("prime_blue"))  # white → Charité blue, like "Blues"
+ax.scatter(x, y, c=z, cmap=make_cmap("goldelse"))  # through a whole palette
+alt.Scale(range=ramp("blau", brand="bih"), interpolate="rgb")  # same gradient in Altair
+```
 
 ## API overview
 
@@ -110,6 +120,8 @@ Titles stay BIH-Blau.
 | `altair_themes.register()` | Registers the theme without enabling it (Altair-only) |
 | `PALETTES` | Dict of the 10 named Charité colour palettes (BIH: `BIH.palettes`) |
 | `make_palette(name, n, reverse, brand)` | Subsample or interpolate any palette |
+| `make_cmap(name, reverse, brand)` | Continuous matplotlib colormap through a palette, or white → one brand colour (like `"Blues"`) |
+| `ramp(name, reverse, brand)` | The colour stops of that scale, e.g. for `alt.Scale(range=ramp(...), interpolate="rgb")` |
 | `CHARITE`, `BIH` | The built-in brands (colours, palettes, fonts, colour roles) |
 | `Brand`, `Roles`, `register_brand()`, `get_brand()`, `tint()` | Define and register further brands (see `charite_plot/brands/`) |
 | `CHARITE_COLORS` | Dict of all 27 hex colour constants |

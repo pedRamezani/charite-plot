@@ -1,7 +1,7 @@
 # palettes
 
 ```python
-from charite_plot.palettes import PALETTES, make_palette
+from charite_plot.palettes import PALETTES, make_cmap, make_palette, ramp
 ```
 
 See the [Palettes guide](../palettes.md) for visual palette strips and usage examples.
@@ -32,3 +32,15 @@ Named palettes and their constituent hex colors:
 ## `make_palette`
 
 ::: charite_plot.palettes.make_palette
+
+---
+
+## `ramp`
+
+::: charite_plot.palettes.ramp
+
+---
+
+## `make_cmap`
+
+::: charite_plot.palettes.make_cmap

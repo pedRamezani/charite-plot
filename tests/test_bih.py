@@ -9,7 +9,8 @@ from charite_plot.brands import bih
 
 # Diagram colors from the BIH Farbwelt; Dunkelrot and Hellrosa are text-only.
 DIAGRAM_COLORS = {bih.BLAU, bih.KORALL, bih.GOLD, bih.MINERAL, bih.LAVENDEL}
-ALLOWED = {tint(c, p) for c in DIAGRAM_COLORS for p in range(10, 101, 10)}
+# Black tints are allowed for ``mono``, following the black-text deviation.
+ALLOWED = {tint(c, p) for c in DIAGRAM_COLORS | {bih.BLACK} for p in range(10, 101, 10)}
 
 
 @pytest.mark.parametrize(
@@ -28,8 +29,14 @@ def test_tint_out_of_range(percent):
 
 @pytest.mark.parametrize("name", BIH.palettes)
 def test_palettes_use_only_allowed_tints(name):
-    """The handbook allows the five diagram colors in 10 % steps and nothing else."""
+    """The handbook allows the five diagram colors in 10 % steps (plus black for ``mono``)."""
     assert set(BIH.palettes[name]) <= ALLOWED
+
+
+def test_primary_palette_uses_only_primary_colors():
+    """Blau and Weiß are BIH's primary colors; the accents have their own palette and are the default."""
+    assert set(BIH.palettes["primary"]) <= {tint(bih.BLAU, p) for p in range(10, 101, 10)}
+    assert BIH.default_palette == "accents"
 
 
 def test_colors_are_hex():
@@ -48,7 +55,7 @@ def test_altair_text_and_axes_are_black():
     config = altair_themes.theme_bih()["config"]
     assert config["axis"]["labelColor"] == config["axis"]["domainColor"] == bih.BLACK
     assert config["title"]["color"] == bih.BLAU
-    assert config["range"]["category"] == BIH.palettes["primary"]
+    assert config["range"]["category"] == BIH.palettes["accents"]
 
 
 def test_aliases_match_brand_keyword():
