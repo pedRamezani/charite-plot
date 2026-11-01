@@ -28,6 +28,16 @@ Visualize your data with `theme_charite()` or `theme_bih()` to match the Charit√
 </tr>
 </table>
 
+Heatmaps use the brand's sequential colormap by default; `make_cmap("diverging")` gives the diverging one.
+
+<table>
+<tr><th>Charit√©</th><th>BIH</th></tr>
+<tr>
+<td><img src="https://raw.githubusercontent.com/pedramezani/charite-plot/main/docs/assets/cmap_example.png" width="100%"/></td>
+<td><img src="https://raw.githubusercontent.com/pedramezani/charite-plot/main/docs/assets/cmap_example_bih.png" width="100%"/></td>
+</tr>
+</table>
+
 Preview the available colour palettes of each brand.
 
 <table>
