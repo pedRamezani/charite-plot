@@ -22,8 +22,8 @@ Altair::
 """
 
 from . import altair_themes, mpl_themes
-from .brand import Brand, Roles
-from .brands import BRANDS, CHARITE, get_brand, register_brand
+from .brand import Brand, Roles, tint
+from .brands import BIH, BRANDS, CHARITE, get_brand, register_brand
 from .colors import *  # noqa: F403  (all color constants + CHARITE_COLORS)
 from .colors import __all__ as _COLOR_ALL
 from .palettes import PALETTES, make_palette
@@ -35,8 +35,10 @@ __all__ = [
     *_COLOR_ALL,
     "Brand",
     "Roles",
+    "tint",
     "BRANDS",
     "CHARITE",
+    "BIH",
     "get_brand",
     "register_brand",
     "PALETTES",

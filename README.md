@@ -7,7 +7,7 @@
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/pedRamezani/charite-plot/ci.yml)
 ![Website](https://img.shields.io/website?url=https%3A%2F%2Fpedramezani.github.io%2Fcharite-plot%2F&style=social&logo=materialformkdocs&label=documentation)
 
-A Python package with a Charité-styled Matplotlib theme, [visual identity](https://marke.charite.de/d/Y3FxSwD6Tz3a) colour palettes, and an Altair theme — ported from the [`charite` R package](https://github.com/johannesjuliusm/charite).
+A Python package with Matplotlib and Altair themes and [visual identity](https://marke.charite.de/d/Y3FxSwD6Tz3a) colour palettes for Charité – Universitätsmedizin Berlin and the Berlin Institute of Health at Charité (BIH) — ported from the [`charite` R package](https://github.com/johannesjuliusm/charite).
 
 ## Installation
 
@@ -18,17 +18,25 @@ pip install "charite-plot[altair]"         # with Altair support
 
 ## Examples
 
-Visualize your data with `theme_charite()` to match the Charité corporate style.
+Visualize your data with `theme_charite()` or `theme_bih()` to match the Charité or BIH corporate style.
 
-<p align="center">
-<img src="https://raw.githubusercontent.com/pedramezani/charite-plot/main/docs/assets/theme_example.png" width="80%"/>
-</p>
+<table>
+<tr><th>Charité</th><th>BIH</th></tr>
+<tr>
+<td><img src="https://raw.githubusercontent.com/pedramezani/charite-plot/main/docs/assets/theme_example.png" width="100%"/></td>
+<td><img src="https://raw.githubusercontent.com/pedramezani/charite-plot/main/docs/assets/theme_example_bih.png" width="100%"/></td>
+</tr>
+</table>
 
-Preview the available colour palettes.
+Preview the available colour palettes of each brand.
 
-<p align="center">
-<img src="https://raw.githubusercontent.com/pedramezani/charite-plot/main/docs/assets/palette_preview.png" width="80%"/>
-</p>
+<table>
+<tr><th>Charité</th><th>BIH</th></tr>
+<tr>
+<td><img src="https://raw.githubusercontent.com/pedramezani/charite-plot/main/docs/assets/palette_preview.png" width="100%"/></td>
+<td><img src="https://raw.githubusercontent.com/pedramezani/charite-plot/main/docs/assets/palette_preview_bih.png" width="100%"/></td>
+</tr>
+</table>
 
 ## Quick start
 
@@ -73,27 +81,48 @@ Customise with keyword arguments:
 enable(palette="berryseason", font_size=13)
 ```
 
+### BIH
+
+Every function takes a keyword-only `brand` argument (default `"charite"`):
+
+```python
+from charite_plot import mpl_themes, altair_themes
+
+mpl_themes.enable(brand="bih")
+altair_themes.enable(brand="bih", palette="versus")
+params = mpl_themes.theme_bih(font_size=8)   # = mpl_themes.theme(font_size=8, brand="bih")
+```
+
+The BIH theme follows the BIH brand handbook (colours, Trebuchet MS, tints in 10 % steps) with one
+deliberate deviation: text and axes are **black** instead of BIH-Blau, as expected by scientific journals.
+Titles stay BIH-Blau.
+
 ## API overview
 
 | Symbol | Description |
 |--------|-------------|
-| `mpl_themes.theme(**kwargs, brand="charite")` | Returns a matplotlib rcParams dict for a brand theme (`theme_charite` = `theme` with `brand="charite"`) |
+| `mpl_themes.theme(**kwargs, brand="charite")` | Returns a matplotlib rcParams dict for a brand theme (`theme_charite` / `theme_bih` = `theme` with `brand="charite"` / `"bih"`) |
 | `mpl_themes.enable(**kwargs)` | Applies the theme permanently to `rcParams` |
 | `mpl_themes.using(**kwargs)` | Context manager: applies the theme temporarily |
-| `altair_themes.theme(**kwargs, brand="charite")` | Returns a Vega-Lite config dict for a brand theme (`theme_charite` = `theme` with `brand="charite"`) |
+| `altair_themes.theme(**kwargs, brand="charite")` | Returns a Vega-Lite config dict for a brand theme (`theme_charite` / `theme_bih` = `theme` with `brand="charite"` / `"bih"`) |
 | `altair_themes.enable(**kwargs)` | Registers and enables the theme in Altair |
 | `altair_themes.using(**kwargs)` | Context manager: enables the theme temporarily |
 | `altair_themes.register()` | Registers the theme without enabling it (Altair-only) |
-| `PALETTES` | Dict of 10 named colour palettes |
+| `PALETTES` | Dict of the 10 named Charité colour palettes (BIH: `BIH.palettes`) |
 | `make_palette(name, n, reverse, brand)` | Subsample or interpolate any palette |
-| `Brand`, `Roles`, `register_brand()`, `get_brand()` | Define and register further brands (see `charite_plot/brands/charite.py`) |
+| `CHARITE`, `BIH` | The built-in brands (colours, palettes, fonts, colour roles) |
+| `Brand`, `Roles`, `register_brand()`, `get_brand()`, `tint()` | Define and register further brands (see `charite_plot/brands/`) |
 | `CHARITE_COLORS` | Dict of all 27 hex colour constants |
 
 ## Fonts
 
-The fallback chain follows the official Charité brand guidelines:
+The Charité fallback chain follows the official Charité brand guidelines:
 
 **Charité Text Office → Charit? Text Office → Calibri → DejaVu Sans → sans-serif**
+
+For BIH, the brand handbook prescribes Trebuchet MS:
+
+**Trebuchet MS → DejaVu Sans → sans-serif**
 
 `DejaVu Sans` ships with Matplotlib and is always available as the penultimate fallback; `sans-serif` lets the browser or system choose if nothing else matches (important for Altair/Vega-Lite). To override the preferred font:
 

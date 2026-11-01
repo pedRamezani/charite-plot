@@ -12,7 +12,7 @@ from .brand import Brand
 from .brands import DEFAULT_BRAND, get_brand
 from .fonts import build_font_stack
 
-__all__ = ["theme", "theme_charite", "enable", "using"]
+__all__ = ["theme", "theme_charite", "theme_bih", "enable", "using"]
 
 
 def theme(
@@ -163,6 +163,7 @@ def theme(
 
 
 theme_charite = partial(theme, brand="charite")
+theme_bih = partial(theme, brand="bih")
 
 
 def enable(**kwargs) -> None:

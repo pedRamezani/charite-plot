@@ -93,6 +93,86 @@ rev = make_palette("primary", reverse=True)
 
 ---
 
+# BIH palettes
+
+Pass `brand="bih"` to use these with any theme function or `make_palette`. They only use the five BIH diagram colors
+and their tints in 10 % steps, as the BIH handbook requires.
+
+```python
+from charite_plot import BIH, make_palette
+
+BIH.palettes["primary"]  # list of hex strings
+make_palette("blau", n=5, brand="bih")
+```
+
+## primary
+<div class="palette-strip">
+  <div style="background:#003754"></div>
+  <div style="background:#ea5451"></div>
+  <div style="background:#009aa9"></div>
+  <div style="background:#9d7220"></div>
+  <div style="background:#7876b6"></div>
+</div>
+
+## secondary
+<div class="palette-strip">
+  <div style="background:#009aa9"></div>
+  <div style="background:#7876b6"></div>
+  <div style="background:#9d7220"></div>
+</div>
+
+## light
+<div class="palette-strip">
+  <div style="background:#809baa"></div>
+  <div style="background:#f4aaa8"></div>
+  <div style="background:#80ccd4"></div>
+  <div style="background:#ceb890"></div>
+  <div style="background:#bcbada"></div>
+</div>
+
+## versus
+<div class="palette-strip">
+  <div style="background:#003754"></div>
+  <div style="background:#ea5451"></div>
+</div>
+
+## blau
+<div class="palette-strip">
+  <div style="background:#003754"></div>
+  <div style="background:#4c7387"></div>
+  <div style="background:#99afbb"></div>
+</div>
+
+## korall
+<div class="palette-strip">
+  <div style="background:#ea5451"></div>
+  <div style="background:#f08785"></div>
+  <div style="background:#f7bbb9"></div>
+</div>
+
+## gold
+<div class="palette-strip">
+  <div style="background:#9d7220"></div>
+  <div style="background:#ba9c63"></div>
+  <div style="background:#d8c7a6"></div>
+</div>
+
+## mineral
+<div class="palette-strip">
+  <div style="background:#009aa9"></div>
+  <div style="background:#4cb8c3"></div>
+  <div style="background:#99d7dd"></div>
+</div>
+
+## lavendel
+<div class="palette-strip">
+  <div style="background:#7876b6"></div>
+  <div style="background:#a09fcc"></div>
+  <div style="background:#c9c8e2"></div>
+</div>
+
+---
+
 ## `make_palette`
 
 `make_palette` handles subsampling and interpolation so you can request any number of colors from any palette:

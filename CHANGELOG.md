@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Brand`, `Roles`, `BRANDS`, `get_brand()` and `register_brand()` for defining and registering further brands.
 - `brand=` parameter on `mpl_themes.theme/enable/using`, `altair_themes.theme/enable/using/register` and `make_palette` (name or `Brand` instance; defaults to `"charite"`).
 - `mpl_themes.theme()` and `altair_themes.theme()` as brand-neutral theme builders; `brand` is keyword-only. `theme_charite` is now `functools.partial(theme, brand="charite")` and keeps its positional signature.
+- **BIH brand** (`brand="bih"`, `charite_plot.BIH`, `theme_bih` in `mpl_themes` and `altair_themes`): Berlin Institute of Health at Charité colors, palettes built from the five diagram colors and their 10 % tints, and Trebuchet MS. Deliberate deviation from the BIH handbook: text and axes are black (titles stay BIH-Blau), as expected by scientific journals.
+- `tint(color, percent)` to build print-style tint scales (color mixed with white).
+- README and docs show the example plot and palette preview for Charité and BIH side by side; `examples/poly_showcase.py` and `examples/palette_preview.py` generate the images for every brand.
 - Test suite (pytest, snapshot tests for the generated theme configs) and CI running it on Python 3.11–3.14.
 
 ### Changed

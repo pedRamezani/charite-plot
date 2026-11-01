@@ -12,7 +12,18 @@ from __future__ import annotations
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 
-__all__ = ["Roles", "Brand"]
+__all__ = ["Roles", "Brand", "tint"]
+
+
+def tint(color: str, percent: int) -> str:
+    """Return *color* at *percent* % strength, i.e. mixed with white (``100`` is the color itself).
+
+    This is how print-style tint scales ("Tonwerte") are defined, e.g. ``tint("#003754", 20) == "#ccd7dd"``.
+    """
+    if not 0 <= percent <= 100:
+        raise ValueError(f"percent must be between 0 and 100, got {percent}")
+    rgb = (int(color.lstrip("#")[i : i + 2], 16) for i in (0, 2, 4))
+    return "#" + "".join(f"{round(255 - (255 - c) * percent / 100):02x}" for c in rgb)
 
 
 @dataclass(frozen=True)

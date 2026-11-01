@@ -24,7 +24,7 @@ from .fonts import build_font_stack
 if TYPE_CHECKING:
     from altair.theme import ThemeConfig
 
-__all__ = ["theme", "theme_charite", "enable", "using", "register"]
+__all__ = ["theme", "theme_charite", "theme_bih", "enable", "using", "register"]
 
 
 def _theme_name(name: str) -> LiteralString:
@@ -179,6 +179,7 @@ def theme(
 
 
 theme_charite = partial(theme, brand="charite")
+theme_bih = partial(theme, brand="bih")
 
 
 def register(brand: str | Brand = DEFAULT_BRAND) -> None:

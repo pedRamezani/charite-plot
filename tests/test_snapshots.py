@@ -36,6 +36,8 @@ def test_altair_theme(kwargs, snapshot):
 @pytest.mark.parametrize("kwargs", CASES.values(), ids=CASES.keys())
 def test_themes_are_valid(kwargs, brand):
     """Every key/value is accepted by matplotlib and by the Vega-Lite schema (unknown keys are errors)."""
+    if isinstance(kwargs.get("palette"), str) and kwargs["palette"] not in BRANDS[brand].palettes:
+        kwargs = kwargs | {"palette": list(BRANDS[brand].palettes)[-1]}  # palette names are per brand
     mpl.RcParams(mpl_themes.theme(**kwargs, brand=brand))
 
     schema = pytest.importorskip("altair.vegalite.v6.schema.core")

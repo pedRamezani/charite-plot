@@ -8,11 +8,12 @@ added at runtime with :func:`register_brand`.
 from __future__ import annotations
 
 from ..brand import Brand
+from .bih import BIH
 from .charite import CHARITE
 
-__all__ = ["BRANDS", "DEFAULT_BRAND", "register_brand", "get_brand", "CHARITE"]
+__all__ = ["BRANDS", "DEFAULT_BRAND", "register_brand", "get_brand", "CHARITE", "BIH"]
 
-BRANDS: dict[str, Brand] = {CHARITE.name: CHARITE}
+BRANDS: dict[str, Brand] = {CHARITE.name: CHARITE, BIH.name: BIH}
 
 DEFAULT_BRAND = CHARITE.name
 

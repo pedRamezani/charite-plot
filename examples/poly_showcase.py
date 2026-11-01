@@ -4,8 +4,9 @@ Replicates the curves from ``tools/data/simulate_timeseries_data.R`` in the
 charite R package: three conditions (wiggly normal, cubic polynomial, square
 root) z-scored and plotted with uniform ±SE bands.
 
-Produces one asset in docs/assets/:
-    theme_example.png
+Produces one asset per brand in docs/assets/:
+    theme_example.png       (Charité)
+    theme_example_bih.png   (BIH)
 
 Run with:
     python examples/poly_showcase.py
@@ -19,13 +20,17 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 import matplotlib.pyplot as plt
 import numpy as np
 
-from charite_plot.colors import KORALL, PRIME_BLUE, PRIME_DGREY, TEXT_GREY
-from charite_plot.mpl_themes import enable
+from charite_plot import get_brand
+from charite_plot.brands import bih, charite
+from charite_plot.mpl_themes import using
 
-COLORS = [KORALL, PRIME_BLUE, PRIME_DGREY]  # C1, C2, C3
+# brand → (figure title, C1/C2/C3 colors, output file name)
+SHOWCASES = {
+    "charite": ("Charité", [charite.KORALL, charite.PRIME_BLUE, charite.PRIME_DGREY], "theme_example.png"),
+    "bih": ("BIH", [bih.KORALL, bih.BLAU, bih.MINERAL], "theme_example_bih.png"),
+}
 ASSETS = pathlib.Path(__file__).parent.parent / "docs" / "assets"
 ASSETS.mkdir(parents=True, exist_ok=True)
-OUT = ASSETS / "theme_example.png"
 SAVE_KW = {"dpi": 300, "bbox_inches": "tight", "facecolor": "white"}
 
 
@@ -62,8 +67,8 @@ def _generate_data():
 # ── plot helpers ────────────────────────────────────────────────────────────
 
 
-def _plot_curves(ax: plt.Axes, t_axis, means, ses, frameon: bool = False) -> None:
-    for (label, mean), se, color in zip(means.items(), ses.values(), COLORS, strict=False):
+def _plot_curves(ax: plt.Axes, t_axis, means, ses, colors, frameon: bool = False) -> None:
+    for (label, mean), se, color in zip(means.items(), ses.values(), colors, strict=False):
         ax.fill_between(t_axis, mean - se, mean + se, alpha=0.25, color=color, linewidth=0)
         ax.plot(t_axis, mean, lw=2, label=label, color=color)
     ax.set_xlim(left=0)
@@ -93,15 +98,17 @@ def _despine(ax: plt.Axes) -> None:
 t_axis, means, ses = _generate_data()
 
 
-# ── single: Charité theme ───────────────────────────────────────────────────
-enable(font_size=14, thickness=1)
-
-fig, ax = plt.subplots(figsize=(6, 4.5))
-fig.subplots_adjust(top=0.88)
-fig.suptitle("Charité", fontsize=16, y=0.95, color=PRIME_BLUE)
-fig.text(0.5, 0.90, "mpl Theme", ha="center", va="top", fontsize=9.5, color=TEXT_GREY)
-_plot_curves(ax, t_axis, means, ses)
-_despine(ax)
-fig.savefig(OUT, **SAVE_KW)
-print(f"Saved → {OUT}")
+# ── one figure per brand ────────────────────────────────────────────────────
+for brand, (title, colors, filename) in SHOWCASES.items():
+    roles = get_brand(brand).roles
+    with using(brand=brand, font_size=14, thickness=1):
+        fig, ax = plt.subplots(figsize=(6, 4.5))
+        fig.subplots_adjust(top=0.88)
+        fig.suptitle(title, fontsize=16, y=0.95, color=roles.primary)
+        fig.text(0.5, 0.90, "mpl Theme", ha="center", va="top", fontsize=9.5, color=roles.text)
+        _plot_curves(ax, t_axis, means, ses, colors)
+        _despine(ax)
+        out = ASSETS / filename
+        fig.savefig(out, **SAVE_KW)
+        print(f"Saved → {out}")
 plt.show()
