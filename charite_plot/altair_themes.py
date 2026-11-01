@@ -13,7 +13,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from contextlib import contextmanager
 from functools import partial
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, LiteralString, cast
 from uuid import uuid4
 
 from ._theme_common import Margins, Thickness, resolve_font_sizes
@@ -22,9 +22,14 @@ from .brands import DEFAULT_BRAND, get_brand
 from .fonts import build_font_stack
 
 if TYPE_CHECKING:
-    from altair.theme import AxisConfigKwds, ThemeConfig
+    from altair.theme import ThemeConfig
 
 __all__ = ["theme", "theme_charite", "enable", "using", "register"]
+
+
+def _theme_name(name: str) -> LiteralString:
+    """Altair annotates theme names as ``LiteralString``; brand theme names are built at runtime."""
+    return cast("LiteralString", name)
 
 
 def _css_font_stack(preferred: str | None, stack: Sequence[str]) -> str:
@@ -91,7 +96,7 @@ def theme(
     )
     CHART_PAD = 6 if tiny_margins else 10
 
-    axis: AxisConfigKwds = {
+    axis: dict[str, Any] = {
         "labelFont": font_stack,
         "titleFont": font_stack,
         "labelFontSize": FONT_SIZES.label,
@@ -112,7 +117,9 @@ def theme(
         "gridOpacity": 0.85,
     }
 
-    return {
+    # Altair's ThemeConfig types colors as ``LiteralString``, which runtime brand colors can't satisfy.
+    # The structure is checked against the Vega-Lite schema in the test suite instead.
+    config: dict[str, Any] = {
         "config": {
             "background": background,
             "font": font_stack,
@@ -168,6 +175,7 @@ def theme(
             "text": {"font": font_stack, "fontSize": FONT_SIZES.label, "color": roles.text},
         }
     }
+    return cast("ThemeConfig", config)
 
 
 theme_charite = partial(theme, brand="charite")
@@ -181,7 +189,7 @@ def register(brand: str | Brand = DEFAULT_BRAND) -> None:
     import altair as alt
 
     brand = get_brand(brand)
-    alt.theme.register(brand.name, enable=False)(partial(theme, brand=brand))
+    alt.theme.register(_theme_name(brand.name), enable=False)(partial(theme, brand=brand))
 
 
 def enable(brand: str | Brand = DEFAULT_BRAND, **kwargs) -> None:
@@ -207,7 +215,7 @@ def enable(brand: str | Brand = DEFAULT_BRAND, **kwargs) -> None:
     import altair as alt
 
     brand = get_brand(brand)
-    alt.theme.register(brand.name, enable=True)(partial(theme, brand=brand, **kwargs))
+    alt.theme.register(_theme_name(brand.name), enable=True)(partial(theme, brand=brand, **kwargs))
 
 
 @contextmanager
@@ -240,10 +248,11 @@ def using(brand: str | Brand = DEFAULT_BRAND, **kwargs):
     # brand registration and so nested ``using`` blocks don't collide.
     # ``alt.theme.enable`` restores the previous theme on exit; the temporary
     # registration is removed afterwards to keep the registry clean.
-    name = f"_{brand.name}_{uuid4().hex}"
+    name = _theme_name(f"_{brand.name}_{uuid4().hex}")
     alt.theme.register(name, enable=False)(partial(theme, brand=brand, **kwargs))
     try:
-        with alt.theme.enable(name):
+        # Altair's PluginEnabler.__exit__ lacks Optional parameter types, so ty rejects it as a context manager.
+        with alt.theme.enable(name):  # ty: ignore[invalid-context-manager]
             yield
     finally:
         alt.theme.unregister(name)
