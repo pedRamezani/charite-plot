@@ -13,14 +13,13 @@ from __future__ import annotations
 from collections.abc import Sequence
 from contextlib import contextmanager
 from functools import partial
+from typing import TYPE_CHECKING
 from uuid import uuid4
 
+from ._theme_common import Margins, Thickness, resolve_font_sizes
 from .brand import Brand
 from .brands import DEFAULT_BRAND, get_brand
 from .fonts import build_font_stack
-from ._theme_common import Margins, Thickness, resolve_font_sizes
-
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from altair.theme import AxisConfigKwds, ThemeConfig
@@ -30,6 +29,7 @@ __all__ = ["theme", "theme_charite", "enable", "using", "register"]
 
 def _css_font_stack(preferred: str | None, stack: Sequence[str]) -> str:
     """Return a CSS font-family string (comma-separated, quoted if needed)."""
+
     def _quote(name: str) -> str:
         return f'"{name}"' if " " in name else name
 
@@ -78,95 +78,95 @@ def theme(
 
     FONT_SIZES = resolve_font_sizes(font_size)
     MARGINS = Margins(
-        title=8 if tiny_margins else 12,   # chart title offset
-        label=3 if tiny_margins else 6,    # axis / legend title padding
-        legend=2 if tiny_margins else 4,   # legend inner padding
+        title=8 if tiny_margins else 12,  # chart title offset
+        label=3 if tiny_margins else 6,  # axis / legend title padding
+        legend=2 if tiny_margins else 4,  # legend inner padding
     )
     THICKNESS = Thickness(
-        axes=thickness,          # domain line width
-        grid=thickness * 0.8,    # grid line width
-        ticks=thickness,         # tick mark width
-        lines=2,                 # line-mark stroke width (independent of thickness)
-        patches=0.4,             # geoshape stroke width
+        axes=thickness,  # domain line width
+        grid=thickness * 0.8,  # grid line width
+        ticks=thickness,  # tick mark width
+        lines=2,  # line-mark stroke width (independent of thickness)
+        patches=0.4,  # geoshape stroke width
     )
     CHART_PAD = 6 if tiny_margins else 10
 
     axis: AxisConfigKwds = {
-        "labelFont":     font_stack,
-        "titleFont":     font_stack,
+        "labelFont": font_stack,
+        "titleFont": font_stack,
         "labelFontSize": FONT_SIZES.label,
         "titleFontSize": FONT_SIZES.subtitle,
-        "labelColor":    roles.text,
-        "titleColor":    roles.text,
-        "titlePadding":  MARGINS.label,
-        "domain":        True,
-        "domainColor":   roles.axis,
-        "domainWidth":   THICKNESS.axes,
-        "ticks":         True,
-        "tickColor":     roles.axis,
-        "tickWidth":     THICKNESS.ticks,
-        "tickSize":      4,
-        "grid":          grid,
-        "gridColor":     roles.grid,
-        "gridWidth":     THICKNESS.grid,
-        "gridOpacity":   0.85,
+        "labelColor": roles.text,
+        "titleColor": roles.text,
+        "titlePadding": MARGINS.label,
+        "domain": True,
+        "domainColor": roles.axis,
+        "domainWidth": THICKNESS.axes,
+        "ticks": True,
+        "tickColor": roles.axis,
+        "tickWidth": THICKNESS.ticks,
+        "tickSize": 4,
+        "grid": grid,
+        "gridColor": roles.grid,
+        "gridWidth": THICKNESS.grid,
+        "gridOpacity": 0.85,
     }
 
     return {
         "config": {
             "background": background,
-            "font":       font_stack,
-            "padding":    {"top": CHART_PAD, "bottom": CHART_PAD, "left": CHART_PAD, "right": CHART_PAD},
-            "view":  {"stroke": None},
-            "axis":  axis,
+            "font": font_stack,
+            "padding": {"top": CHART_PAD, "bottom": CHART_PAD, "left": CHART_PAD, "right": CHART_PAD},
+            "view": {"stroke": None},
+            "axis": axis,
             "axisX": axis,
             "axisY": axis,
             "legend": {
-                "labelFont":     font_stack,
-                "titleFont":     font_stack,
+                "labelFont": font_stack,
+                "titleFont": font_stack,
                 "labelFontSize": FONT_SIZES.legend,
                 "titleFontSize": FONT_SIZES.subtitle,
-                "labelColor":    roles.text,
-                "titleColor":    roles.text,
-                "titlePadding":  MARGINS.label,
-                "padding":       MARGINS.legend,
-                "rowPadding":    FONT_SIZES.legend / 4,
-                "symbolSize":    100,
+                "labelColor": roles.text,
+                "titleColor": roles.text,
+                "titlePadding": MARGINS.label,
+                "padding": MARGINS.legend,
+                "rowPadding": FONT_SIZES.legend / 4,
+                "symbolSize": 100,
             },
             "header": {
-                "labelFont":       font_stack,
-                "titleFont":       font_stack,
-                "labelFontSize":   FONT_SIZES.label,
-                "titleFontSize":   FONT_SIZES.subtitle,
-                "labelColor":      roles.on_primary,
-                "titleColor":      roles.primary,
+                "labelFont": font_stack,
+                "titleFont": font_stack,
+                "labelFontSize": FONT_SIZES.label,
+                "titleFontSize": FONT_SIZES.subtitle,
+                "labelColor": roles.on_primary,
+                "titleColor": roles.primary,
                 "labelBackground": roles.primary,
             },
             "title": {
-                "font":             font_stack,
-                "subtitleFont":     font_stack,
-                "fontSize":         FONT_SIZES.title,
+                "font": font_stack,
+                "subtitleFont": font_stack,
+                "fontSize": FONT_SIZES.title,
                 "subtitleFontSize": FONT_SIZES.subtitle,
-                "color":            roles.primary,
-                "subtitleColor":    roles.text,
-                "anchor":           "middle",
-                "offset":           MARGINS.title,
+                "color": roles.primary,
+                "subtitleColor": roles.text,
+                "anchor": "middle",
+                "offset": MARGINS.title,
             },
             "range": {
-                "category":  colors,
-                "ordinal":   colors,
+                "category": colors,
+                "ordinal": colors,
                 "diverging": list(roles.diverging),
-                "heatmap":   list(roles.sequential),
-                "ramp":      list(roles.sequential),
+                "heatmap": list(roles.sequential),
+                "ramp": list(roles.sequential),
             },
-            "bar":      {"color": colors[0], "binSpacing": 1},
-            "line":     {"color": colors[0], "strokeWidth": THICKNESS.lines},
-            "point":    {"color": colors[0], "size": 60, "opacity": 0.85, "filled": True},
-            "area":     {"color": colors[0], "opacity": 0.8},
-            "arc":      {"color": colors[0]},
-            "rect":     {"color": colors[0]},
+            "bar": {"color": colors[0], "binSpacing": 1},
+            "line": {"color": colors[0], "strokeWidth": THICKNESS.lines},
+            "point": {"color": colors[0], "size": 60, "opacity": 0.85, "filled": True},
+            "area": {"color": colors[0], "opacity": 0.8},
+            "arc": {"color": colors[0]},
+            "rect": {"color": colors[0]},
             "geoshape": {"stroke": "#ffffff", "strokeWidth": THICKNESS.patches},
-            "text":     {"font": font_stack, "fontSize": FONT_SIZES.label, "color": roles.text},
+            "text": {"font": font_stack, "fontSize": FONT_SIZES.label, "color": roles.text},
         }
     }
 
@@ -180,6 +180,7 @@ def register(brand: str | Brand = DEFAULT_BRAND) -> None:
     The theme is registered under the brand's name, e.g. ``"charite"``.
     """
     import altair as alt
+
     brand = get_brand(brand)
     alt.theme.register(brand.name, enable=False)(partial(theme, brand=brand))
 
@@ -205,6 +206,7 @@ def enable(brand: str | Brand = DEFAULT_BRAND, **kwargs) -> None:
     ```
     """
     import altair as alt
+
     brand = get_brand(brand)
     alt.theme.register(brand.name, enable=True)(partial(theme, brand=brand, **kwargs))
 
@@ -233,6 +235,7 @@ def using(brand: str | Brand = DEFAULT_BRAND, **kwargs):
     ```
     """
     import altair as alt
+
     brand = get_brand(brand)
     # Register under a unique throwaway name so we don't clobber the primary
     # brand registration and so nested ``using`` blocks don't collide.

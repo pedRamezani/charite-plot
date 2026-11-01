@@ -133,10 +133,18 @@ ignore = [
     "E501",
     # DoNotAssignLambda
     "E731",
+    # Ambiguous unicode (en dash): "Charité – Universitätsmedizin Berlin" is the official name
+    "RUF001", "RUF002", "RUF003",
+    # Unsorted __all__: entries are grouped by meaning (e.g. primary/secondary/accent colors)
+    "RUF022",
+    # Long exception messages: they list the valid choices on purpose
+    "TRY003",
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101"]
+# `alt.datum.x != None` is a Vega expression, not a Python comparison; scripts end on a bare chart for display
+"examples/*" = ["E711", "B018"]
 
 [tool.ruff.format]
 preview = true

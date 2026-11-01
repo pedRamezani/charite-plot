@@ -6,6 +6,8 @@ This is the single source of truth for every Charité-specific value.
 
 from ..brand import Brand, Roles
 
+# Color and palette tables are kept column-aligned.
+# fmt: off
 # Primary
 WHITE        = "#ffffff"
 BLACK        = "#000000"
@@ -84,6 +86,7 @@ CHARITE_PALETTES: dict[str, list[str]] = {
     "berryseason": [HIMBEER, PFLAUME, BROMBEERE, SECOND_DBLUE, MOCCA, BRAUN],
     "goldelse":    [MANGO, RAPSGELB, LIMETTE, GRASGRUEN, AQUA, MINERAL, LAVENDEL, LILA],
 }
+# fmt: on
 
 # "Charit? Text Office" is the name some systems report when the é is mangled.
 CHARITE_FONT_STACK = ["Charité Text Office", "Charit? Text Office", "Calibri", "DejaVu Sans", "sans-serif"]
@@ -106,6 +109,7 @@ CHARITE = Brand(
     default_palette="primary",
 )
 
+# fmt: off
 __all__ = [
     "WHITE", "BLACK", "TEXT_GREY", "PRIME_BLUE", "PRIME_LGREY", "PRIME_DGREY",
     "SECOND_DBLUE", "SECOND_LBLUE", "KORALL",
@@ -115,3 +119,4 @@ __all__ = [
     "EMPLOYER_BRANDING_GREEN",
     "CHARITE_COLORS", "CHARITE_PALETTES", "CHARITE_FONT_STACK", "CHARITE",
 ]
+# fmt: on

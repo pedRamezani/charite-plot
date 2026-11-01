@@ -21,13 +21,12 @@ Altair::
     # charts rendered after this call use the theme automatically
 """
 
-from .colors import *  # noqa: F403  (all color constants + CHARITE_COLORS)
-from .colors import __all__ as _COLOR_ALL
+from . import altair_themes, mpl_themes
 from .brand import Brand, Roles
 from .brands import BRANDS, CHARITE, get_brand, register_brand
+from .colors import *  # noqa: F403  (all color constants + CHARITE_COLORS)
+from .colors import __all__ as _COLOR_ALL
 from .palettes import PALETTES, make_palette
-from . import mpl_themes
-from . import altair_themes
 
 __version__ = "0.3.0"
 __author__ = "Pedram Ramezani"

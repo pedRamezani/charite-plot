@@ -41,7 +41,7 @@ from charite_plot.mpl_themes import theme_charite
 import matplotlib as mpl
 
 params = theme_charite(palette="nineties", font_size=8)
-params["lines.linewidth"] = 2.0   # any extra overrides
+params["lines.linewidth"] = 2.0  # any extra overrides
 
 mpl.rcParams.update(params)
 ```
@@ -100,5 +100,5 @@ enable(tiny_margins=True)
 ### Interactive mode (notebooks / REPL)
 
 ```python
-enable(interactive=True)   # equivalent to plt.ion()
+enable(interactive=True)  # equivalent to plt.ion()
 ```

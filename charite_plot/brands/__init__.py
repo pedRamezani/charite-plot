@@ -30,6 +30,4 @@ def get_brand(brand: str | Brand = DEFAULT_BRAND) -> Brand:
     try:
         return BRANDS[brand]
     except KeyError:
-        raise ValueError(
-            f"Unknown brand {brand!r}. Available brands: {list(BRANDS)}"
-        ) from None
+        raise ValueError(f"Unknown brand {brand!r}. Available brands: {list(BRANDS)}") from None

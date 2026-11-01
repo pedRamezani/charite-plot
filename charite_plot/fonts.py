@@ -16,6 +16,7 @@ FONT_STACK = CHARITE_FONT_STACK
 def _available_fonts() -> set[str]:
     try:
         import matplotlib.font_manager as fm
+
         return {f.name for f in fm.fontManager.ttflist}
     except Exception:
         return set()
@@ -26,8 +27,7 @@ def check_font(font: str, fallback: Sequence[str] = FONT_STACK) -> bool:
     if font in _available_fonts():
         return True
     warnings.warn(
-        f"Font '{font}' is not installed on this system. "
-        f"Using the fallback chain: {' → '.join(fallback)}.",
+        f"Font '{font}' is not installed on this system. Using the fallback chain: {' → '.join(fallback)}.",
         UserWarning,
         stacklevel=3,
     )
@@ -40,6 +40,7 @@ def build_font_stack(preferred: str | None, stack: Sequence[str] = FONT_STACK) -
         return list(stack)
     check_font(preferred, fallback=stack)
     return [preferred, *[f for f in stack if f != preferred]]
+
 
 if __name__ == "__main__":
     print(sorted(_available_fonts()))

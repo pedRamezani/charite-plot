@@ -6,7 +6,8 @@ All color constants are importable directly from the module or via the lookup di
 from charite_plot.colors import PRIME_BLUE, TEXT_GREY
 
 from charite_plot.colors import CHARITE_COLORS
-CHARITE_COLORS["prime_blue"]   # "#004d9b"
+
+CHARITE_COLORS["prime_blue"]  # "#004d9b"
 ```
 
 See the [Colors guide](../colors.md) for a visual swatch reference of all values.

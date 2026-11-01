@@ -10,11 +10,7 @@ import altair as alt
 
 enable()
 
-chart = (
-    alt.Chart(data)
-    .mark_bar()
-    .encode(x="category:N", y="value:Q")
-)
+chart = alt.Chart(data).mark_bar().encode(x="category:N", y="value:Q")
 chart
 ```
 
@@ -33,7 +29,7 @@ from charite_plot.altair_themes import register
 import altair as alt
 
 register()
-alt.theme.enable("charite")   # enable later
+alt.theme.enable("charite")  # enable later
 ```
 
 ---

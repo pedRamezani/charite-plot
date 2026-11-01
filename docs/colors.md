@@ -4,9 +4,9 @@ All colors are importable as module-level constants and collected in the `CHARIT
 
 ```python
 from charite_plot.colors import PRIME_BLUE, TEXT_GREY
-from charite_plot import CHARITE_COLORS   # full dict
+from charite_plot import CHARITE_COLORS  # full dict
 
-print(PRIME_BLUE)         # "#004d9b"
+print(PRIME_BLUE)  # "#004d9b"
 print(CHARITE_COLORS["korall"])  # "#ea5451"
 ```
 

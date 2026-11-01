@@ -7,12 +7,13 @@ Run with:
     python examples/palette_preview.py
 """
 
-import sys
 import pathlib
+import sys
+
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 
-import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
 
 from charite_plot.mpl_themes import enable
 from charite_plot.palettes import PALETTES
@@ -28,7 +29,7 @@ FIG_W = 7.5
 ASSETS = pathlib.Path(__file__).parent.parent / "docs" / "assets"
 ASSETS.mkdir(parents=True, exist_ok=True)
 OUT = ASSETS / "palette_preview.png"
-SAVE_KW = dict(dpi=300, bbox_inches="tight", facecolor="white", transparent=False)
+SAVE_KW = {"dpi": 300, "bbox_inches": "tight", "facecolor": "white", "transparent": False}
 
 
 def _draw_row(ax: plt.Axes, name: str) -> None:
@@ -54,7 +55,7 @@ fig, axes = plt.subplots(
     figsize=(FIG_W, len(names) * ROW_H + 0.3),
     gridspec_kw={"hspace": 0},
 )
-for ax, name in zip(axes, names):
+for ax, name in zip(axes, names, strict=False):
     _draw_row(ax, name)
 fig.savefig(OUT, **SAVE_KW)
 print(f"Saved → {OUT}")

@@ -18,13 +18,14 @@ __all__ = ["Roles", "Brand"]
 @dataclass(frozen=True)
 class Roles:
     """Which brand color is used for which part of a chart."""
-    primary: str                       # titles, facet header background
-    text: str                          # axis/legend labels, tick labels, body text
-    axis: str                          # spines/domain lines and tick marks
-    grid: str                          # grid lines
-    diverging: tuple[str, str, str]    # low → mid → high for diverging scales
-    sequential: tuple[str, str]        # low → high for heatmaps / ramps
-    on_primary: str = "#ffffff"        # text drawn on a ``primary`` background
+
+    primary: str  # titles, facet header background
+    text: str  # axis/legend labels, tick labels, body text
+    axis: str  # spines/domain lines and tick marks
+    grid: str  # grid lines
+    diverging: tuple[str, str, str]  # low → mid → high for diverging scales
+    sequential: tuple[str, str]  # low → high for heatmaps / ramps
+    on_primary: str = "#ffffff"  # text drawn on a ``primary`` background
 
 
 @dataclass(frozen=True)
@@ -48,6 +49,7 @@ class Brand:
     default_palette:
         Palette used when a theme is built without an explicit ``palette``.
     """
+
     name: str
     display_name: str
     colors: Mapping[str, str]

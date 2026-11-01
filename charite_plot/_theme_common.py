@@ -13,6 +13,7 @@ __all__ = ["FontSizes", "Margins", "Thickness", "resolve_font_sizes"]
 
 class FontSizes(NamedTuple):
     """Derived font sizes, all scaled from the base ``font_size``."""
+
     title: float
     subtitle: float
     label: float
@@ -26,6 +27,7 @@ class Margins(NamedTuple):
     matplotlib backend; they default to ``0`` so the Altair backend can build
     a ``Margins`` without supplying them.
     """
+
     title: float
     label: float
     legend: float
@@ -40,6 +42,7 @@ class Thickness(NamedTuple):
     defaults so the Altair backend can build a ``Thickness`` from just the
     axis-related widths.
     """
+
     axes: float
     grid: float
     ticks: float

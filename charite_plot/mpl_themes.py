@@ -7,10 +7,10 @@ from functools import partial
 
 from cycler import cycler
 
+from ._theme_common import Margins, Thickness, resolve_font_sizes
 from .brand import Brand
 from .brands import DEFAULT_BRAND, get_brand
 from .fonts import build_font_stack
-from ._theme_common import Margins, Thickness, resolve_font_sizes
 
 __all__ = ["theme", "theme_charite", "enable", "using"]
 
@@ -70,113 +70,93 @@ def theme(
         label=2 if tiny_margins else 4,
         legend=2 if tiny_margins else 4,
         wspace=0.1 if tiny_margins else 0.2,
-        hspace=0.125 if tiny_margins else 0.25
+        hspace=0.125 if tiny_margins else 0.25,
     )
-    THICKNESS = Thickness(
-        axes=thickness,
-        grid=thickness * 0.6,
-        ticks=thickness,
-        lines=1.5,
-        patches=0
-    )
+    THICKNESS = Thickness(axes=thickness, grid=thickness * 0.6, ticks=thickness, lines=1.5, patches=0)
 
     return {
         # Font — monospace is a fallback for latex mathtt, code blocks, etc.
-        "font.family":     "sans-serif",
+        "font.family": "sans-serif",
         "font.sans-serif": sans_font_stack,
-        "font.monospace":  monospace_font_stack,
-        "font.size":       FONT_SIZES.label,
-
+        "font.monospace": monospace_font_stack,
+        "font.size": FONT_SIZES.label,
         # Axes
-        "axes.linewidth":  THICKNESS.axes,
+        "axes.linewidth": THICKNESS.axes,
         "axes.titlelocation": "center",
         "xaxis.labellocation": "center",
         "yaxis.labellocation": "center",
-        "axes.titlesize":  FONT_SIZES.title,
+        "axes.titlesize": FONT_SIZES.title,
         "axes.titlecolor": roles.primary,
-        "axes.titlepad":   MARGINS.title,
-        "axes.labelsize":  FONT_SIZES.label,
+        "axes.titlepad": MARGINS.title,
+        "axes.labelsize": FONT_SIZES.label,
         "axes.labelcolor": roles.text,
-        "axes.labelpad":   MARGINS.label,
-        "axes.edgecolor":  roles.axis,
-        "axes.facecolor":  background,
-        "axes.grid":       grid,
-        "axes.axisbelow":  True,
-        "axes.spines.top":   False,
+        "axes.labelpad": MARGINS.label,
+        "axes.edgecolor": roles.axis,
+        "axes.facecolor": background,
+        "axes.grid": grid,
+        "axes.axisbelow": True,
+        "axes.spines.top": False,
         "axes.spines.right": False,
-
         # Axes 3D (only visible when projection='3d')
-        "axes3d.grid":            grid,
+        "axes3d.grid": grid,
         "axes3d.xaxis.panecolor": "#ffffff",
         "axes3d.yaxis.panecolor": "#ffffff",
         "axes3d.zaxis.panecolor": "#ffffff",
-
         # Polar axes (only visible when projection='polar')
-        "polaraxes.grid":         grid,
-
+        "polaraxes.grid": grid,
         # Grid (only visible when grid=True)
-        "grid.color":       roles.grid,
-        "grid.linewidth":   THICKNESS.grid,
+        "grid.color": roles.grid,
+        "grid.linewidth": THICKNESS.grid,
         # "grid.minor.alpha": 0.48,
-
         # Ticks
-        "xtick.color":         roles.axis,
-        "ytick.color":         roles.axis,
-        "xtick.labelsize":     FONT_SIZES.label,
-        "ytick.labelsize":     FONT_SIZES.label,
-        "xtick.labelcolor":    roles.text,
-        "ytick.labelcolor":    roles.text,
-        "xtick.major.size":    2,
-        "ytick.major.size":    2,
-        "xtick.major.pad":     2,
-        "ytick.major.pad":     2,
-        "xtick.major.width":   THICKNESS.ticks,
-        "ytick.major.width":   THICKNESS.ticks,
+        "xtick.color": roles.axis,
+        "ytick.color": roles.axis,
+        "xtick.labelsize": FONT_SIZES.label,
+        "ytick.labelsize": FONT_SIZES.label,
+        "xtick.labelcolor": roles.text,
+        "ytick.labelcolor": roles.text,
+        "xtick.major.size": 2,
+        "ytick.major.size": 2,
+        "xtick.major.pad": 2,
+        "ytick.major.pad": 2,
+        "xtick.major.width": THICKNESS.ticks,
+        "ytick.major.width": THICKNESS.ticks,
         "xtick.minor.visible": False,
         "ytick.minor.visible": False,
-
         # Text
         "text.color": roles.text,
         "text.antialiased": True,
-
         # Figure
-        "figure.facecolor":      background,
-        "figure.edgecolor":      background,
-        "figure.dpi":            100,
-        "figure.figsize":        (11, 8),
+        "figure.facecolor": background,
+        "figure.edgecolor": background,
+        "figure.dpi": 100,
+        "figure.figsize": (11, 8),
         "figure.subplot.hspace": MARGINS.hspace,
         "figure.subplot.wspace": MARGINS.wspace,
-        "figure.titlesize":      FONT_SIZES.title,
-        "figure.labelsize":      FONT_SIZES.label,
-
+        "figure.titlesize": FONT_SIZES.title,
+        "figure.labelsize": FONT_SIZES.label,
         # Lines / markers
-        "lines.linewidth":   THICKNESS.lines,
-        "lines.markersize":  6,
+        "lines.linewidth": THICKNESS.lines,
+        "lines.markersize": 6,
         "lines.antialiased": True,
-
         # Patches (bars, etc.)
-        "patch.linewidth":       THICKNESS.patches,
+        "patch.linewidth": THICKNESS.patches,
         "patch.force_edgecolor": False,
-        "patch.antialiased":     True,
-
+        "patch.antialiased": True,
         # Histograms
         "hist.bins": "auto",
-
         # Legend
-        "legend.fancybox":       True,
-        "legend.frameon":        False,
-        "legend.fontsize":       FONT_SIZES.legend,
+        "legend.fancybox": True,
+        "legend.frameon": False,
+        "legend.fontsize": FONT_SIZES.legend,
         "legend.title_fontsize": FONT_SIZES.title,
-        "legend.labelcolor":     roles.text,
-
+        "legend.labelcolor": roles.text,
         # Interactive mode
         "interactive": interactive,
-
         # Save
-        "savefig.dpi":         300,
-        "savefig.bbox":        "tight",
+        "savefig.dpi": 300,
+        "savefig.bbox": "tight",
         "savefig.transparent": True,
-
         # Color cycle
         "axes.prop_cycle": cycler("color", colors),
     }
@@ -203,6 +183,7 @@ def enable(**kwargs) -> None:
     ```
     """
     import matplotlib as mpl
+
     mpl.rcParams.update(theme(**kwargs))
 
 
@@ -225,5 +206,6 @@ def using(**kwargs):
     ```
     """
     import matplotlib as mpl
+
     with mpl.rc_context(theme(**kwargs)):
         yield

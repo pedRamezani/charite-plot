@@ -5,10 +5,10 @@ Ten named palettes are available in `PALETTES`. Each can be used directly or pas
 ```python
 from charite_plot.palettes import PALETTES, make_palette
 
-colors = PALETTES["goldelse"]         # list of hex strings
-three  = make_palette("goldelse", n=3)        # subsample to 3
-six    = make_palette("goldelse", n=12)       # interpolate to 12
-rev    = make_palette("primary", reverse=True)
+colors = PALETTES["goldelse"]  # list of hex strings
+three = make_palette("goldelse", n=3)  # subsample to 3
+six = make_palette("goldelse", n=12)  # interpolate to 12
+rev = make_palette("primary", reverse=True)
 ```
 
 ---
@@ -101,13 +101,13 @@ rev    = make_palette("primary", reverse=True)
 from charite_plot.palettes import make_palette
 
 # Exact palette colors
-make_palette("berryseason")           # all 6 colors
+make_palette("berryseason")  # all 6 colors
 
 # Subsample (picks evenly spaced colors)
 make_palette("goldelse", n=4)
 
 # Interpolate beyond palette length
-make_palette("versus", n=20)          # smooth gradient between blue and red
+make_palette("versus", n=20)  # smooth gradient between blue and red
 
 # Reverse
 make_palette("sunrise", reverse=True)

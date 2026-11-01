@@ -50,5 +50,6 @@ def make_palette(
 
     # n > palette length: interpolate via matplotlib (lazy import)
     from matplotlib.colors import LinearSegmentedColormap, to_hex
+
     cmap = LinearSegmentedColormap.from_list("_palette_tmp", colors, N=n)
     return [to_hex(cmap(i / (n - 1))) for i in range(n)]
