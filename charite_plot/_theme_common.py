@@ -48,7 +48,7 @@ class Thickness(NamedTuple):
 
 
 def resolve_font_sizes(font_size: float) -> FontSizes:
-    """Return the standard Charité font-size ramp derived from *font_size*."""
+    """Return the standard font-size ramp derived from *font_size*."""
     return FontSizes(
         title=round(font_size * 1.2),
         subtitle=font_size,

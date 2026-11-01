@@ -72,9 +72,19 @@ def test_make_palette_unknown_name():
         make_palette("nope")
 
 
-def test_theme_unknown_palette():
-    with pytest.raises(KeyError):
-        mpl_themes.theme_charite(palette="nope")
+@pytest.mark.parametrize("module", [mpl_themes, altair_themes])
+def test_theme_unknown_palette(module):
+    with pytest.raises(ValueError, match="Unknown palette 'nope' for brand 'charite'"):
+        module.theme_charite(palette="nope")
+
+
+@pytest.mark.parametrize("module", [mpl_themes, altair_themes])
+def test_theme_charite_accepts_positional_font(module):
+    """``theme_charite(font, ...)`` keeps its pre-brand positional signature."""
+    with pytest.warns(UserWarning):
+        positional = module.theme_charite("Definitely Not A Font", 9)
+        keyword = module.theme(font="Definitely Not A Font", font_size=9)
+    assert positional == keyword
 
 
 def test_font_stack_default():

@@ -77,15 +77,16 @@ enable(palette="berryseason", font_size=13)
 
 | Symbol | Description |
 |--------|-------------|
-| `mpl_themes.theme_charite(**kwargs)` | Returns a matplotlib rcParams dict for the Charité theme |
+| `mpl_themes.theme(**kwargs, brand="charite")` | Returns a matplotlib rcParams dict for a brand theme (`theme_charite` = `theme` with `brand="charite"`) |
 | `mpl_themes.enable(**kwargs)` | Applies the theme permanently to `rcParams` |
 | `mpl_themes.using(**kwargs)` | Context manager: applies the theme temporarily |
-| `altair_themes.theme_charite(**kwargs)` | Returns a Vega-Lite config dict for the Charité theme |
+| `altair_themes.theme(**kwargs, brand="charite")` | Returns a Vega-Lite config dict for a brand theme (`theme_charite` = `theme` with `brand="charite"`) |
 | `altair_themes.enable(**kwargs)` | Registers and enables the theme in Altair |
 | `altair_themes.using(**kwargs)` | Context manager: enables the theme temporarily |
 | `altair_themes.register()` | Registers the theme without enabling it (Altair-only) |
 | `PALETTES` | Dict of 10 named colour palettes |
-| `make_palette(name, n, reverse)` | Subsample or interpolate any palette |
+| `make_palette(name, n, reverse, brand)` | Subsample or interpolate any palette |
+| `Brand`, `Roles`, `register_brand()`, `get_brand()` | Define and register further brands (see `charite_plot/brands/charite.py`) |
 | `CHARITE_COLORS` | Dict of all 27 hex colour constants |
 
 ## Fonts

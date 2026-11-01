@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **Brands.** All organisation-specific values (colors, palettes, font stack, color roles) now live in a `Brand` object; the theme builders are brand-agnostic. Charité is the built-in default brand (`charite_plot.brands.charite.CHARITE`).
+- `Brand`, `Roles`, `BRANDS`, `get_brand()` and `register_brand()` for defining and registering further brands.
+- `brand=` parameter on `mpl_themes.theme/enable/using`, `altair_themes.theme/enable/using/register` and `make_palette` (name or `Brand` instance; defaults to `"charite"`).
+- `mpl_themes.theme()` and `altair_themes.theme()` as brand-neutral theme builders; `brand` is keyword-only. `theme_charite` is now `functools.partial(theme, brand="charite")` and keeps its positional signature.
+- Test suite (pytest, snapshot tests for the generated theme configs) and CI running it on Python 3.11–3.14.
+
+### Changed
+
+- **Requires Python ≥ 3.11** (3.9 and 3.10 are end-of-life).
+- Development tooling based on cookiecutter-uv: uv, ruff, ty, deptry, pre-commit, tox-uv. Documentation is built with Zensical instead of MkDocs and deployed on release; packages are published to PyPI via trusted publishing.
+- An unknown palette name passed to `theme_charite()` now raises `ValueError` listing the brand's palettes (previously `KeyError`).
+- `fonts.build_font_stack()` and `fonts.check_font()` take the stack to use (default: Charité); the "font not installed" warning prints that stack.
+- `fonts.build_font_stack(None)` returns a copy of the stack instead of the shared module-level list.
+- Nothing was removed: `theme_charite`, `PALETTES`, `FONT_STACK`, `CHARITE_COLORS` and the color constants keep working and refer to the Charité brand. Theme output for Charité is unchanged.
+
 ## [0.3.0] - 2026-07-18
 
 ### Added

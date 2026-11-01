@@ -25,6 +25,7 @@ nav = [
         { "mpl_themes" = "api/mpl_themes.md" },
         { "altair_themes" = "api/altair_themes.md" },
         { "fonts" = "api/fonts.md" },
+        { "brand" = "api/brand.md" },
     ] },
 ]
 

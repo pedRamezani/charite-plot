@@ -1,4 +1,4 @@
-"""Altair / Vega-Lite theme for Charité – Universitätsmedizin Berlin.
+"""Altair / Vega-Lite theme for Charité – Universitätsmedizin Berlin (and other registered brands).
 
 Register and enable with::
 
@@ -10,14 +10,13 @@ Register and enable with::
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from contextlib import contextmanager
+from functools import partial
 from uuid import uuid4
 
-from .colors import (
-    BLACK, WHITE, TEXT_GREY, PRIME_BLUE, PRIME_LGREY,
-    SECOND_DBLUE, KORALL,
-)
-from .palettes import PALETTES
+from .brand import Brand
+from .brands import DEFAULT_BRAND, get_brand
 from .fonts import build_font_stack
 from ._theme_common import Margins, Thickness, resolve_font_sizes
 
@@ -26,32 +25,35 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from altair.theme import AxisConfigKwds, ThemeConfig
 
-__all__ = ["theme_charite", "enable", "using", "register"]
+__all__ = ["theme", "theme_charite", "enable", "using", "register"]
 
 
-def _css_font_stack(preferred: str | None) -> str:
+def _css_font_stack(preferred: str | None, stack: Sequence[str]) -> str:
     """Return a CSS font-family string (comma-separated, quoted if needed)."""
     def _quote(name: str) -> str:
         return f'"{name}"' if " " in name else name
 
-    return ", ".join(_quote(f) for f in build_font_stack(preferred=preferred))
+    return ", ".join(_quote(f) for f in build_font_stack(preferred=preferred, stack=stack))
 
 
-def theme_charite(
+def theme(
     font: str | None = None,
     font_size: int = 12,
     thickness: float = 0.5,
     grid: bool = False,
-    palette: str | list[str] = "primary",
+    palette: str | list[str] | None = None,
     background: str = "white",
     tiny_margins: bool = False,
+    *,
+    brand: str | Brand = DEFAULT_BRAND,
 ) -> ThemeConfig:
-    """Return an Altair theme config dict for the Charité corporate theme.
+    """Return an Altair theme config dict for a corporate identity theme.
 
     Parameters
     ----------
     font:
-        Preferred font. Falls back through Charité Text Office → Charit? Text Office → Calibri → DejaVu Sans → sans-serif.
+        Preferred font. Falls back through the brand's font stack
+        (for Charité: Charité Text Office → Calibri → DejaVu Sans → sans-serif).
     font_size:
         Base font size in pixels.
     thickness:
@@ -59,14 +61,20 @@ def theme_charite(
     grid:
         Show axis grid lines.
     palette:
-        Built-in palette name or list of hex colors for the categorical range.
+        Name of one of the brand's palettes or a list of hex colors for the
+        categorical range. ``None`` uses the brand's default palette.
     background:
         Chart background color.
     tiny_margins:
         Minimise all paddings around the chart.
+    brand:
+        Registered brand name (default ``"charite"``) or a
+        :class:`~charite_plot.brand.Brand` instance. Keyword-only.
     """
-    colors = PALETTES[palette] if isinstance(palette, str) else list(palette)
-    font_stack = _css_font_stack(preferred=font)
+    brand = get_brand(brand)
+    roles = brand.roles
+    colors = brand.palette(palette)
+    font_stack = _css_font_stack(preferred=font, stack=brand.font_stack)
 
     FONT_SIZES = resolve_font_sizes(font_size)
     MARGINS = Margins(
@@ -88,18 +96,18 @@ def theme_charite(
         "titleFont":     font_stack,
         "labelFontSize": FONT_SIZES.label,
         "titleFontSize": FONT_SIZES.subtitle,
-        "labelColor":    TEXT_GREY,
-        "titleColor":    TEXT_GREY,
+        "labelColor":    roles.text,
+        "titleColor":    roles.text,
         "titlePadding":  MARGINS.label,
         "domain":        True,
-        "domainColor":   BLACK,
+        "domainColor":   roles.axis,
         "domainWidth":   THICKNESS.axes,
         "ticks":         True,
-        "tickColor":     BLACK,
+        "tickColor":     roles.axis,
         "tickWidth":     THICKNESS.ticks,
         "tickSize":      4,
         "grid":          grid,
-        "gridColor":     PRIME_LGREY,
+        "gridColor":     roles.grid,
         "gridWidth":     THICKNESS.grid,
         "gridOpacity":   0.85,
     }
@@ -118,8 +126,8 @@ def theme_charite(
                 "titleFont":     font_stack,
                 "labelFontSize": FONT_SIZES.legend,
                 "titleFontSize": FONT_SIZES.subtitle,
-                "labelColor":    TEXT_GREY,
-                "titleColor":    TEXT_GREY,
+                "labelColor":    roles.text,
+                "titleColor":    roles.text,
                 "titlePadding":  MARGINS.label,
                 "padding":       MARGINS.legend,
                 "rowPadding":    FONT_SIZES.legend / 4,
@@ -130,26 +138,26 @@ def theme_charite(
                 "titleFont":       font_stack,
                 "labelFontSize":   FONT_SIZES.label,
                 "titleFontSize":   FONT_SIZES.subtitle,
-                "labelColor":      WHITE,
-                "titleColor":      PRIME_BLUE,
-                "labelBackground": PRIME_BLUE,
+                "labelColor":      roles.on_primary,
+                "titleColor":      roles.primary,
+                "labelBackground": roles.primary,
             },
             "title": {
                 "font":             font_stack,
                 "subtitleFont":     font_stack,
                 "fontSize":         FONT_SIZES.title,
                 "subtitleFontSize": FONT_SIZES.subtitle,
-                "color":            PRIME_BLUE,
-                "subtitleColor":    TEXT_GREY,
+                "color":            roles.primary,
+                "subtitleColor":    roles.text,
                 "anchor":           "middle",
                 "offset":           MARGINS.title,
             },
             "range": {
                 "category":  colors,
                 "ordinal":   colors,
-                "diverging": [SECOND_DBLUE, "#ffffff", KORALL],
-                "heatmap":   ["#ffffff", PRIME_BLUE],
-                "ramp":      ["#ffffff", PRIME_BLUE],
+                "diverging": list(roles.diverging),
+                "heatmap":   list(roles.sequential),
+                "ramp":      list(roles.sequential),
             },
             "bar":      {"color": colors[0], "binSpacing": 1},
             "line":     {"color": colors[0], "strokeWidth": THICKNESS.lines},
@@ -157,25 +165,35 @@ def theme_charite(
             "area":     {"color": colors[0], "opacity": 0.8},
             "arc":      {"color": colors[0]},
             "rect":     {"color": colors[0]},
-            "geoshape": {"stroke": WHITE, "strokeWidth": THICKNESS.patches},
-            "text":     {"font": font_stack, "fontSize": FONT_SIZES.label, "color": TEXT_GREY},
+            "geoshape": {"stroke": "#ffffff", "strokeWidth": THICKNESS.patches},
+            "text":     {"font": font_stack, "fontSize": FONT_SIZES.label, "color": roles.text},
         }
     }
 
 
-def register() -> None:
-    """Register the Charité theme with Altair's theme registry (default params)."""
+theme_charite = partial(theme, brand="charite")
+
+
+def register(brand: str | Brand = DEFAULT_BRAND) -> None:
+    """Register a brand theme (Charité by default) with Altair's theme registry (default params).
+
+    The theme is registered under the brand's name, e.g. ``"charite"``.
+    """
     import altair as alt
-    alt.theme.register("charite", enable=False)(theme_charite)
+    brand = get_brand(brand)
+    alt.theme.register(brand.name, enable=False)(partial(theme, brand=brand))
 
 
-def enable(**kwargs) -> None:
-    """Register and enable the Charité theme in Altair.
+def enable(brand: str | Brand = DEFAULT_BRAND, **kwargs) -> None:
+    """Register and enable a brand theme (Charité by default) in Altair.
 
     Parameters
     ----------
+    brand:
+        Registered brand name or :class:`~charite_plot.brand.Brand` instance.
+        The theme is registered under the brand's name, e.g. ``"charite"``.
     **kwargs:
-        Any parameter accepted by ``theme_charite``
+        Any other parameter accepted by :func:`theme`
         (``font``, ``font_size``, ``thickness``, ``grid``, ``palette``,
         ``background``, ``tiny_margins``).
 
@@ -187,22 +205,24 @@ def enable(**kwargs) -> None:
     ```
     """
     import altair as alt
-    func = (lambda: theme_charite(**kwargs)) if kwargs else theme_charite
-    alt.theme.register("charite", enable=True)(func)
+    brand = get_brand(brand)
+    alt.theme.register(brand.name, enable=True)(partial(theme, brand=brand, **kwargs))
 
 
 @contextmanager
-def using(**kwargs):
-    """Temporarily enable the Charité theme, restoring the previous theme on exit.
+def using(brand: str | Brand = DEFAULT_BRAND, **kwargs):
+    """Temporarily enable a brand theme (Charité by default), restoring the previous theme on exit.
 
     Mirrors :func:`charite_plot.mpl_themes.using`. Charts created (or serialised
     with ``chart.to_json()`` / ``chart.to_dict()``) inside the ``with`` block use
-    the Charité theme; the previously active theme is restored afterwards.
+    the brand theme; the previously active theme is restored afterwards.
 
     Parameters
     ----------
+    brand:
+        Registered brand name or :class:`~charite_plot.brand.Brand` instance.
     **kwargs:
-        Any parameter accepted by ``theme_charite``.
+        Any other parameter accepted by :func:`theme`.
 
     Examples
     --------
@@ -213,13 +233,13 @@ def using(**kwargs):
     ```
     """
     import altair as alt
-    func = (lambda: theme_charite(**kwargs)) if kwargs else theme_charite
+    brand = get_brand(brand)
     # Register under a unique throwaway name so we don't clobber the primary
-    # "charite" registration and so nested ``using`` blocks don't collide.
+    # brand registration and so nested ``using`` blocks don't collide.
     # ``alt.theme.enable`` restores the previous theme on exit; the temporary
     # registration is removed afterwards to keep the registry clean.
-    name = f"_charite_{uuid4().hex}"
-    alt.theme.register(name, enable=False)(func)
+    name = f"_{brand.name}_{uuid4().hex}"
+    alt.theme.register(name, enable=False)(partial(theme, brand=brand, **kwargs))
     try:
         with alt.theme.enable(name):
             yield

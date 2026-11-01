@@ -1,34 +1,40 @@
-"""Matplotlib theme for Charité – Universitätsmedizin Berlin."""
+"""Matplotlib theme for Charité – Universitätsmedizin Berlin (and other registered brands)."""
+
+from __future__ import annotations
 
 from contextlib import contextmanager
+from functools import partial
 
 from cycler import cycler
 
-from .colors import TEXT_GREY, PRIME_BLUE, PRIME_LGREY, BLACK, WHITE
-from .palettes import PALETTES
+from .brand import Brand
+from .brands import DEFAULT_BRAND, get_brand
 from .fonts import build_font_stack
 from ._theme_common import Margins, Thickness, resolve_font_sizes
 
-__all__ = ["theme_charite", "enable", "using"]
+__all__ = ["theme", "theme_charite", "enable", "using"]
 
 
-def theme_charite(
+def theme(
     font: str | None = None,
     font_size: int = 10,
     thickness: float = 0.5,
     grid: bool = False,
-    palette: str | list[str] = "primary",
+    palette: str | list[str] | None = None,
     background: str = "white",
     tiny_margins: bool = False,
     interactive: bool = False,
+    *,
+    brand: str | Brand = DEFAULT_BRAND,
 ) -> dict:
-    """Return matplotlib rcParams dict for the Charité corporate identity theme.
+    """Return matplotlib rcParams dict for a corporate identity theme.
 
     Parameters
     ----------
     font:
-        Preferred font family. Falls back through Charité Text Office →
-        Charit? Text Office → Calibri → DejaVu Sans → sans-serif if the requested font is not installed.
+        Preferred font family. Falls back through the brand's font stack
+        (for Charité: Charité Text Office → Calibri → DejaVu Sans → sans-serif)
+        if the requested font is not installed.
     font_size:
         Base font size in points. Defaults to 10 for screen; use 8 for print.
     thickness:
@@ -36,8 +42,8 @@ def theme_charite(
     grid:
         Show major grid lines. Disabled by default.
     palette:
-        Name of a built-in palette or a list of hex color strings used for the
-        ``axes.prop_cycle``.
+        Name of one of the brand's palettes or a list of hex color strings used
+        for the ``axes.prop_cycle``. ``None`` uses the brand's default palette.
     background:
         Figure and axes background color.
     tiny_margins:
@@ -48,10 +54,15 @@ def theme_charite(
         Useful in notebooks or scripts where you want plots to display
         without blocking. Matplotlib-specific (Altair charts use
         ``.interactive()``).
+    brand:
+        Registered brand name (default ``"charite"``) or a
+        :class:`~charite_plot.brand.Brand` instance. Keyword-only.
     """
-    sans_font_stack = build_font_stack(preferred=font)
+    brand = get_brand(brand)
+    roles = brand.roles
+    sans_font_stack = build_font_stack(preferred=font, stack=brand.font_stack)
     monospace_font_stack = ["Andale Mono", "Nimbus Mono L", "Courier New", "Courier", "Fixed", "Terminal", "monospace"]
-    colors = PALETTES[palette] if isinstance(palette, str) else list(palette)
+    colors = brand.palette(palette)
 
     FONT_SIZES = resolve_font_sizes(font_size)
     MARGINS = Margins(
@@ -82,12 +93,12 @@ def theme_charite(
         "xaxis.labellocation": "center",
         "yaxis.labellocation": "center",
         "axes.titlesize":  FONT_SIZES.title,
-        "axes.titlecolor": PRIME_BLUE,
+        "axes.titlecolor": roles.primary,
         "axes.titlepad":   MARGINS.title,
         "axes.labelsize":  FONT_SIZES.label,
-        "axes.labelcolor": TEXT_GREY,
+        "axes.labelcolor": roles.text,
         "axes.labelpad":   MARGINS.label,
-        "axes.edgecolor":  BLACK,
+        "axes.edgecolor":  roles.axis,
         "axes.facecolor":  background,
         "axes.grid":       grid,
         "axes.axisbelow":  True,
@@ -96,25 +107,25 @@ def theme_charite(
 
         # Axes 3D (only visible when projection='3d')
         "axes3d.grid":            grid,
-        "axes3d.xaxis.panecolor": WHITE,
-        "axes3d.yaxis.panecolor": WHITE,
-        "axes3d.zaxis.panecolor": WHITE,
+        "axes3d.xaxis.panecolor": "#ffffff",
+        "axes3d.yaxis.panecolor": "#ffffff",
+        "axes3d.zaxis.panecolor": "#ffffff",
 
         # Polar axes (only visible when projection='polar')
         "polaraxes.grid":         grid,
 
         # Grid (only visible when grid=True)
-        "grid.color":       PRIME_LGREY,
+        "grid.color":       roles.grid,
         "grid.linewidth":   THICKNESS.grid,
         # "grid.minor.alpha": 0.48,
 
         # Ticks
-        "xtick.color":         BLACK,
-        "ytick.color":         BLACK,
+        "xtick.color":         roles.axis,
+        "ytick.color":         roles.axis,
         "xtick.labelsize":     FONT_SIZES.label,
         "ytick.labelsize":     FONT_SIZES.label,
-        "xtick.labelcolor":    TEXT_GREY,
-        "ytick.labelcolor":    TEXT_GREY,
+        "xtick.labelcolor":    roles.text,
+        "ytick.labelcolor":    roles.text,
         "xtick.major.size":    2,
         "ytick.major.size":    2,
         "xtick.major.pad":     2,
@@ -125,7 +136,7 @@ def theme_charite(
         "ytick.minor.visible": False,
 
         # Text
-        "text.color": TEXT_GREY,
+        "text.color": roles.text,
         "text.antialiased": True,
 
         # Figure
@@ -156,7 +167,7 @@ def theme_charite(
         "legend.frameon":        False,
         "legend.fontsize":       FONT_SIZES.legend,
         "legend.title_fontsize": FONT_SIZES.title,
-        "legend.labelcolor":     TEXT_GREY,
+        "legend.labelcolor":     roles.text,
 
         # Interactive mode
         "interactive": interactive,
@@ -171,13 +182,16 @@ def theme_charite(
     }
 
 
+theme_charite = partial(theme, brand="charite")
+
+
 def enable(**kwargs) -> None:
-    """Apply the Charité theme to matplotlib's global rcParams (permanent until reset).
+    """Apply a brand theme (Charité by default) to matplotlib's global rcParams (permanent until reset).
 
     Parameters
     ----------
     **kwargs:
-        Any parameter accepted by :func:`theme_charite` (``font``,
+        Any parameter accepted by :func:`theme` (``brand``, ``font``,
         ``font_size``, ``thickness``, ``grid``, ``palette``, ``background``,
         ``tiny_margins``, ``interactive``).
 
@@ -189,17 +203,17 @@ def enable(**kwargs) -> None:
     ```
     """
     import matplotlib as mpl
-    mpl.rcParams.update(theme_charite(**kwargs))
+    mpl.rcParams.update(theme(**kwargs))
 
 
 @contextmanager
 def using(**kwargs):
-    """Temporarily apply the Charité theme, restoring the previous rcParams on exit.
+    """Temporarily apply a brand theme (Charité by default), restoring the previous rcParams on exit.
 
     Parameters
     ----------
     **kwargs:
-        Any parameter accepted by :func:`theme_charite`.
+        Any parameter accepted by :func:`theme`.
 
     Examples
     --------
@@ -211,5 +225,5 @@ def using(**kwargs):
     ```
     """
     import matplotlib as mpl
-    with mpl.rc_context(theme_charite(**kwargs)):
+    with mpl.rc_context(theme(**kwargs)):
         yield

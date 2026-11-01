@@ -23,6 +23,8 @@ Altair::
 
 from .colors import *  # noqa: F403  (all color constants + CHARITE_COLORS)
 from .colors import __all__ as _COLOR_ALL
+from .brand import Brand, Roles
+from .brands import BRANDS, CHARITE, get_brand, register_brand
 from .palettes import PALETTES, make_palette
 from . import mpl_themes
 from . import altair_themes
@@ -32,6 +34,12 @@ __author__ = "Pedram Ramezani"
 
 __all__ = [
     *_COLOR_ALL,
+    "Brand",
+    "Roles",
+    "BRANDS",
+    "CHARITE",
+    "get_brand",
+    "register_brand",
     "PALETTES",
     "make_palette",
     "mpl_themes",
