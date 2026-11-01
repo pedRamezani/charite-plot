@@ -11,7 +11,7 @@ authors = [
     { name = "Pedram Ramezani", email = "me@pedramramezani.de" },
 ]
 license = { file = "LICENSE.md" }
-requires-python = ">=3.9"
+requires-python = ">=3.11,<4.0"
 keywords = ["matplotlib", "altair", "theme", "visualization", "charite"]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -19,8 +19,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -44,10 +42,100 @@ Changelog     = "https://github.com/pedramezani/charite-plot/blob/main/CHANGELOG
 [project.optional-dependencies]
 altair = ["altair>=5.5", "vega-datasets"]
 all    = ["altair>=5.5", "vega-datasets"]
-docs   = ["mkdocs-material>=9.0", "mkdocstrings[python]>=0.24"]
+
+[dependency-groups]
+dev = [
+    "altair>=5.5",
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
+    "pre-commit>=4.5.1",
+    "tox-uv>=1.33.4",
+    "deptry>=0.25.1",
+    "ty>=0.0.24",
+    "ruff>=0.15.7",
+    "zensical>=0.0.26",
+    "mkdocstrings-python>=1.0.3",
+]
 
 [tool.hatch.version]
 path = "charite_plot/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["charite_plot"]
+
+[tool.ty.environment]
+python = "./.venv"
+python-version = "3.11"
+
+[tool.ty.src]
+# Examples are standalone scripts, not part of the package.
+include = ["charite_plot", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["charite_plot"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.deptry]
+# Examples are scripts, not part of the installed package.
+extend_exclude = ["examples"]
+
+[tool.deptry.per_rule_ignores]
+# vega-datasets is shipped with the `altair` extra for the examples/docs, not imported by the package.
+DEP002 = ["vega-datasets"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+fix = true
+
+[tool.ruff.lint]
+select = [
+    # flake8-2020
+    "YTT",
+    # flake8-bandit
+    "S",
+    # flake8-bugbear
+    "B",
+    # flake8-builtins
+    "A",
+    # flake8-comprehensions
+    "C4",
+    # flake8-debugger
+    "T10",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+    # mccabe
+    "C90",
+    # pycodestyle
+    "E", "W",
+    # pyflakes
+    "F",
+    # pygrep-hooks
+    "PGH",
+    # pyupgrade
+    "UP",
+    # ruff
+    "RUF",
+    # tryceratops
+    "TRY",
+]
+ignore = [
+    # LineTooLong
+    "E501",
+    # DoNotAssignLambda
+    "E731",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.ruff.format]
+preview = true
