@@ -4,9 +4,10 @@ Regenerate after an intentional change with ``uv run pytest --snapshot-update``
 and review the diff of ``tests/__snapshots__/``.
 """
 
+import matplotlib as mpl
 import pytest
 
-from charite_plot import PALETTES, altair_themes, make_palette, mpl_themes
+from charite_plot import BRANDS, PALETTES, altair_themes, make_palette, mpl_themes
 
 CASES = {
     "default": {},
@@ -29,6 +30,16 @@ def test_mpl_theme(kwargs, snapshot):
 @pytest.mark.parametrize("kwargs", CASES.values(), ids=CASES.keys())
 def test_altair_theme(kwargs, snapshot):
     assert altair_themes.theme_charite(**kwargs) == snapshot
+
+
+@pytest.mark.parametrize("brand", BRANDS)
+@pytest.mark.parametrize("kwargs", CASES.values(), ids=CASES.keys())
+def test_themes_are_valid(kwargs, brand):
+    """Every key/value is accepted by matplotlib and by the Vega-Lite schema (unknown keys are errors)."""
+    mpl.RcParams(mpl_themes.theme(**kwargs, brand=brand))
+
+    schema = pytest.importorskip("altair.vegalite.v6.schema.core")
+    schema.Config.from_dict(altair_themes.theme(**kwargs, brand=brand)["config"], validate=True)
 
 
 def test_palettes(snapshot):

@@ -80,8 +80,7 @@
         'strokeWidth': 0.4,
       }),
       'header': dict({
-        'labelBackground': '#004d9b',
-        'labelColor': '#ffffff',
+        'labelColor': '#5e676c',
         'labelFont': '"Charité Text Office", "Charit? Text Office", Calibri, "DejaVu Sans", sans-serif',
         'labelFontSize': 12,
         'titleColor': '#004d9b',
@@ -244,8 +243,7 @@
         'strokeWidth': 0.4,
       }),
       'header': dict({
-        'labelBackground': '#004d9b',
-        'labelColor': '#ffffff',
+        'labelColor': '#5e676c',
         'labelFont': '"Charité Text Office", "Charit? Text Office", Calibri, "DejaVu Sans", sans-serif',
         'labelFontSize': 8,
         'titleColor': '#004d9b',
@@ -420,8 +418,7 @@
         'strokeWidth': 0.4,
       }),
       'header': dict({
-        'labelBackground': '#004d9b',
-        'labelColor': '#ffffff',
+        'labelColor': '#5e676c',
         'labelFont': '"Charité Text Office", "Charit? Text Office", Calibri, "DejaVu Sans", sans-serif',
         'labelFontSize': 12,
         'titleColor': '#004d9b',
@@ -586,8 +583,7 @@
         'strokeWidth': 0.4,
       }),
       'header': dict({
-        'labelBackground': '#004d9b',
-        'labelColor': '#ffffff',
+        'labelColor': '#5e676c',
         'labelFont': 'Arial, "Charité Text Office", "Charit? Text Office", Calibri, "DejaVu Sans", sans-serif',
         'labelFontSize': 12,
         'titleColor': '#004d9b',

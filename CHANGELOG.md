@@ -24,6 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `fonts.build_font_stack(None)` returns a copy of the stack instead of the shared module-level list.
 - Nothing was removed: `theme_charite`, `PALETTES`, `FONT_STACK`, `CHARITE_COLORS` and the color constants keep working and refer to the Charité brand. Theme output for Charité is unchanged.
 
+### Fixed
+
+- Altair: facet header labels were invisible (white text on the white chart background). The theme set `header.labelBackground`, which does not exist in Vega-Lite and was silently ignored. Header labels now use the text color.
+
 ## [0.3.0] - 2026-07-18
 
 ### Added

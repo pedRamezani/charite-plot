@@ -103,7 +103,6 @@ CHARITE = Brand(
         grid=PRIME_LGREY,
         diverging=(SECOND_DBLUE, WHITE, KORALL),
         sequential=(WHITE, PRIME_BLUE),
-        on_primary=WHITE,
     ),
     font_stack=CHARITE_FONT_STACK,
     default_palette="primary",

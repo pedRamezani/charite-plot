@@ -138,9 +138,8 @@ def theme(
                 "titleFont": font_stack,
                 "labelFontSize": FONT_SIZES.label,
                 "titleFontSize": FONT_SIZES.subtitle,
-                "labelColor": roles.on_primary,
+                "labelColor": roles.text,
                 "titleColor": roles.primary,
-                "labelBackground": roles.primary,
             },
             "title": {
                 "font": font_stack,
