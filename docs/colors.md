@@ -10,6 +10,15 @@ print(PRIME_BLUE)  # "#004d9b"
 print(CHARITE_COLORS["korall"])  # "#ea5451"
 ```
 
+## How the colors look with color-vision deficiencies
+
+Switch the simulation to see every swatch on this page as people with a color-vision deficiency see it
+(Machado et al. 2009, full severity). About 8 % of men and 0.5 % of women have a red–green deficiency;
+greyscale shows how a palette survives black-and-white printing. Simulations are approximations, least
+accurate for the rare tritanopia.
+
+<div class="cvd-toggle"></div>
+
 ---
 
 ## Primary
