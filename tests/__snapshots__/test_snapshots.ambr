@@ -121,9 +121,9 @@
           '#abcdef',
         ]),
         'diverging': list([
-          '#002552',
+          '#007bc3',
           '#ffffff',
-          '#ea5451',
+          '#e31f2c',
         ]),
         'heatmap': list([
           '#ffffff',
@@ -290,9 +290,9 @@
           '#564091',
         ]),
         'diverging': list([
-          '#002552',
+          '#007bc3',
           '#ffffff',
-          '#ea5451',
+          '#e31f2c',
         ]),
         'heatmap': list([
           '#ffffff',
@@ -460,9 +460,9 @@
           '#cbcfd2',
         ]),
         'diverging': list([
-          '#002552',
+          '#007bc3',
           '#ffffff',
-          '#ea5451',
+          '#e31f2c',
         ]),
         'heatmap': list([
           '#ffffff',
@@ -625,9 +625,9 @@
           '#cbcfd2',
         ]),
         'diverging': list([
-          '#002552',
+          '#007bc3',
           '#ffffff',
-          '#ea5451',
+          '#e31f2c',
         ]),
         'heatmap': list([
           '#ffffff',

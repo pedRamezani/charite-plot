@@ -28,7 +28,7 @@ SUFFIX = {"charite": "", "bih": "_bih"}
 # Single colors shown as white → color ramps in the continuous preview.
 RAMP_COLORS = {
     "charite": ["prime_blue", "second_dblue", "korall", "mineral", "gruen"],
-    "bih": ["blau", "korall", "gold", "mineral", "lavendel"],
+    "bih": ["blau", "gold", "korall", "mineral", "lavendel"],  # aligned with the Charité rows
 }
 MAX_COLS = max(len(p) for brand in BRANDS.values() for p in brand.palettes.values())
 LABEL_W = 1.6  # inches reserved for the names

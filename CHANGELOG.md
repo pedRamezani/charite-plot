@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Brand`, `Roles`, `BRANDS`, `get_brand()` and `register_brand()` for defining and registering further brands.
 - `brand=` parameter on `mpl_themes.theme/enable/using`, `altair_themes.theme/enable/using/register` and `make_palette` (name or `Brand` instance; defaults to `"charite"`).
 - `mpl_themes.theme()` and `altair_themes.theme()` as brand-neutral theme builders; `brand` is keyword-only. `theme_charite` is now `functools.partial(theme, brand="charite")` and keeps its positional signature.
-- **BIH brand** (`brand="bih"`, `charite_plot.BIH`, `theme_bih` in `mpl_themes` and `altair_themes`): Berlin Institute of Health at Charité colors, one palette per use case — `accents` (categories, default, ordered for color-vision deficiencies), `versus` (two groups), `primary` (ordered levels: Blau and its tints), `mono` (greyscale) — built from the five diagram colors and their 10 % tints; sequential white → Blau and a lightness-balanced diverging Lavendel → white → Gold scale; Trebuchet MS. Deliberate deviation from the BIH handbook: text and axes are black (titles stay BIH-Blau), as expected by scientific journals.
+- **BIH brand** (`brand="bih"`, `charite_plot.BIH`, `theme_bih` in `mpl_themes` and `altair_themes`): Berlin Institute of Health at Charité colors, one palette per use case — `accents` (categories, default, ordered for color-vision deficiencies), `versus` (two groups), `primary` (ordered levels: Blau and its tints), `mono` (greyscale), `light` (Mineral vs light grey) — built from the five diagram colors and their 10 % tints; sequential white → Blau and a lightness-balanced diverging Lavendel → white → Gold scale; Trebuchet MS. Deliberate deviation from the BIH handbook: text and axes are black (titles stay BIH-Blau), as expected by scientific journals.
 - `tint(color, percent)` to build print-style tint scales (color mixed with white).
 - **Continuous colormaps** (port of the R package's `discrete = FALSE` scales): `make_cmap()` returns a matplotlib colormap through a palette, or from white to a single brand color (like `"Blues"`); `"sequential"` and `"diverging"` give the brand's continuous scales; `make_ramp()` returns the color stops for Altair (`alt.Scale(range=make_ramp(...), interpolate="rgb")`). `examples/palette_preview.py` also renders `cmap_preview*.png`.
 - README and docs show the example plot and palette preview for Charité and BIH side by side; `examples/poly_showcase.py` and `examples/palette_preview.py` generate the images for every brand.
@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Charité diverging scale (Altair `diverging` range, `make_cmap("diverging")`) is now SECOND_LBLUE → white → ROT instead of SECOND_DBLUE → white → KORALL: both ends have the same lightness (L* 50 / 49 instead of 15 / 57), so both halves look equally strong. The palettes themselves are unchanged.
 - The matplotlib theme sets the default colormap (`image.cmap`) to the brand's sequential scale (Charité: white → PRIME_BLUE), matching the Altair theme's heatmap range. `theme()` registers it with matplotlib as `"<brand>_sequential"`.
 - **Requires Python ≥ 3.11** (3.9 and 3.10 are end-of-life).
 - Development tooling based on cookiecutter-uv: uv, ruff, ty, deptry, pre-commit, tox-uv. Documentation is built with Zensical instead of MkDocs and deployed on release; packages are published to PyPI via trusted publishing.
@@ -43,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Charité diverging scale (Altair `diverging` range, `make_cmap("diverging")`) is now SECOND_LBLUE → white → ROT instead of SECOND_DBLUE → white → KORALL: both ends have the same lightness (L* 50 / 49 instead of 15 / 57), so both halves look equally strong. The palettes themselves are unchanged.
 - **Unified API across backends.** The matplotlib activate function was renamed `apply_theme(params)` → `enable(**kwargs)`, and `using()` now takes theme keyword arguments instead of a pre-built dict — matching the Altair backend. Migrate `apply_theme(theme_charite(palette="x"))` to `enable(palette="x")` and `using(theme_charite(palette="x"))` to `using(palette="x")`. `theme_charite()` still returns a plain dict if you prefer to apply it manually via `mpl.rcParams.update()`.
 
 ### Removed
@@ -58,6 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Charité diverging scale (Altair `diverging` range, `make_cmap("diverging")`) is now SECOND_LBLUE → white → ROT instead of SECOND_DBLUE → white → KORALL: both ends have the same lightness (L* 50 / 49 instead of 15 / 57), so both halves look equally strong. The palettes themselves are unchanged.
 - Font-size ramp is now shared between both backends: labels scale at 1× and legend text at 0.8× the base size. Altair legend labels are slightly smaller and axis labels slightly larger as a result.
 
 ## [0.1.1] - 2026-06-13

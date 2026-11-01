@@ -40,13 +40,15 @@ BIH_COLORS: dict[str, str] = {
 # One palette per use case. Blau and Weiß are the primary brand colors; Korall, Gold,
 # Mineral and Lavendel are accent colors. Continuous scales are the roles below
 # (``make_cmap("sequential" | "diverging", brand="bih")``).
+# Same order as the matching Charité palettes (accents ↔ secondary).
 BIH_PALETTES: dict[str, list[str]] = {
+    "primary": [BLAU, tint(BLAU, 60), tint(BLAU, 30)],      # ordered levels (L* 21 / 54 / 79)
     # Categorical. Ordered so the first three stay distinct for color-vision deficiencies;
     # Mineral and Lavendel are hard to tell apart for deuteranopes, so Lavendel comes last.
     "accents": [BLAU, MINERAL, GOLD, KORALL, LAVENDEL],
-    "versus":  [BLAU, KORALL],                              # two groups
-    "primary": [BLAU, tint(BLAU, 60), tint(BLAU, 30)],      # ordered levels (L* 21 / 54 / 79)
     "mono":    [BLACK, tint(BLACK, 60), tint(BLACK, 30)],   # greyscale, like Charité's mono
+    "light":   [MINERAL, tint(BLACK, 20)],                  # highlight vs context, like Charité's light
+    "versus":  [BLAU, KORALL],                              # two groups
 }
 # fmt: on
 

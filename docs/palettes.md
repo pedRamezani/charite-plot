@@ -100,14 +100,15 @@ There is one palette per use case:
 
 | Use case | Name | Notes |
 |----------|------|-------|
-| Categories (default) | `accents` | Blau and the four accent colors, ordered for color-vision deficiencies: the first three stay distinct for all types. Mineral and Lavendel are hard to tell apart for deuteranopes, so with five categories add markers or direct labels. |
-| Two groups | `versus` | Blau vs Korall: distinct in lightness and hue, also in greyscale. |
 | Ordered levels | `primary` | Blau at 100 / 60 / 30 % (BIH-Blau and Weiß are the primary brand colors). |
+| Categories (default) | `accents` | Blau and the four accent colors, ordered for color-vision deficiencies: the first three stay distinct for all types. Mineral and Lavendel are hard to tell apart for deuteranopes, so with five categories add markers or direct labels. |
 | Greyscale | `mono` | Black tints, following the theme's black text and axes. |
+| Highlight vs context | `light` | Mineral vs light grey (20 % black), like Charité's `light`. |
+| Two groups | `versus` | Blau vs Korall: distinct in lightness and hue, also in greyscale. |
 | Continuous, sequential | `make_cmap("sequential", brand="bih")` | White → Blau. The theme's default colormap. |
 | Continuous, diverging | `make_cmap("diverging", brand="bih")` | Lavendel → white → Gold. Both ends have the same lightness, so both halves look equally strong. |
 
-The discrete palettes only use the five BIH diagram colors and their tints in 10 % steps, as the BIH handbook requires.
+The discrete palettes only use the five BIH diagram colors and their tints in 10 % steps, as the BIH handbook requires, plus black tints for greys. They are listed in the same order as the matching Charité palettes.
 
 ```python
 from charite_plot import BIH, make_palette
@@ -115,6 +116,13 @@ from charite_plot import BIH, make_palette
 BIH.palettes["accents"]  # list of hex strings
 make_palette("primary", n=5, brand="bih")
 ```
+
+## primary
+<div class="palette-strip">
+  <div style="background:#003754"></div>
+  <div style="background:#668798"></div>
+  <div style="background:#b2c3cc"></div>
+</div>
 
 ## accents
 <div class="palette-strip">
@@ -125,24 +133,23 @@ make_palette("primary", n=5, brand="bih")
   <div style="background:#7876b6"></div>
 </div>
 
-## versus
-<div class="palette-strip">
-  <div style="background:#003754"></div>
-  <div style="background:#ea5451"></div>
-</div>
-
-## primary
-<div class="palette-strip">
-  <div style="background:#003754"></div>
-  <div style="background:#668798"></div>
-  <div style="background:#b2c3cc"></div>
-</div>
-
 ## mono
 <div class="palette-strip">
   <div style="background:#000000"></div>
   <div style="background:#666666"></div>
   <div style="background:#b2b2b2"></div>
+</div>
+
+## light
+<div class="palette-strip">
+  <div style="background:#009aa9"></div>
+  <div style="background:#cccccc"></div>
+</div>
+
+## versus
+<div class="palette-strip">
+  <div style="background:#003754"></div>
+  <div style="background:#ea5451"></div>
 </div>
 
 ---

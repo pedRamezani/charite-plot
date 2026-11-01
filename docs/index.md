@@ -22,6 +22,16 @@ Preview the available colour palettes of each brand.
 </tr>
 </table>
 
+Continuous colormaps (`make_cmap`): each brand's sequential and diverging scale, every palette, and white → colour.
+
+<table>
+<tr><th>Charité</th><th>BIH</th></tr>
+<tr>
+<td><img src="assets/cmap_preview.png" width="100%"/></td>
+<td><img src="assets/cmap_preview_bih.png" width="100%"/></td>
+</tr>
+</table>
+
 ---
 
 ## Quick start

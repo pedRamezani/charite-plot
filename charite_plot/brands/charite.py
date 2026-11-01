@@ -101,7 +101,8 @@ CHARITE = Brand(
         text=TEXT_GREY,
         axis=BLACK,
         grid=PRIME_LGREY,
-        diverging=(SECOND_DBLUE, WHITE, KORALL),
+        # SECOND_LBLUE and ROT have the same lightness (L* 50 / 49), so both halves look equally strong.
+        diverging=(SECOND_LBLUE, WHITE, ROT),
         sequential=(WHITE, PRIME_BLUE),
     ),
     font_stack=CHARITE_FONT_STACK,
