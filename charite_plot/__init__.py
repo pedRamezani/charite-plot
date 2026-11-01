@@ -26,7 +26,7 @@ from .brand import Brand, Roles, tint
 from .brands import BIH, BRANDS, CHARITE, get_brand, register_brand
 from .colors import *  # noqa: F403  (all color constants + CHARITE_COLORS)
 from .colors import __all__ as _COLOR_ALL
-from .palettes import PALETTES, make_cmap, make_palette, ramp
+from .palettes import PALETTES, make_cmap, make_palette, make_ramp
 
 __version__ = "0.3.0"
 __author__ = "Pedram Ramezani"
@@ -43,7 +43,7 @@ __all__ = [
     "register_brand",
     "PALETTES",
     "make_palette",
-    "ramp",
+    "make_ramp",
     "make_cmap",
     "mpl_themes",
     "altair_themes",

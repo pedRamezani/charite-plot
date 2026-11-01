@@ -39,6 +39,11 @@ def test_primary_palette_uses_only_primary_colors():
     assert BIH.default_palette == "accents"
 
 
+def test_diverging_ends_have_equal_lightness():
+    """Lavendel and Gold: both halves of a diverging scale look equally strong (unlike Blau vs Korall)."""
+    assert BIH.roles.diverging == (bih.LAVENDEL, bih.WHITE, bih.GOLD)
+
+
 def test_colors_are_hex():
     assert all(re.fullmatch(r"#[0-9a-f]{6}", c) for c in BIH.colors.values())
 

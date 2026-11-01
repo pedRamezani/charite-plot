@@ -95,10 +95,19 @@ rev = make_palette("primary", reverse=True)
 
 # BIH palettes
 
-Pass `brand="bih"` to use these with any theme function or `make_palette`. BIH-Blau and BIH-Weiß are the primary brand
-colors, so `primary` is Blau with two tints; the categorical default is `accents`. The palettes only use the five BIH
-diagram colors and their tints in 10 % steps, as the BIH handbook requires; `mono` uses black tints, following the
-theme's black text and axes.
+Pass `brand="bih"` to use these with any theme function, `make_palette`, `make_cmap` or `make_ramp`.
+There is one palette per use case:
+
+| Use case | Name | Notes |
+|----------|------|-------|
+| Categories (default) | `accents` | Blau and the four accent colors, ordered for color-vision deficiencies: the first three stay distinct for all types. Mineral and Lavendel are hard to tell apart for deuteranopes, so with five categories add markers or direct labels. |
+| Two groups | `versus` | Blau vs Korall: distinct in lightness and hue, also in greyscale. |
+| Ordered levels | `primary` | Blau at 100 / 60 / 30 % (BIH-Blau and Weiß are the primary brand colors). |
+| Greyscale | `mono` | Black tints, following the theme's black text and axes. |
+| Continuous, sequential | `make_cmap("sequential", brand="bih")` | White → Blau. The theme's default colormap. |
+| Continuous, diverging | `make_cmap("diverging", brand="bih")` | Lavendel → white → Gold. Both ends have the same lightness, so both halves look equally strong. |
+
+The discrete palettes only use the five BIH diagram colors and their tints in 10 % steps, as the BIH handbook requires.
 
 ```python
 from charite_plot import BIH, make_palette
@@ -110,10 +119,16 @@ make_palette("primary", n=5, brand="bih")
 ## accents
 <div class="palette-strip">
   <div style="background:#003754"></div>
-  <div style="background:#ea5451"></div>
   <div style="background:#009aa9"></div>
   <div style="background:#9d7220"></div>
+  <div style="background:#ea5451"></div>
   <div style="background:#7876b6"></div>
+</div>
+
+## versus
+<div class="palette-strip">
+  <div style="background:#003754"></div>
+  <div style="background:#ea5451"></div>
 </div>
 
 ## primary
@@ -128,21 +143,6 @@ make_palette("primary", n=5, brand="bih")
   <div style="background:#000000"></div>
   <div style="background:#666666"></div>
   <div style="background:#b2b2b2"></div>
-</div>
-
-## light
-<div class="palette-strip">
-  <div style="background:#809baa"></div>
-  <div style="background:#f4aaa8"></div>
-  <div style="background:#80ccd4"></div>
-  <div style="background:#ceb890"></div>
-  <div style="background:#bcbada"></div>
-</div>
-
-## versus
-<div class="palette-strip">
-  <div style="background:#003754"></div>
-  <div style="background:#ea5451"></div>
 </div>
 
 ---
@@ -171,9 +171,11 @@ make_palette("sunrise", reverse=True)
 
 ## Continuous colormaps
 
-`ramp` returns the color stops of a continuous scale, and `make_cmap` turns them into a matplotlib colormap
+`make_ramp` returns the color stops of a continuous scale, and `make_cmap` turns them into a matplotlib colormap
 (a port of `scale_color_charite(palette, discrete = FALSE)` from the R package):
 
+- `"sequential"` and `"diverging"` give the brand's continuous scales (also used by the themes:
+  `"sequential"` is the default matplotlib colormap and the Altair `heatmap`/`ramp` range, `"diverging"` the Altair `diverging` range);
 - a **palette name** gives a gradient through all its colors;
 - a **color name** of the brand (or a hex color) gives a gradient from white to that color, like matplotlib's `"Blues"`;
 - a **list of colors** gives a gradient through them.
@@ -197,14 +199,14 @@ ax.scatter(x, y, c=z, cmap=make_cmap("berryseason"))  # through the whole palett
 ax.imshow(data, cmap=make_cmap("blau", brand="bih", reverse=True))
 ```
 
-Vega-Lite interpolates between any color stops itself, so Altair only needs the stops from `ramp`.
+Vega-Lite interpolates between any color stops itself, so Altair only needs the stops from `make_ramp`.
 Pass `interpolate="rgb"` to get exactly the matplotlib gradient (Vega-Lite blends in HCL by default):
 
 ```python
 import altair as alt
-from charite_plot import ramp
+from charite_plot import make_ramp
 
 alt.Chart(df).mark_rect().encode(
-    color=alt.Color("value:Q", scale=alt.Scale(range=ramp("blau", brand="bih"), interpolate="rgb")),
+    color=alt.Color("value:Q", scale=alt.Scale(range=make_ramp("blau", brand="bih"), interpolate="rgb")),
 )
 ```

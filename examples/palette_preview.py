@@ -2,8 +2,9 @@
 
 Produces two assets per brand in docs/assets/:
     palette_preview.png, palette_preview_bih.png   discrete palettes
-    cmap_preview.png, cmap_preview_bih.png         continuous colormaps (make_cmap): every palette,
-                                                   then white → color for the main brand colors
+    cmap_preview.png, cmap_preview_bih.png         continuous colormaps (make_cmap): the brand's sequential
+                                                   and diverging scales, every palette, then white → color
+                                                   for the main brand colors
 
 All previews of one kind share the same canvas and swatch size, so they line up when shown side by side.
 
@@ -74,7 +75,7 @@ discrete = {
 continuous = {
     b: [
         (name, lambda ax, n=name, b=b: _draw_gradient(ax, make_cmap(n, brand=b)))
-        for name in [*brand.palettes, *RAMP_COLORS[b]]
+        for name in ["sequential", "diverging", *brand.palettes, *RAMP_COLORS[b]]
     ]
     for b, brand in BRANDS.items()
 }

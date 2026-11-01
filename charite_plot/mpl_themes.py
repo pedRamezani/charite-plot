@@ -11,6 +11,7 @@ from ._theme_common import Margins, Thickness, resolve_font_sizes
 from .brand import Brand
 from .brands import DEFAULT_BRAND, get_brand
 from .fonts import build_font_stack
+from .palettes import make_cmap
 
 __all__ = ["theme", "theme_charite", "theme_bih", "enable", "using"]
 
@@ -73,6 +74,13 @@ def theme(
         hspace=0.125 if tiny_margins else 0.25,
     )
     THICKNESS = Thickness(axes=thickness, grid=thickness * 0.6, ticks=thickness, lines=1.5, patches=0)
+
+    # rcParams can only refer to a colormap by name, so register it (again only if its colors changed).
+    import matplotlib as mpl
+
+    cmap = make_cmap("sequential", brand=brand)
+    if cmap.name not in mpl.colormaps or mpl.colormaps[cmap.name] != cmap:
+        mpl.colormaps.register(cmap, force=True)
 
     return {
         # Font — monospace is a fallback for latex mathtt, code blocks, etc.
@@ -159,6 +167,8 @@ def theme(
         "savefig.transparent": True,
         # Color cycle
         "axes.prop_cycle": cycler("color", colors),
+        # Default colormap (imshow, pcolormesh, scatter with c=...): white → primary, as in the Altair theme
+        "image.cmap": cmap.name,
     }
 
 

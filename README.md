@@ -100,11 +100,11 @@ Titles stay BIH-Blau.
 ### Continuous colormaps
 
 ```python
-from charite_plot import make_cmap, ramp
+from charite_plot import make_cmap, make_ramp
 
 ax.imshow(data, cmap=make_cmap("prime_blue"))  # white → Charité blue, like "Blues"
 ax.scatter(x, y, c=z, cmap=make_cmap("goldelse"))  # through a whole palette
-alt.Scale(range=ramp("blau", brand="bih"), interpolate="rgb")  # same gradient in Altair
+alt.Scale(range=make_ramp("blau", brand="bih"), interpolate="rgb")  # same gradient in Altair
 ```
 
 ## API overview
@@ -121,7 +121,7 @@ alt.Scale(range=ramp("blau", brand="bih"), interpolate="rgb")  # same gradient i
 | `PALETTES` | Dict of the 10 named Charité colour palettes (BIH: `BIH.palettes`) |
 | `make_palette(name, n, reverse, brand)` | Subsample or interpolate any palette |
 | `make_cmap(name, reverse, brand)` | Continuous matplotlib colormap through a palette, or white → one brand colour (like `"Blues"`) |
-| `ramp(name, reverse, brand)` | The colour stops of that scale, e.g. for `alt.Scale(range=ramp(...), interpolate="rgb")` |
+| `make_ramp(name, reverse, brand)` | The colour stops of that scale, e.g. for `alt.Scale(range=make_ramp(...), interpolate="rgb")` |
 | `CHARITE`, `BIH` | The built-in brands (colours, palettes, fonts, colour roles) |
 | `Brand`, `Roles`, `register_brand()`, `get_brand()`, `tint()` | Define and register further brands (see `charite_plot/brands/`) |
 | `CHARITE_COLORS` | Dict of all 27 hex colour constants |

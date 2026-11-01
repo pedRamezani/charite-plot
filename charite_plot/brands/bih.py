@@ -37,13 +37,16 @@ BIH_COLORS: dict[str, str] = {
     "lavendel":  LAVENDEL,
 }
 
-# Blau and Weiß are the primary brand colors; Korall, Gold, Mineral and Lavendel are accent colors.
+# One palette per use case. Blau and Weiß are the primary brand colors; Korall, Gold,
+# Mineral and Lavendel are accent colors. Continuous scales are the roles below
+# (``make_cmap("sequential" | "diverging", brand="bih")``).
 BIH_PALETTES: dict[str, list[str]] = {
-    "accents": [BLAU, KORALL, MINERAL, GOLD, LAVENDEL],
-    "primary": [BLAU, tint(BLAU, 60), tint(BLAU, 30)],
-    "mono":    [BLACK, tint(BLACK, 60), tint(BLACK, 30)],  # greys, like Charité's mono
-    "light":   [tint(c, 50) for c in (BLAU, KORALL, MINERAL, GOLD, LAVENDEL)],
-    "versus":  [BLAU, KORALL],
+    # Categorical. Ordered so the first three stay distinct for color-vision deficiencies;
+    # Mineral and Lavendel are hard to tell apart for deuteranopes, so Lavendel comes last.
+    "accents": [BLAU, MINERAL, GOLD, KORALL, LAVENDEL],
+    "versus":  [BLAU, KORALL],                              # two groups
+    "primary": [BLAU, tint(BLAU, 60), tint(BLAU, 30)],      # ordered levels (L* 21 / 54 / 79)
+    "mono":    [BLACK, tint(BLACK, 60), tint(BLACK, 30)],   # greyscale, like Charité's mono
 }
 # fmt: on
 
@@ -59,7 +62,8 @@ BIH = Brand(
         text=BLACK,
         axis=BLACK,
         grid=tint(BLAU, 20),
-        diverging=(BLAU, WHITE, KORALL),
+        # Lavendel and Gold have the same lightness (L* 52 / 51), so both halves look equally strong.
+        diverging=(LAVENDEL, WHITE, GOLD),
         sequential=(WHITE, BLAU),
     ),
     font_stack=BIH_FONT_STACK,

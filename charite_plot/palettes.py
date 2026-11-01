@@ -11,7 +11,7 @@ from .brands.charite import CHARITE_PALETTES
 if TYPE_CHECKING:
     from matplotlib.colors import LinearSegmentedColormap
 
-__all__ = ["PALETTES", "make_palette", "ramp", "make_cmap"]
+__all__ = ["PALETTES", "make_palette", "make_ramp", "make_cmap"]
 
 # Charité palettes, kept under the historical name for backwards compatibility.
 PALETTES: dict[str, list[str]] = CHARITE_PALETTES
@@ -60,7 +60,7 @@ def make_palette(
     return [to_hex(cmap(i / (n - 1))) for i in range(n)]
 
 
-def ramp(
+def make_ramp(
     name_or_colors: str | list[str],
     reverse: bool = False,
     brand: str | Brand = DEFAULT_BRAND,
@@ -72,11 +72,13 @@ def ramp(
     name_or_colors:
         - a palette name of *brand*: a gradient through all its colors
           (like ``scale_color_charite(palette, discrete = FALSE)`` in the R package);
+        - ``"sequential"`` or ``"diverging"``: the brand's continuous scales
+          (``Brand.roles``; also used by the themes for heatmaps and diverging scales);
         - a color name of *brand* (see ``Brand.colors``) or a hex color: a gradient
           from white to that color, like matplotlib's ``"Blues"``;
         - a list of hex colors: a gradient through them.
 
-        Palette names take precedence over color names.
+        Palette names take precedence over ``"sequential"``/``"diverging"``, and those over color names.
     reverse:
         Reverse the gradient.
     brand:
@@ -87,11 +89,14 @@ def ramp(
     Altair interpolates between the stops itself; ``interpolate="rgb"`` matches matplotlib:
 
     ```python
-    alt.Color("value:Q", scale=alt.Scale(range=ramp("blau", brand="bih"), interpolate="rgb"))
+    alt.Color("value:Q", scale=alt.Scale(range=make_ramp("blau", brand="bih"), interpolate="rgb"))
     ```
     """
     brand = get_brand(brand)
-    if isinstance(name_or_colors, str) and name_or_colors not in brand.palettes:
+    roles = {"sequential": brand.roles.sequential, "diverging": brand.roles.diverging}
+    if isinstance(name_or_colors, str) and name_or_colors not in brand.palettes and name_or_colors in roles:
+        colors = list(roles[name_or_colors])
+    elif isinstance(name_or_colors, str) and name_or_colors not in brand.palettes:
         color = brand.colors.get(name_or_colors, name_or_colors)
         if not color.startswith("#"):
             raise ValueError(
@@ -110,12 +115,12 @@ def make_cmap(
     brand: str | Brand = DEFAULT_BRAND,
     n: int = 256,
 ) -> LinearSegmentedColormap:
-    """Return a continuous matplotlib colormap; see :func:`ramp` for the accepted names.
+    """Return a continuous matplotlib colormap; see :func:`make_ramp` for the accepted names.
 
     Parameters
     ----------
     name_or_colors:
-        Palette name, color name, hex color or list of hex colors (see :func:`ramp`).
+        Palette name, color name, hex color or list of hex colors (see :func:`make_ramp`).
     reverse:
         Reverse the colormap.
     brand:
@@ -133,7 +138,7 @@ def make_cmap(
     from matplotlib.colors import LinearSegmentedColormap
 
     brand = get_brand(brand)
-    colors = ramp(name_or_colors, reverse=reverse, brand=brand)
+    colors = make_ramp(name_or_colors, reverse=reverse, brand=brand)
     label = name_or_colors if isinstance(name_or_colors, str) else "custom"
     name = f"{brand.name}_{label}" + ("_r" if reverse else "")
     return LinearSegmentedColormap.from_list(name, colors, N=n)
