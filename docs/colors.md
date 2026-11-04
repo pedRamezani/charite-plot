@@ -166,7 +166,10 @@ accurate for the rare tritanopia.
   </div>
 </div>
 
-## Special
+## Employer branding
+
+Employer-Branding-Grün is reserved for Charité's employer-branding communication.
+It is available as `EMPLOYER_BRANDING_GREEN`, but it is not used in any palette.
 
 <div class="color-grid">
   <div class="color-swatch">

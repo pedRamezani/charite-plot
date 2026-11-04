@@ -5,6 +5,7 @@
       members:
         - theme
         - theme_charite
+        - theme_bih
         - enable
         - using
         - register

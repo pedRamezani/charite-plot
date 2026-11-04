@@ -37,6 +37,8 @@ make_palette("main", 5, brand="demo")
 A `Brand` instance can also be passed directly (`enable(brand=my_brand)`)
 without registering it.
 
+::: charite_plot.brand.tint
+
 ::: charite_plot.brand.Brand
 
 ::: charite_plot.brand.Roles
@@ -44,3 +46,14 @@ without registering it.
 ::: charite_plot.brands.register_brand
 
 ::: charite_plot.brands.get_brand
+
+::: charite_plot.brands.BRANDS
+
+::: charite_plot.brands.DEFAULT_BRAND
+
+## Built-in brands
+
+| Brand | Object | Default palette |
+|-------|--------|-----------------|
+| `"charite"` | `charite_plot.CHARITE` | `primary` |
+| `"bih"` | `charite_plot.BIH` | `accents` |
