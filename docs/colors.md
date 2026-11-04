@@ -168,8 +168,9 @@ accurate for the rare tritanopia.
 
 ## Employer branding
 
-Employer-Branding-Grün is reserved for Charité's employer-branding communication.
-It is available as `EMPLOYER_BRANDING_GREEN`, but it is not used in any palette.
+Employer-Branding-Grün is a special color that only the Stabsstelle Personalmarketing und Digitalisierung
+may use, for employer-branding topics and campaigns ([Charité Markenportal](https://marke.charite.de)).
+It is available as `EMPLOYER_BRANDING_GREEN` for completeness, but it is not used in any palette.
 
 <div class="color-grid">
   <div class="color-swatch">

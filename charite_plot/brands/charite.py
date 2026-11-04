@@ -40,7 +40,7 @@ ROT          = "#e31f2c"
 MANGO        = "#fab600"
 RAPSGELB     = "#ffdf43"
 
-# Employer branding (not used in any palette)
+# Employer branding: reserved for the Stabsstelle Personalmarketing und Digitalisierung (not used in any palette)
 EMPLOYER_BRANDING_GREEN = "#ccefcb"
 
 # Lookup dict (lowercase keys)
