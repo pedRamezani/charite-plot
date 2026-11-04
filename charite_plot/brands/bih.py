@@ -8,7 +8,7 @@ Titles stay BIH-Blau. Dunkelrot and Hellrosa are text-only colors in the
 handbook, so they are not used in any palette. The discrete palettes only use
 tints in 10 % steps of the five diagram colors (Blau, Korall, Gold, Mineral,
 Lavendel), as the handbook requires; ``mono`` uses black tints, following the
-black-text deviation. Continuous colormaps (:func:`charite_plot.make_cmap`)
+black-text deviation. Continuous colormaps ([`charite_plot.make_cmap`][charite_plot.palettes.make_cmap])
 are smooth gradients and deliberately not restricted to 10 % steps.
 """
 

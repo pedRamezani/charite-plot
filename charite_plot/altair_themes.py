@@ -13,7 +13,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from contextlib import contextmanager
 from functools import partial
-from typing import TYPE_CHECKING, Any, LiteralString, cast
+from typing import TYPE_CHECKING, LiteralString, cast
 from uuid import uuid4
 
 from ._theme_common import Margins, Thickness, resolve_font_sizes
@@ -22,14 +22,14 @@ from .brands import DEFAULT_BRAND, get_brand
 from .fonts import build_font_stack
 
 if TYPE_CHECKING:
-    from altair.theme import ThemeConfig
+    from altair.theme import AxisConfigKwds, ThemeConfig
 
 __all__ = ["theme", "theme_charite", "theme_bih", "enable", "using", "register"]
 
 
-def _theme_name(name: str) -> LiteralString:
-    """Altair annotates theme names as ``LiteralString``; brand theme names are built at runtime."""
-    return cast("LiteralString", name)
+def _literal(value: str) -> LiteralString:
+    """Altair annotates colors and theme names as ``LiteralString``; brand values are only known at runtime."""
+    return cast("LiteralString", value)
 
 
 def _css_font_stack(preferred: str | None, stack: Sequence[str]) -> str:
@@ -74,112 +74,118 @@ def theme(
         Minimise all paddings around the chart.
     brand:
         Registered brand name (default ``"charite"``) or a
-        :class:`~charite_plot.brand.Brand` instance. Keyword-only.
+        [`Brand`][charite_plot.brand.Brand] instance. Keyword-only.
     """
     brand = get_brand(brand)
     roles = brand.roles
-    colors = brand.palette(palette)
+    # Altair types colors as ``LiteralString``; brand colors are only known at runtime.
+    primary, text, axis_color, grid_color = map(_literal, (roles.primary, roles.text, roles.axis, roles.grid))
+    colors = [_literal(c) for c in brand.palette(palette)]
+    diverging = [_literal(c) for c in roles.diverging]
+    sequential = [_literal(c) for c in roles.sequential]
     font_stack = _css_font_stack(preferred=font, stack=brand.font_stack)
 
     FONT_SIZES = resolve_font_sizes(font_size)
+    # fmt: off
     MARGINS = Margins(
-        title=8 if tiny_margins else 12,  # chart title offset
-        label=3 if tiny_margins else 6,  # axis / legend title padding
-        legend=2 if tiny_margins else 4,  # legend inner padding
+        title=8 if tiny_margins else 12,   # chart title offset
+        label=3 if tiny_margins else 6,    # axis / legend title padding
+        legend=2 if tiny_margins else 4,   # legend inner padding
     )
     THICKNESS = Thickness(
-        axes=thickness,  # domain line width
-        grid=thickness * 0.8,  # grid line width
-        ticks=thickness,  # tick mark width
-        lines=2,  # line-mark stroke width (independent of thickness)
-        patches=0.4,  # geoshape stroke width
+        axes=thickness,          # domain line width
+        grid=thickness * 0.8,    # grid line width
+        ticks=thickness,         # tick mark width
+        lines=2,                 # line-mark stroke width (independent of thickness)
+        patches=0.4,             # geoshape stroke width
     )
     CHART_PAD = 6 if tiny_margins else 10
 
-    axis: dict[str, Any] = {
-        "labelFont": font_stack,
-        "titleFont": font_stack,
+    axis: AxisConfigKwds = {
+        "labelFont":     font_stack,
+        "titleFont":     font_stack,
         "labelFontSize": FONT_SIZES.label,
         "titleFontSize": FONT_SIZES.subtitle,
-        "labelColor": roles.text,
-        "titleColor": roles.text,
-        "titlePadding": MARGINS.label,
-        "domain": True,
-        "domainColor": roles.axis,
-        "domainWidth": THICKNESS.axes,
-        "ticks": True,
-        "tickColor": roles.axis,
-        "tickWidth": THICKNESS.ticks,
-        "tickSize": 4,
-        "grid": grid,
-        "gridColor": roles.grid,
-        "gridWidth": THICKNESS.grid,
-        "gridOpacity": 0.85,
+        "labelColor":    text,
+        "titleColor":    text,
+        "titlePadding":  MARGINS.label,
+        "domain":        True,
+        "domainColor":   axis_color,
+        "domainWidth":   THICKNESS.axes,
+        "ticks":         True,
+        "tickColor":     axis_color,
+        "tickWidth":     THICKNESS.ticks,
+        "tickSize":      4,
+        "grid":          grid,
+        "gridColor":     grid_color,
+        "gridWidth":     THICKNESS.grid,
+        "gridOpacity":   0.85,
     }
 
-    # Altair's ThemeConfig types colors as ``LiteralString``, which runtime brand colors can't satisfy.
-    # The structure is checked against the Vega-Lite schema in the test suite instead.
-    config: dict[str, Any] = {
+    return {
         "config": {
-            "background": background,
-            "font": font_stack,
-            "padding": {"top": CHART_PAD, "bottom": CHART_PAD, "left": CHART_PAD, "right": CHART_PAD},
-            "view": {"stroke": None},
-            "axis": axis,
+            "background": _literal(background),
+            "font":       font_stack,
+            "padding":    {"top": CHART_PAD, "bottom": CHART_PAD, "left": CHART_PAD, "right": CHART_PAD},
+            "view":  {"stroke": None},
+            "axis":  axis,
             "axisX": axis,
             "axisY": axis,
             "legend": {
-                "labelFont": font_stack,
-                "titleFont": font_stack,
+                "labelFont":     font_stack,
+                "titleFont":     font_stack,
                 "labelFontSize": FONT_SIZES.legend,
                 "titleFontSize": FONT_SIZES.subtitle,
-                "labelColor": roles.text,
-                "titleColor": roles.text,
-                "titlePadding": MARGINS.label,
-                "padding": MARGINS.legend,
-                "rowPadding": FONT_SIZES.legend / 4,
-                "symbolSize": 100,
+                "labelColor":    text,
+                "titleColor":    text,
+                "titlePadding":  MARGINS.label,
+                "padding":       MARGINS.legend,
+                "rowPadding":    FONT_SIZES.legend / 4,
+                "symbolSize":    100,
             },
             "header": {
-                "labelFont": font_stack,
-                "titleFont": font_stack,
+                "labelFont":     font_stack,
+                "titleFont":     font_stack,
                 "labelFontSize": FONT_SIZES.label,
                 "titleFontSize": FONT_SIZES.subtitle,
-                "labelColor": roles.text,
-                "titleColor": roles.primary,
+                "labelColor":    text,
+                "titleColor":    primary,
             },
             "title": {
-                "font": font_stack,
-                "subtitleFont": font_stack,
-                "fontSize": FONT_SIZES.title,
+                "font":             font_stack,
+                "subtitleFont":     font_stack,
+                "fontSize":         FONT_SIZES.title,
                 "subtitleFontSize": FONT_SIZES.subtitle,
-                "color": roles.primary,
-                "subtitleColor": roles.text,
-                "anchor": "middle",
-                "offset": MARGINS.title,
+                "color":            primary,
+                "subtitleColor":    text,
+                "anchor":           "middle",
+                "offset":           MARGINS.title,
             },
             "range": {
-                "category": colors,
-                "ordinal": colors,
-                "diverging": list(roles.diverging),
-                "heatmap": list(roles.sequential),
-                "ramp": list(roles.sequential),
+                "category":  colors,
+                "ordinal":   colors,
+                "diverging": diverging,
+                "heatmap":   sequential,
+                "ramp":      sequential,
             },
-            "bar": {"color": colors[0], "binSpacing": 1},
-            "line": {"color": colors[0], "strokeWidth": THICKNESS.lines},
-            "point": {"color": colors[0], "size": 60, "opacity": 0.85, "filled": True},
-            "area": {"color": colors[0], "opacity": 0.8},
-            "arc": {"color": colors[0]},
-            "rect": {"color": colors[0]},
+            "bar":      {"color": colors[0], "binSpacing": 1},
+            "line":     {"color": colors[0], "strokeWidth": THICKNESS.lines},
+            "point":    {"color": colors[0], "size": 60, "opacity": 0.85, "filled": True},
+            "area":     {"color": colors[0], "opacity": 0.8},
+            "arc":      {"color": colors[0]},
+            "rect":     {"color": colors[0]},
             "geoshape": {"stroke": "#ffffff", "strokeWidth": THICKNESS.patches},
-            "text": {"font": font_stack, "fontSize": FONT_SIZES.label, "color": roles.text},
+            "text":     {"font": font_stack, "fontSize": FONT_SIZES.label, "color": text},
         }
     }
-    return cast("ThemeConfig", config)
+    # fmt: on
 
 
 theme_charite = partial(theme, brand="charite")
+"""Altair theme config for Charité: [`theme`][charite_plot.altair_themes.theme] with ``brand="charite"`` (same parameters, positional order kept)."""
+
 theme_bih = partial(theme, brand="bih")
+"""Altair theme config for the BIH: [`theme`][charite_plot.altair_themes.theme] with ``brand="bih"`` (same parameters)."""
 
 
 def register(brand: str | Brand = DEFAULT_BRAND) -> None:
@@ -190,7 +196,7 @@ def register(brand: str | Brand = DEFAULT_BRAND) -> None:
     import altair as alt
 
     brand = get_brand(brand)
-    alt.theme.register(_theme_name(brand.name), enable=False)(partial(theme, brand=brand))
+    alt.theme.register(_literal(brand.name), enable=False)(partial(theme, brand=brand))
 
 
 def enable(brand: str | Brand = DEFAULT_BRAND, **kwargs) -> None:
@@ -199,10 +205,10 @@ def enable(brand: str | Brand = DEFAULT_BRAND, **kwargs) -> None:
     Parameters
     ----------
     brand:
-        Registered brand name or :class:`~charite_plot.brand.Brand` instance.
+        Registered brand name or [`Brand`][charite_plot.brand.Brand] instance.
         The theme is registered under the brand's name, e.g. ``"charite"``.
     **kwargs:
-        Any other parameter accepted by :func:`theme`
+        Any other parameter accepted by [`theme`][charite_plot.altair_themes.theme]
         (``font``, ``font_size``, ``thickness``, ``grid``, ``palette``,
         ``background``, ``tiny_margins``).
 
@@ -216,23 +222,23 @@ def enable(brand: str | Brand = DEFAULT_BRAND, **kwargs) -> None:
     import altair as alt
 
     brand = get_brand(brand)
-    alt.theme.register(_theme_name(brand.name), enable=True)(partial(theme, brand=brand, **kwargs))
+    alt.theme.register(_literal(brand.name), enable=True)(partial(theme, brand=brand, **kwargs))
 
 
 @contextmanager
 def using(brand: str | Brand = DEFAULT_BRAND, **kwargs):
     """Temporarily enable a brand theme (Charité by default), restoring the previous theme on exit.
 
-    Mirrors :func:`charite_plot.mpl_themes.using`. Charts created (or serialised
+    Mirrors [`charite_plot.mpl_themes.using`][charite_plot.mpl_themes.using]. Charts created (or serialised
     with ``chart.to_json()`` / ``chart.to_dict()``) inside the ``with`` block use
     the brand theme; the previously active theme is restored afterwards.
 
     Parameters
     ----------
     brand:
-        Registered brand name or :class:`~charite_plot.brand.Brand` instance.
+        Registered brand name or [`Brand`][charite_plot.brand.Brand] instance.
     **kwargs:
-        Any other parameter accepted by :func:`theme`.
+        Any other parameter accepted by [`theme`][charite_plot.altair_themes.theme].
 
     Examples
     --------
@@ -249,7 +255,7 @@ def using(brand: str | Brand = DEFAULT_BRAND, **kwargs):
     # brand registration and so nested ``using`` blocks don't collide.
     # ``alt.theme.enable`` restores the previous theme on exit; the temporary
     # registration is removed afterwards to keep the registry clean.
-    name = _theme_name(f"_{brand.name}_{uuid4().hex}")
+    name = _literal(f"_{brand.name}_{uuid4().hex}")
     alt.theme.register(name, enable=False)(partial(theme, brand=brand, **kwargs))
     try:
         # Altair's PluginEnabler.__exit__ lacks Optional parameter types, so ty rejects it as a context manager.

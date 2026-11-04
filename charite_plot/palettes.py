@@ -36,7 +36,7 @@ def make_palette(
     reverse:
         Reverse the palette before sampling.
     brand:
-        Brand name or :class:`~charite_plot.brand.Brand` whose palettes are searched.
+        Brand name or [`Brand`][charite_plot.brand.Brand] whose palettes are searched.
     """
     colors = get_brand(brand).palette(name_or_colors)
 
@@ -82,7 +82,7 @@ def make_ramp(
     reverse:
         Reverse the gradient.
     brand:
-        Brand name or :class:`~charite_plot.brand.Brand` whose palettes and colors are searched.
+        Brand name or [`Brand`][charite_plot.brand.Brand] whose palettes and colors are searched.
 
     Examples
     --------
@@ -115,16 +115,16 @@ def make_cmap(
     brand: str | Brand = DEFAULT_BRAND,
     n: int = 256,
 ) -> LinearSegmentedColormap:
-    """Return a continuous matplotlib colormap; see :func:`make_ramp` for the accepted names.
+    """Return a continuous matplotlib colormap; see [`make_ramp`][charite_plot.palettes.make_ramp] for the accepted names.
 
     Parameters
     ----------
     name_or_colors:
-        Palette name, color name, hex color or list of hex colors (see :func:`make_ramp`).
+        Palette name, color name, hex color or list of hex colors (see [`make_ramp`][charite_plot.palettes.make_ramp]).
     reverse:
         Reverse the colormap.
     brand:
-        Brand name or :class:`~charite_plot.brand.Brand` whose palettes and colors are searched.
+        Brand name or [`Brand`][charite_plot.brand.Brand] whose palettes and colors are searched.
     n:
         Number of entries in the colormap's lookup table.
 

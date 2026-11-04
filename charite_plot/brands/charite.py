@@ -1,7 +1,7 @@
 """Charité – Universitätsmedizin Berlin brand: colors, palettes, fonts and roles.
 
 This is the single source of truth for every Charité-specific value.
-:mod:`charite_plot.colors` and :mod:`charite_plot.palettes` re-export from here.
+`charite_plot.colors` and [`charite_plot.palettes`][charite_plot.palettes] re-export from here.
 """
 
 from ..brand import Brand, Roles
@@ -40,7 +40,7 @@ ROT          = "#e31f2c"
 MANGO        = "#fab600"
 RAPSGELB     = "#ffdf43"
 
-# Special
+# Employer branding (not used in any palette)
 EMPLOYER_BRANDING_GREEN = "#ccefcb"
 
 # Lookup dict (lowercase keys)

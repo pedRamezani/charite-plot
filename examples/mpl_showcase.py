@@ -33,8 +33,10 @@ enable(palette="primary")
 COLORS = PALETTES["primary"]
 
 # ── figure layout ──────────────────────────────────────────────────────────
+# fmt: off
 HEIGHT_SMALL = 2.2
-STANDARD = 2.8
+STANDARD     = 2.8
+# fmt: on
 
 fig = plt.figure(figsize=(13, 11), constrained_layout=True)
 fig.suptitle(
@@ -85,11 +87,13 @@ ax3.legend(frameon=False, fontsize=8)
 
 # ── 4. Point (continuous color = rating delta) ────────────────────────────
 ax4 = fig.add_subplot(sub[1, 0])
-n_pts = 200
+# fmt: off
+n_pts      = 200
 release_yr = rng.integers(1960, 2020, n_pts)
-rating = rng.uniform(1, 10, n_pts)
-delta = rating - rating.mean()
-vmax = np.abs(delta).max()
+rating     = rng.uniform(1, 10, n_pts)
+delta      = rating - rating.mean()
+vmax       = np.abs(delta).max()
+# fmt: on
 sc = ax4.scatter(
     release_yr,
     delta,
@@ -110,10 +114,12 @@ ax4.set_ylabel("Rating Delta")
 
 # ── 5. Stacked horizontal bar (like barley/variety/site) ──────────────────
 ax5 = fig.add_subplot(sub[1, 1])
+# fmt: off
 varieties = ["Manchuria", "Glabron", "Svansota", "Velvet", "Trebi"]
-sites = ["Waseca", "Crookston", "Duluth"]
+sites     = ["Waseca", "Crookston", "Duluth"]
 site_data = rng.integers(20, 80, size=(len(varieties), len(sites))).astype(float)
-left = np.zeros(len(varieties))
+left      = np.zeros(len(varieties))
+# fmt: on
 for j, (site, col) in enumerate(zip(sites, COLORS, strict=False)):
     ax5.barh(varieties, site_data[:, j], left=left, label=site, color=col, height=0.65)
     left += site_data[:, j]

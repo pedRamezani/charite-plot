@@ -21,22 +21,23 @@ enable(palette="primary")
 #   enable(font="Arial", font_size=13)
 
 # ── datasets ───────────────────────────────────────────────────────────────
-us_10m = data.us_10m.url
+# fmt: off
+us_10m       = data.us_10m.url
 unemployment = data.unemployment.url
-movies = data.movies.url
-barley = data.barley.url
-iowa_elec = data.iowa_electricity.url
+movies       = data.movies.url
+barley       = data.barley.url
+iowa_elec    = data.iowa_electricity.url
 
 common_data = alt.InlineData([
-    {"Index": 1, "Value": 28, "Position": 1, "Category": "A"},
-    {"Index": 2, "Value": 55, "Position": 2, "Category": "A"},
-    {"Index": 3, "Value": 43, "Position": 3, "Category": "A"},
-    {"Index": 4, "Value": 91, "Position": 4, "Category": "A"},
-    {"Index": 5, "Value": 81, "Position": 5, "Category": "A"},
-    {"Index": 6, "Value": 53, "Position": 6, "Category": "A"},
-    {"Index": 7, "Value": 19, "Position": 1, "Category": "B"},
-    {"Index": 8, "Value": 87, "Position": 2, "Category": "B"},
-    {"Index": 9, "Value": 52, "Position": 3, "Category": "B"},
+    {"Index": 1,  "Value": 28, "Position": 1, "Category": "A"},
+    {"Index": 2,  "Value": 55, "Position": 2, "Category": "A"},
+    {"Index": 3,  "Value": 43, "Position": 3, "Category": "A"},
+    {"Index": 4,  "Value": 91, "Position": 4, "Category": "A"},
+    {"Index": 5,  "Value": 81, "Position": 5, "Category": "A"},
+    {"Index": 6,  "Value": 53, "Position": 6, "Category": "A"},
+    {"Index": 7,  "Value": 19, "Position": 1, "Category": "B"},
+    {"Index": 8,  "Value": 87, "Position": 2, "Category": "B"},
+    {"Index": 9,  "Value": 52, "Position": 3, "Category": "B"},
     {"Index": 10, "Value": 48, "Position": 4, "Category": "B"},
     {"Index": 11, "Value": 24, "Position": 5, "Category": "B"},
     {"Index": 12, "Value": 49, "Position": 6, "Category": "B"},
@@ -47,10 +48,13 @@ common_data = alt.InlineData([
     {"Index": 17, "Value": 68, "Position": 5, "Category": "C"},
     {"Index": 18, "Value": 16, "Position": 6, "Category": "C"},
 ])
+# fmt: on
 
+# fmt: off
 HEIGHT_SMALL = 140
-STANDARD = 180
-WIDTH_GEO = int(STANDARD * 1.667)
+STANDARD     = 180
+WIDTH_GEO    = int(STANDARD * 1.667)
+# fmt: on
 
 # ── individual charts ──────────────────────────────────────────────────────
 bar = (

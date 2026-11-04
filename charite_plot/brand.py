@@ -1,8 +1,8 @@
 """Brand definition — everything organisation-specific that a theme needs.
 
-A :class:`Brand` bundles the colors, palettes, font stack and color *roles*
-of one corporate identity. The theme builders in :mod:`charite_plot.mpl_themes`
-and :mod:`charite_plot.altair_themes` are brand-agnostic and only read from a
+A [`Brand`][charite_plot.brand.Brand] bundles the colors, palettes, font stack and color *roles*
+of one corporate identity. The theme builders in [`charite_plot.mpl_themes`][charite_plot.mpl_themes]
+and [`charite_plot.altair_themes`][charite_plot.altair_themes] are brand-agnostic and only read from a
 ``Brand``, so adding a new organisation means defining a new ``Brand`` (see
 ``charite_plot/brands/charite.py``) — no theme code has to change.
 """
@@ -30,12 +30,14 @@ def tint(color: str, percent: int) -> str:
 class Roles:
     """Which brand color is used for which part of a chart."""
 
-    primary: str  # titles, facet header titles
-    text: str  # axis/legend labels, tick labels, body text
-    axis: str  # spines/domain lines and tick marks
-    grid: str  # grid lines
-    diverging: tuple[str, str, str]  # low → mid → high for diverging scales
-    sequential: tuple[str, str]  # low → high for heatmaps / ramps
+    # fmt: off
+    primary: str                      # titles, facet header titles
+    text: str                         # axis/legend labels, tick labels, body text
+    axis: str                         # spines/domain lines and tick marks
+    grid: str                         # grid lines
+    diverging: tuple[str, str, str]   # low → mid → high for diverging scales
+    sequential: tuple[str, str]       # low → high for heatmaps / ramps
+    # fmt: on
 
 
 @dataclass(frozen=True)

@@ -57,7 +57,7 @@ def theme(
         ``.interactive()``).
     brand:
         Registered brand name (default ``"charite"``) or a
-        :class:`~charite_plot.brand.Brand` instance. Keyword-only.
+        [`Brand`][charite_plot.brand.Brand] instance. Keyword-only.
     """
     brand = get_brand(brand)
     roles = brand.roles
@@ -73,7 +73,13 @@ def theme(
         wspace=0.1 if tiny_margins else 0.2,
         hspace=0.125 if tiny_margins else 0.25,
     )
-    THICKNESS = Thickness(axes=thickness, grid=thickness * 0.6, ticks=thickness, lines=1.5, patches=0)
+    THICKNESS = Thickness(
+        axes=thickness,
+        grid=thickness * 0.6,
+        ticks=thickness,
+        lines=1.5,
+        patches=0,
+    )
 
     # rcParams can only refer to a colormap by name, so register it (again only if its colors changed).
     import matplotlib as mpl
@@ -173,7 +179,10 @@ def theme(
 
 
 theme_charite = partial(theme, brand="charite")
+"""Matplotlib rcParams for Charité: [`theme`][charite_plot.mpl_themes.theme] with ``brand="charite"`` (same parameters, positional order kept)."""
+
 theme_bih = partial(theme, brand="bih")
+"""Matplotlib rcParams for the BIH: [`theme`][charite_plot.mpl_themes.theme] with ``brand="bih"`` (same parameters)."""
 
 
 def enable(**kwargs) -> None:
@@ -182,7 +191,7 @@ def enable(**kwargs) -> None:
     Parameters
     ----------
     **kwargs:
-        Any parameter accepted by :func:`theme` (``brand``, ``font``,
+        Any parameter accepted by [`theme`][charite_plot.mpl_themes.theme] (``brand``, ``font``,
         ``font_size``, ``thickness``, ``grid``, ``palette``, ``background``,
         ``tiny_margins``, ``interactive``).
 
@@ -205,7 +214,7 @@ def using(**kwargs):
     Parameters
     ----------
     **kwargs:
-        Any parameter accepted by :func:`theme`.
+        Any parameter accepted by [`theme`][charite_plot.mpl_themes.theme].
 
     Examples
     --------

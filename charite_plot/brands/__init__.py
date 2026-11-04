@@ -1,8 +1,8 @@
 """Brand registry.
 
 Themes look brands up by name (``enable(brand="charite")``) or accept a
-:class:`~charite_plot.brand.Brand` instance directly. Custom brands can be
-added at runtime with :func:`register_brand`.
+[`Brand`][charite_plot.brand.Brand] instance directly. Custom brands can be
+added at runtime with [`register_brand`][charite_plot.brands.register_brand].
 """
 
 from __future__ import annotations
@@ -14,8 +14,10 @@ from .charite import CHARITE
 __all__ = ["BRANDS", "DEFAULT_BRAND", "register_brand", "get_brand", "CHARITE", "BIH"]
 
 BRANDS: dict[str, Brand] = {CHARITE.name: CHARITE, BIH.name: BIH}
+"""Registered brands by name. Built in: ``"charite"`` and ``"bih"``; add more with [`register_brand`][charite_plot.brands.register_brand]."""
 
 DEFAULT_BRAND = CHARITE.name
+"""Brand used when no ``brand`` is given: ``"charite"``."""
 
 
 def register_brand(brand: Brand) -> Brand:

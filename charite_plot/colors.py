@@ -1,6 +1,6 @@
 """Charité color constants.
 
-The values are defined in :mod:`charite_plot.brands.charite`; this module
+The values are defined in `charite_plot.brands.charite`; this module
 re-exports them so ``from charite_plot.colors import PRIME_BLUE`` keeps working.
 """
 
