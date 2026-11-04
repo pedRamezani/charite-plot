@@ -28,7 +28,7 @@ from .colors import *  # noqa: F403  (all color constants + CHARITE_COLORS)
 from .colors import __all__ as _COLOR_ALL
 from .palettes import PALETTES, make_cmap, make_palette, make_ramp
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 __author__ = "Pedram Ramezani"
 
 __all__ = [

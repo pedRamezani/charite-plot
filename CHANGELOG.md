@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-04
+
 ### Added
 
 - **Brands.** All organisation-specific values (colors, palettes, font stack, color roles) now live in a `Brand` object; the theme builders are brand-agnostic. Charité is the built-in default brand (`charite_plot.brands.charite.CHARITE`).
@@ -15,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `mpl_themes.theme()` and `altair_themes.theme()` as brand-neutral theme builders; `brand` is keyword-only. `theme_charite` is now `functools.partial(theme, brand="charite")` and keeps its positional signature.
 - **BIH brand** (`brand="bih"`, `charite_plot.BIH`, `theme_bih` in `mpl_themes` and `altair_themes`): Berlin Institute of Health at Charité colors, one palette per use case — `accents` (categories, default, ordered for color-vision deficiencies), `versus` (two groups), `primary` (ordered levels: Blau and its tints), `mono` (greyscale), `light` (Mineral vs light grey) — built from the five diagram colors and their 10 % tints; sequential white → Blau and a lightness-balanced diverging Lavendel → white → Gold scale; Trebuchet MS. Deliberate deviation from the BIH handbook: text and axes are black (titles stay BIH-Blau), as expected by scientific journals.
 - Docs: the Palettes and Colors pages have a color-vision deficiency preview (protanopia, deuteranopia, tritanopia, greyscale) that recolors the swatches with an SVG filter (Machado et al. 2009) and animates the switch unless reduced motion is preferred.
+- Docs: the API reference covers the BIH brand (`theme_bih`, BIH colors and palettes), `tint`, `BRANDS` and `DEFAULT_BRAND`; cross-references in docstrings are links.
 - Docs: dark mode, with a header toggle that cycles system preference → light → dark. Links and accents use a lighter tint of Charité light blue in dark mode to keep WCAG AA contrast.
 - `tint(color, percent)` to build print-style tint scales (color mixed with white).
 - **Continuous colormaps** (port of the R package's `discrete = FALSE` scales): `make_cmap()` returns a matplotlib colormap through a palette, or from white to a single brand color (like `"Blues"`); `"sequential"` and `"diverging"` give the brand's continuous scales; `make_ramp()` returns the color stops for Altair (`alt.Scale(range=make_ramp(...), interpolate="rgb")`). `examples/palette_preview.py` also renders `cmap_preview*.png`, and `examples/cmap_showcase.py` renders sequential/diverging heatmaps (`cmap_example*.png`) for the README.
@@ -46,7 +49,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Charité diverging scale (Altair `diverging` range, `make_cmap("diverging")`) is now SECOND_LBLUE → white → ROT instead of SECOND_DBLUE → white → KORALL: both ends have the same lightness (L* 50 / 49 instead of 15 / 57), so both halves look equally strong. The palettes themselves are unchanged.
 - **Unified API across backends.** The matplotlib activate function was renamed `apply_theme(params)` → `enable(**kwargs)`, and `using()` now takes theme keyword arguments instead of a pre-built dict — matching the Altair backend. Migrate `apply_theme(theme_charite(palette="x"))` to `enable(palette="x")` and `using(theme_charite(palette="x"))` to `using(palette="x")`. `theme_charite()` still returns a plain dict if you prefer to apply it manually via `mpl.rcParams.update()`.
 
 ### Removed
@@ -62,7 +64,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Charité diverging scale (Altair `diverging` range, `make_cmap("diverging")`) is now SECOND_LBLUE → white → ROT instead of SECOND_DBLUE → white → KORALL: both ends have the same lightness (L* 50 / 49 instead of 15 / 57), so both halves look equally strong. The palettes themselves are unchanged.
 - Font-size ramp is now shared between both backends: labels scale at 1× and legend text at 0.8× the base size. Altair legend labels are slightly smaller and axis labels slightly larger as a result.
 
 ## [0.1.1] - 2026-06-13

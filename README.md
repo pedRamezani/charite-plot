@@ -171,7 +171,7 @@ If you use charite-plot in your work, please cite it as:
   author    = {Ramezani, Pedram},
   title     = {charite-plot: Matplotlib and Altair Themes for Charité – Universitätsmedizin Berlin},
   year      = {2026},
-  version   = {0.3.0},
+  version   = {0.4.0},
   url       = {https://github.com/pedramezani/charite-plot},
   license   = {MIT},
 }
