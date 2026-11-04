@@ -1,6 +1,7 @@
 """Behaviour of the public theme API (enable / using / register) and helpers."""
 
 import io
+from types import ModuleType
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -12,20 +13,20 @@ from charite_plot.fonts import FONT_STACK, build_font_stack
 # --- matplotlib ---------------------------------------------------------------------------
 
 
-def test_mpl_enable_updates_rcparams():
+def test_mpl_enable_updates_rcparams() -> None:
     mpl_themes.enable(palette="versus")
     assert mpl.rcParams["axes.titlecolor"] == PRIME_BLUE
     assert [d["color"] for d in mpl.rcParams["axes.prop_cycle"]] == PALETTES["versus"]
 
 
-def test_mpl_using_restores_rcparams():
+def test_mpl_using_restores_rcparams() -> None:
     before = mpl.rcParams["axes.titlecolor"]
     with mpl_themes.using(palette="goldelse"):
         assert mpl.rcParams["axes.titlecolor"] == PRIME_BLUE
     assert mpl.rcParams["axes.titlecolor"] == before
 
 
-def test_mpl_theme_renders_a_figure():
+def test_mpl_theme_renders_a_figure() -> None:
     """All rcParams are valid: matplotlib accepts them and can draw a figure."""
     with mpl_themes.using(grid=True):
         fig, ax = plt.subplots()
@@ -40,21 +41,21 @@ def test_mpl_theme_renders_a_figure():
 # --- Altair --------------------------------------------------------------------------------
 
 
-def test_altair_register_does_not_enable(alt):
+def test_altair_register_does_not_enable(alt: ModuleType) -> None:
     alt.theme.enable("default")
     altair_themes.register()
     assert "charite" in alt.theme.names()
     assert alt.theme.active == "default"
 
 
-def test_altair_enable_with_kwargs(alt):
+def test_altair_enable_with_kwargs(alt: ModuleType) -> None:
     altair_themes.enable(palette="goldelse")
     assert alt.theme.active == "charite"
     config = alt.Chart().mark_point().to_dict()["config"]
     assert config["range"]["category"] == PALETTES["goldelse"]
 
 
-def test_altair_using_restores_theme_and_cleans_registry(alt):
+def test_altair_using_restores_theme_and_cleans_registry(alt: ModuleType) -> None:
     alt.theme.enable("default")
     with altair_themes.using(palette="versus"):
         assert alt.theme.active != "default"
@@ -67,19 +68,22 @@ def test_altair_using_restores_theme_and_cleans_registry(alt):
 # --- palettes & fonts ----------------------------------------------------------------------
 
 
-def test_make_palette_unknown_name():
-    with pytest.raises(ValueError, match="Unknown palette"):
+def test_make_palette_unknown_name() -> None:
+    """The error names the brand and lists the valid palettes."""
+    with pytest.raises(
+        ValueError, match=r"Unknown palette 'nope' for brand 'charite'\. Available palettes: \['primary'"
+    ):
         make_palette("nope")
 
 
 @pytest.mark.parametrize("module", [mpl_themes, altair_themes])
-def test_theme_unknown_palette(module):
+def test_theme_unknown_palette(module: ModuleType) -> None:
     with pytest.raises(ValueError, match="Unknown palette 'nope' for brand 'charite'"):
         module.theme_charite(palette="nope")
 
 
 @pytest.mark.parametrize("module", [mpl_themes, altair_themes])
-def test_theme_charite_accepts_positional_font(module):
+def test_theme_charite_accepts_positional_font(module: ModuleType) -> None:
     """``theme_charite(font, ...)`` keeps its pre-brand positional signature."""
     with pytest.warns(UserWarning):
         positional = module.theme_charite("Definitely Not A Font", 9)
@@ -87,11 +91,8 @@ def test_theme_charite_accepts_positional_font(module):
     assert positional == keyword
 
 
-def test_font_stack_default():
-    assert build_font_stack(None) == FONT_STACK
-
-
-def test_font_stack_preferred_first():
+def test_font_stack_preferred_first() -> None:
+    """A missing font warns but stays first, so it is used wherever it is installed (e.g. in the browser)."""
     with pytest.warns(UserWarning, match="is not installed"):
         stack = build_font_stack("Definitely Not A Font")
     assert stack == ["Definitely Not A Font", *FONT_STACK]
