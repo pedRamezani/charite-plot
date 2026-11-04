@@ -1,18 +1,46 @@
 # charite-plot
 
-A Python package with a Charité-styled Matplotlib theme, [visual identity](https://marke.charite.de/d/Y3FxSwD6Tz3a) colour palettes, and an Altair theme — ported from the [`charite` R package](https://github.com/johannesjuliusm/charite).
+A Python package with Matplotlib and Altair themes and [visual identity](https://marke.charite.de/d/Y3FxSwD6Tz3a) colour palettes for Charité – Universitätsmedizin Berlin and the Berlin Institute of Health at Charité (BIH) — ported from the [`charite` R package](https://github.com/johannesjuliusm/charite).
 
-Visualize your data with `theme_charite()` to match the Charité corporate style.
+Visualize your data with `theme_charite()` or `theme_bih()` to match the Charité or BIH corporate style.
 
-<p align="center">
-<img src="assets/theme_example.png" width="90%"/>
-</p>
+<table>
+<tr><th>Charité</th><th>BIH</th></tr>
+<tr>
+<td><img src="assets/theme_example.png" width="100%"/></td>
+<td><img src="assets/theme_example_bih.png" width="100%"/></td>
+</tr>
+</table>
 
-Preview the available colour palettes.
+Heatmaps use the brand's sequential colormap by default; `make_cmap("diverging")` gives the diverging one.
 
-<p align="center">
-<img src="assets/palette_preview.png" width="90%"/>
-</p>
+<table>
+<tr><th>Charité</th><th>BIH</th></tr>
+<tr>
+<td><img src="assets/cmap_example.png" width="100%"/></td>
+<td><img src="assets/cmap_example_bih.png" width="100%"/></td>
+</tr>
+</table>
+
+Preview the available colour palettes of each brand.
+
+<table>
+<tr><th>Charité</th><th>BIH</th></tr>
+<tr>
+<td><img src="assets/palette_preview.png" width="100%"/></td>
+<td><img src="assets/palette_preview_bih.png" width="100%"/></td>
+</tr>
+</table>
+
+Continuous colormaps (`make_cmap`): each brand's sequential and diverging scale, every palette, and white → colour.
+
+<table>
+<tr><th>Charité</th><th>BIH</th></tr>
+<tr>
+<td><img src="assets/cmap_preview.png" width="100%"/></td>
+<td><img src="assets/cmap_preview_bih.png" width="100%"/></td>
+</tr>
+</table>
 
 ---
 
@@ -57,6 +85,6 @@ chart = alt.Chart(df).mark_bar().encode(...)
 
 ## Design principles
 
-- **Single source of truth** — colors are defined once in `colors.py` and imported by every other module.
+- **Single source of truth** — every brand-specific value (colors, palettes, fonts, color roles) is defined once in `charite_plot/brands/` (`charite.py`, `bih.py`); the theme code is brand-agnostic.
 - **No side effects on import** — theme functions return plain dicts; you opt in with `enable()` or `using()`.
-- **Font fallback** — if Charité Text Office is not installed, the theme cascades to Charit? Text Office, then Calibri, DejaVu Sans, and finally sans-serif automatically, following the official brand guidelines.
+- **Font fallback** — if Charité Text Office is not installed, the theme cascades to Charit? Text Office, then Calibri, DejaVu Sans, and finally sans-serif automatically, following the official brand guidelines. The BIH theme uses Trebuchet MS → DejaVu Sans → sans-serif.

@@ -4,11 +4,20 @@ All colors are importable as module-level constants and collected in the `CHARIT
 
 ```python
 from charite_plot.colors import PRIME_BLUE, TEXT_GREY
-from charite_plot import CHARITE_COLORS   # full dict
+from charite_plot import CHARITE_COLORS  # full dict
 
-print(PRIME_BLUE)         # "#004d9b"
+print(PRIME_BLUE)  # "#004d9b"
 print(CHARITE_COLORS["korall"])  # "#ea5451"
 ```
+
+## How the colors look with color-vision deficiencies
+
+Switch the simulation to see every swatch on this page as people with a color-vision deficiency see it
+(Machado et al. 2009, full severity). About 8 % of men and 0.5 % of women have a red–green deficiency;
+greyscale shows how a palette survives black-and-white printing. Simulations are approximations, least
+accurate for the rare tritanopia.
+
+<div class="cvd-toggle"></div>
 
 ---
 
@@ -157,12 +166,94 @@ print(CHARITE_COLORS["korall"])  # "#ea5451"
   </div>
 </div>
 
-## Special
+## Employer branding
+
+Employer-Branding-Grün is a special color that only the Stabsstelle Personalmarketing und Digitalisierung
+may use, for employer-branding topics and campaigns ([Charité Markenportal](https://marke.charite.de)).
+It is available as `EMPLOYER_BRANDING_GREEN` for completeness, but it is not used in any palette.
 
 <div class="color-grid">
   <div class="color-swatch">
     <div class="chip" style="background:#ccefcb"></div>
     <span class="name">EMPLOYER_BRANDING_GREEN</span>
     <code class="hex">#ccefcb</code>
+  </div>
+</div>
+
+---
+
+# BIH colors
+
+The Berlin Institute of Health at Charité colors live in `charite_plot.brands.bih` and are collected in the `BIH_COLORS` dict
+(they are not re-exported at the top level, because `KORALL`, `MINERAL` and `LAVENDEL` share names with Charité colors).
+
+```python
+from charite_plot.brands.bih import BLAU, BIH_COLORS
+from charite_plot import tint
+
+tint(BLAU, 20)  # "#ccd7dd" — BIH allows tints of the diagram colors in 10 % steps
+```
+
+## Diagram colors
+
+<div class="color-grid">
+  <div class="color-swatch">
+    <div class="chip" style="background:#003754"></div>
+    <span class="name">BLAU</span>
+    <code class="hex">#003754</code>
+  </div>
+  <div class="color-swatch">
+    <div class="chip" style="background:#ea5451"></div>
+    <span class="name">KORALL</span>
+    <code class="hex">#ea5451</code>
+  </div>
+  <div class="color-swatch">
+    <div class="chip" style="background:#9d7220"></div>
+    <span class="name">GOLD</span>
+    <code class="hex">#9d7220</code>
+  </div>
+  <div class="color-swatch">
+    <div class="chip" style="background:#009aa9"></div>
+    <span class="name">MINERAL</span>
+    <code class="hex">#009aa9</code>
+  </div>
+  <div class="color-swatch">
+    <div class="chip" style="background:#7876b6"></div>
+    <span class="name">LAVENDEL</span>
+    <code class="hex">#7876b6</code>
+  </div>
+</div>
+
+## Text-only colors
+
+The BIH handbook reserves these for text and highlights; they are not used in any palette.
+
+<div class="color-grid">
+  <div class="color-swatch">
+    <div class="chip" style="background:#af1821"></div>
+    <span class="name">DUNKELROT</span>
+    <code class="hex">#af1821</code>
+  </div>
+  <div class="color-swatch">
+    <div class="chip" style="background:#ffb0ac"></div>
+    <span class="name">HELLROSA</span>
+    <code class="hex">#ffb0ac</code>
+  </div>
+</div>
+
+## Text and axes
+
+The handbook forbids black, but the BIH theme deliberately uses black text and axes because scientific journals expect it.
+
+<div class="color-grid">
+  <div class="color-swatch">
+    <div class="chip" style="background:#000000"></div>
+    <span class="name">BLACK</span>
+    <code class="hex">#000000</code>
+  </div>
+  <div class="color-swatch">
+    <div class="chip" style="background:#ffffff"></div>
+    <span class="name">WHITE</span>
+    <code class="hex">#ffffff</code>
   </div>
 </div>

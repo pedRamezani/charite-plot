@@ -10,11 +10,7 @@ import altair as alt
 
 enable()
 
-chart = (
-    alt.Chart(data)
-    .mark_bar()
-    .encode(x="category:N", y="value:Q")
-)
+chart = alt.Chart(data).mark_bar().encode(x="category:N", y="value:Q")
 chart
 ```
 
@@ -33,7 +29,7 @@ from charite_plot.altair_themes import register
 import altair as alt
 
 register()
-alt.theme.enable("charite")   # enable later
+alt.theme.enable("charite")  # enable later
 ```
 
 ---
@@ -60,7 +56,7 @@ The theme sets all Vega-Lite color ranges from the selected palette:
 |-------|-------|--------|
 | `category` | Categorical encodings | palette colors |
 | `ordinal` | Ordinal encodings | palette colors |
-| `diverging` | Diverging scales (e.g. `domainMid=0`) | `SECOND_DBLUE → white → KORALL` |
+| `diverging` | Diverging scales (e.g. `domainMid=0`) | `SECOND_LBLUE → white → ROT` |
 | `heatmap` | Sequential heatmaps | `white → PRIME_BLUE` |
 | `ramp` | Sequential ramp | `white → PRIME_BLUE` |
 
@@ -82,7 +78,7 @@ alt.Chart(df).mark_line().encode(
 
 ### Diverging color scale
 
-The `diverging` range (`SECOND_DBLUE → white → KORALL`) is used automatically when `domainMid` is set:
+The `diverging` range (`SECOND_LBLUE → white → ROT`) is used automatically when `domainMid` is set:
 
 ```python
 alt.Chart(df).mark_point().encode(

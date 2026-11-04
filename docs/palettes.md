@@ -5,11 +5,20 @@ Ten named palettes are available in `PALETTES`. Each can be used directly or pas
 ```python
 from charite_plot.palettes import PALETTES, make_palette
 
-colors = PALETTES["goldelse"]         # list of hex strings
-three  = make_palette("goldelse", n=3)        # subsample to 3
-six    = make_palette("goldelse", n=12)       # interpolate to 12
-rev    = make_palette("primary", reverse=True)
+colors = PALETTES["goldelse"]  # list of hex strings
+three = make_palette("goldelse", n=3)  # subsample to 3
+six = make_palette("goldelse", n=12)  # interpolate to 12
+rev = make_palette("primary", reverse=True)
 ```
+
+## How the colors look with color-vision deficiencies
+
+Switch the simulation to see every swatch on this page as people with a color-vision deficiency see it
+(Machado et al. 2009, full severity). About 8 % of men and 0.5 % of women have a red–green deficiency;
+greyscale shows how a palette survives black-and-white printing. Simulations are approximations, least
+accurate for the rare tritanopia.
+
+<div class="cvd-toggle"></div>
 
 ---
 
@@ -93,6 +102,67 @@ rev    = make_palette("primary", reverse=True)
 
 ---
 
+# BIH palettes
+
+Pass `brand="bih"` to use these with any theme function, `make_palette`, `make_cmap` or `make_ramp`.
+There is one palette per use case:
+
+| Use case | Name | Notes |
+|----------|------|-------|
+| Ordered levels | `primary` | Blau at 100 / 60 / 30 % (BIH-Blau and Weiß are the primary brand colors). |
+| Categories (default) | `accents` | Blau and the four accent colors, ordered for color-vision deficiencies: the first three stay distinct for all types. Mineral and Lavendel are hard to tell apart for deuteranopes, so with five categories add markers or direct labels. |
+| Greyscale | `mono` | Black tints, following the theme's black text and axes. |
+| Highlight vs context | `light` | Mineral vs light grey (20 % black), like Charité's `light`. |
+| Two groups | `versus` | Blau vs Korall: distinct in lightness and hue, also in greyscale. |
+| Continuous, sequential | `make_cmap("sequential", brand="bih")` | White → Blau. The theme's default colormap. |
+| Continuous, diverging | `make_cmap("diverging", brand="bih")` | Lavendel → white → Gold. Both ends have the same lightness, so both halves look equally strong. |
+
+The discrete palettes only use the five BIH diagram colors and their tints in 10 % steps, as the BIH handbook requires, plus black tints for greys. They are listed in the same order as the matching Charité palettes.
+
+```python
+from charite_plot import BIH, make_palette
+
+BIH.palettes["accents"]  # list of hex strings
+make_palette("primary", n=5, brand="bih")
+```
+
+## primary
+<div class="palette-strip">
+  <div style="background:#003754"></div>
+  <div style="background:#668798"></div>
+  <div style="background:#b2c3cc"></div>
+</div>
+
+## accents
+<div class="palette-strip">
+  <div style="background:#003754"></div>
+  <div style="background:#009aa9"></div>
+  <div style="background:#9d7220"></div>
+  <div style="background:#ea5451"></div>
+  <div style="background:#7876b6"></div>
+</div>
+
+## mono
+<div class="palette-strip">
+  <div style="background:#000000"></div>
+  <div style="background:#666666"></div>
+  <div style="background:#b2b2b2"></div>
+</div>
+
+## light
+<div class="palette-strip">
+  <div style="background:#009aa9"></div>
+  <div style="background:#cccccc"></div>
+</div>
+
+## versus
+<div class="palette-strip">
+  <div style="background:#003754"></div>
+  <div style="background:#ea5451"></div>
+</div>
+
+---
+
 ## `make_palette`
 
 `make_palette` handles subsampling and interpolation so you can request any number of colors from any palette:
@@ -101,14 +171,58 @@ rev    = make_palette("primary", reverse=True)
 from charite_plot.palettes import make_palette
 
 # Exact palette colors
-make_palette("berryseason")           # all 6 colors
+make_palette("berryseason")  # all 6 colors
 
 # Subsample (picks evenly spaced colors)
 make_palette("goldelse", n=4)
 
 # Interpolate beyond palette length
-make_palette("versus", n=20)          # smooth gradient between blue and red
+make_palette("versus", n=20)  # smooth gradient between blue and red
 
 # Reverse
 make_palette("sunrise", reverse=True)
+```
+
+---
+
+## Continuous colormaps
+
+`make_ramp` returns the color stops of a continuous scale, and `make_cmap` turns them into a matplotlib colormap
+(a port of `scale_color_charite(palette, discrete = FALSE)` from the R package):
+
+- `"sequential"` and `"diverging"` give the brand's continuous scales (also used by the themes:
+  `"sequential"` is the default matplotlib colormap and the Altair `heatmap`/`ramp` range, `"diverging"` the Altair `diverging` range);
+- a **palette name** gives a gradient through all its colors;
+- a **color name** of the brand (or a hex color) gives a gradient from white to that color, like matplotlib's `"Blues"`;
+- a **list of colors** gives a gradient through them.
+
+The gradients are smooth: they are not restricted to the 10 % (BIH) or 20 % (Charité) tint steps of the brand guides,
+which apply to discrete colors.
+
+<table>
+<tr><th>Charité</th><th>BIH</th></tr>
+<tr>
+<td><img src="../assets/cmap_preview.png" width="100%"/></td>
+<td><img src="../assets/cmap_preview_bih.png" width="100%"/></td>
+</tr>
+</table>
+
+```python
+from charite_plot import make_cmap
+
+ax.imshow(data, cmap=make_cmap("prime_blue"))  # white → Charité blue
+ax.scatter(x, y, c=z, cmap=make_cmap("berryseason"))  # through the whole palette
+ax.imshow(data, cmap=make_cmap("blau", brand="bih", reverse=True))
+```
+
+Vega-Lite interpolates between any color stops itself, so Altair only needs the stops from `make_ramp`.
+Pass `interpolate="rgb"` to get exactly the matplotlib gradient (Vega-Lite blends in HCL by default):
+
+```python
+import altair as alt
+from charite_plot import make_ramp
+
+alt.Chart(df).mark_rect().encode(
+    color=alt.Color("value:Q", scale=alt.Scale(range=make_ramp("blau", brand="bih"), interpolate="rgb")),
+)
 ```

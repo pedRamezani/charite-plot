@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [0.4.0] - 2026-11-04
+
+### Added
+
+- **Brands.** All organisation-specific values (colors, palettes, font stack, color roles) now live in a `Brand` object; the theme builders are brand-agnostic. Charité is the built-in default brand (`charite_plot.brands.charite.CHARITE`).
+- `Brand`, `Roles`, `BRANDS`, `get_brand()` and `register_brand()` for defining and registering further brands.
+- `brand=` parameter on `mpl_themes.theme/enable/using`, `altair_themes.theme/enable/using/register` and `make_palette` (name or `Brand` instance; defaults to `"charite"`).
+- `mpl_themes.theme()` and `altair_themes.theme()` as brand-neutral theme builders; `brand` is keyword-only. `theme_charite` is now `functools.partial(theme, brand="charite")` and keeps its positional signature.
+- **BIH brand** (`brand="bih"`, `charite_plot.BIH`, `theme_bih` in `mpl_themes` and `altair_themes`): Berlin Institute of Health at Charité colors, one palette per use case — `accents` (categories, default, ordered for color-vision deficiencies), `versus` (two groups), `primary` (ordered levels: Blau and its tints), `mono` (greyscale), `light` (Mineral vs light grey) — built from the five diagram colors and their 10 % tints; sequential white → Blau and a lightness-balanced diverging Lavendel → white → Gold scale; Trebuchet MS. Deliberate deviation from the BIH handbook: text and axes are black (titles stay BIH-Blau), as expected by scientific journals.
+- Docs: the Palettes and Colors pages have a color-vision deficiency preview (protanopia, deuteranopia, tritanopia, greyscale) that recolors the swatches with an SVG filter (Machado et al. 2009) and animates the switch unless reduced motion is preferred.
+- Docs: the API reference covers the BIH brand (`theme_bih`, BIH colors and palettes), `tint`, `BRANDS` and `DEFAULT_BRAND`; cross-references in docstrings are links.
+- Docs: dark mode, with a header toggle that cycles system preference → light → dark. Links and accents use a lighter tint of Charité light blue in dark mode to keep WCAG AA contrast.
+- `tint(color, percent)` to build print-style tint scales (color mixed with white).
+- **Continuous colormaps** (port of the R package's `discrete = FALSE` scales): `make_cmap()` returns a matplotlib colormap through a palette, or from white to a single brand color (like `"Blues"`); `"sequential"` and `"diverging"` give the brand's continuous scales; `make_ramp()` returns the color stops for Altair (`alt.Scale(range=make_ramp(...), interpolate="rgb")`). `examples/palette_preview.py` also renders `cmap_preview*.png`, and `examples/cmap_showcase.py` renders sequential/diverging heatmaps (`cmap_example*.png`) for the README.
+- README and docs show the example plot and palette preview for Charité and BIH side by side; `examples/poly_showcase.py` and `examples/palette_preview.py` generate the images for every brand.
+- Test suite (pytest, snapshot tests for the generated theme configs) and CI running it on Python 3.11–3.14.
+
+### Changed
+
+- Charité diverging scale (Altair `diverging` range, `make_cmap("diverging")`) is now SECOND_LBLUE → white → ROT instead of SECOND_DBLUE → white → KORALL: both ends have the same lightness (L* 50 / 49 instead of 15 / 57), so both halves look equally strong. The palettes themselves are unchanged.
+- The matplotlib theme sets the default colormap (`image.cmap`) to the brand's sequential scale (Charité: white → PRIME_BLUE), matching the Altair theme's heatmap range. `theme()` registers it with matplotlib as `"<brand>_sequential"`.
+- **Requires Python ≥ 3.11** (3.9 and 3.10 are end-of-life).
+- Development tooling based on cookiecutter-uv: uv, ruff, ty, deptry, pre-commit, tox-uv. Documentation is built with Zensical instead of MkDocs and deployed on release; packages are published to PyPI via trusted publishing.
+- An unknown palette name passed to `theme_charite()` now raises `ValueError` listing the brand's palettes (previously `KeyError`).
+- `fonts.build_font_stack()` and `fonts.check_font()` take the stack to use (default: Charité); the "font not installed" warning prints that stack.
+- `fonts.build_font_stack(None)` returns a copy of the stack instead of the shared module-level list.
+- Nothing was removed: `theme_charite`, `PALETTES`, `FONT_STACK`, `CHARITE_COLORS` and the color constants keep working and refer to the Charité brand. Theme output for Charité is unchanged.
+
+### Fixed
+
+- Altair: facet header labels were invisible (white text on the white chart background). The theme set `header.labelBackground`, which does not exist in Vega-Lite and was silently ignored. Header labels now use the text color.
+
 ## [0.3.0] - 2026-07-18
 
 ### Added

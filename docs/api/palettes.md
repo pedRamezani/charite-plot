@@ -1,7 +1,7 @@
 # palettes
 
 ```python
-from charite_plot.palettes import PALETTES, make_palette
+from charite_plot.palettes import PALETTES, make_cmap, make_palette, make_ramp
 ```
 
 See the [Palettes guide](../palettes.md) for visual palette strips and usage examples.
@@ -12,7 +12,7 @@ See the [Palettes guide](../palettes.md) for visual palette strips and usage exa
 
 **Type:** `dict[str, list[str]]`
 
-Named palettes and their constituent hex colors:
+The Charité palettes and their hex colors:
 
 | Name | Colors |
 |------|--------|
@@ -29,6 +29,35 @@ Named palettes and their constituent hex colors:
 
 ---
 
+## `BIH_PALETTES`
+
+**Type:** `dict[str, list[str]]`
+
+The BIH palettes, in `charite_plot.brands.bih` (and `BIH.palettes`). Pass `brand="bih"` to use them by name,
+e.g. `make_palette("accents", brand="bih")`.
+
+| Name | Colors |
+|------|--------|
+| `primary` | `#003754` · `#668798` · `#b2c3cc` |
+| `accents` | `#003754` · `#009aa9` · `#9d7220` · `#ea5451` · `#7876b6` |
+| `mono` | `#000000` · `#666666` · `#b2b2b2` |
+| `light` | `#009aa9` · `#cccccc` |
+| `versus` | `#003754` · `#ea5451` |
+
+---
+
 ## `make_palette`
 
 ::: charite_plot.palettes.make_palette
+
+---
+
+## `make_ramp`
+
+::: charite_plot.palettes.make_ramp
+
+---
+
+## `make_cmap`
+
+::: charite_plot.palettes.make_cmap

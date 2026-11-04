@@ -4,31 +4,38 @@ Replicates the curves from ``tools/data/simulate_timeseries_data.R`` in the
 charite R package: three conditions (wiggly normal, cubic polynomial, square
 root) z-scored and plotted with uniform ±SE bands.
 
-Produces one asset in docs/assets/:
-    theme_example.png
+Produces one asset per brand in docs/assets/:
+    theme_example.png       (Charité)
+    theme_example_bih.png   (BIH)
 
 Run with:
     python examples/poly_showcase.py
 """
 
-import sys
 import pathlib
+import sys
+
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
-from charite_plot.mpl_themes import enable
-from charite_plot.colors import PRIME_BLUE, PRIME_DGREY, KORALL, TEXT_GREY
+from charite_plot import get_brand
+from charite_plot.brands import bih, charite
+from charite_plot.mpl_themes import using
 
-COLORS = [KORALL, PRIME_BLUE, PRIME_DGREY]   # C1, C2, C3
+# brand → (figure title, C1/C2/C3 colors, output file name)
+SHOWCASES = {
+    "charite": ("Charité", [charite.KORALL, charite.PRIME_BLUE, charite.PRIME_DGREY], "theme_example.png"),
+    "bih": ("BIH", [bih.KORALL, bih.BLAU, bih.MINERAL], "theme_example_bih.png"),
+}
 ASSETS = pathlib.Path(__file__).parent.parent / "docs" / "assets"
 ASSETS.mkdir(parents=True, exist_ok=True)
-OUT = ASSETS / "theme_example.png"
-SAVE_KW = dict(dpi=300, bbox_inches="tight", facecolor="white")
+SAVE_KW = {"dpi": 300, "bbox_inches": "tight", "facecolor": "white"}
 
 
 # ── data helpers ────────────────────────────────────────────────────────────
+
 
 def _dnorm(x: np.ndarray, mean: float, sd: float) -> np.ndarray:
     return np.exp(-0.5 * ((x - mean) / sd) ** 2) / (sd * np.sqrt(2 * np.pi))
@@ -43,27 +50,25 @@ def _generate_data():
     # but they are visually negligible after z-scoring (sd ≤ 0.01).
     rng = np.random.default_rng(42)
     n = 100
-    time   = np.linspace(0, 1, n)
+    time = np.linspace(0, 1, n)
     t_axis = np.arange(1, n + 1)
 
     c1_core = _dnorm(time, mean=0.5, sd=0.15)
-    c1 = (c1_core
-          + 0.1  * np.sin(25 * time)
-          + 0.05 * np.cos(40 * time)
-          + rng.normal(0, 0.005, n))
+    c1 = c1_core + 0.1 * np.sin(25 * time) + 0.05 * np.cos(40 * time) + rng.normal(0, 0.005, n)
     c2 = 3.9 * time**3 - 6 * time**2 + 3 * time + rng.normal(0, 0.01, n)
     c3 = time**0.5 + rng.normal(0, 0.005, n)
 
     means = {"C1": _scale(c1) + 2.2, "C2": _scale(c2) + 2.8, "C3": _scale(c3) + 2.8}
     se_all = rng.uniform(0.4, 0.6, n * 3)
-    ses = {"C1": se_all[:n], "C2": se_all[n:2*n], "C3": se_all[2*n:]}
+    ses = {"C1": se_all[:n], "C2": se_all[n : 2 * n], "C3": se_all[2 * n :]}
     return t_axis, means, ses
 
 
 # ── plot helpers ────────────────────────────────────────────────────────────
 
-def _plot_curves(ax: plt.Axes, t_axis, means, ses, frameon: bool = False) -> None:
-    for (label, mean), se, color in zip(means.items(), ses.values(), COLORS):
+
+def _plot_curves(ax: plt.Axes, t_axis, means, ses, colors, frameon: bool = False) -> None:
+    for (label, mean), se, color in zip(means.items(), ses.values(), colors, strict=False):
         ax.fill_between(t_axis, mean - se, mean + se, alpha=0.25, color=color, linewidth=0)
         ax.plot(t_axis, mean, lw=2, label=label, color=color)
     ax.set_xlim(left=0)
@@ -93,15 +98,17 @@ def _despine(ax: plt.Axes) -> None:
 t_axis, means, ses = _generate_data()
 
 
-# ── single: Charité theme ───────────────────────────────────────────────────
-enable(font_size=14, thickness=1)
-
-fig, ax = plt.subplots(figsize=(6, 4.5))
-fig.subplots_adjust(top=0.88)
-fig.suptitle("Charité", fontsize=16, y=0.95, color=PRIME_BLUE)
-fig.text(0.5, 0.90, "mpl Theme", ha="center", va="top", fontsize=9.5, color=TEXT_GREY)
-_plot_curves(ax, t_axis, means, ses)
-_despine(ax)
-fig.savefig(OUT, **SAVE_KW)
-print(f"Saved → {OUT}")
+# ── one figure per brand ────────────────────────────────────────────────────
+for brand, (title, colors, filename) in SHOWCASES.items():
+    roles = get_brand(brand).roles
+    with using(brand=brand, font_size=14, thickness=1):
+        fig, ax = plt.subplots(figsize=(6, 4.5))
+        fig.subplots_adjust(top=0.88)
+        fig.suptitle(title, fontsize=16, y=0.95, color=roles.primary)
+        fig.text(0.5, 0.90, "mpl Theme", ha="center", va="top", fontsize=9.5, color=roles.text)
+        _plot_curves(ax, t_axis, means, ses, colors)
+        _despine(ax)
+        out = ASSETS / filename
+        fig.savefig(out, **SAVE_KW)
+        print(f"Saved → {out}")
 plt.show()

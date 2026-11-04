@@ -8,6 +8,20 @@
   --md-accent-fg-color--transparent:   rgba(0, 123, 195, 0.1);
 }
 
+/* Dark mode: the header keeps Prime Blue; links and accents use a 70 % tint of
+   Secondary Light Blue, since #007bc3 itself only reaches 4.3:1 on the dark background. */
+[data-md-color-scheme="slate"] {
+  --md-hue: 210;
+  --md-accent-fg-color:                #4ca3d5;
+  --md-accent-fg-color--transparent:   rgba(76, 163, 213, 0.1);
+  --md-typeset-a-color:                #4ca3d5;
+}
+
+/* Figures are rendered on white; round them off so they don't look like holes in dark mode. */
+[data-md-color-scheme="slate"] .md-content img {
+  border-radius: 6px;
+}
+
 /* Color swatch grid */
 .color-grid {
   display: grid;
@@ -47,4 +61,73 @@
 
 .palette-strip div {
   flex: 1;
+}
+
+/* Color-vision deficiency preview (docs/javascripts/cvd.js) */
+.cvd-toggle {
+  position: sticky;
+  top: 2.4rem; /* flush below the fixed header (2.4rem high) */
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.5rem 0;
+  margin: 0.5rem 0 1rem;
+  background: var(--md-default-bg-color);
+}
+
+@media screen and (max-width: 44.984375em) {
+  /* Phones: one scrollable row instead of several wrapped ones. */
+  .cvd-toggle {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .cvd-toggle button {
+    flex: none;
+  }
+}
+
+.cvd-toggle:empty {
+  display: none; /* no JavaScript: no toggle */
+}
+
+.cvd-toggle button {
+  font: inherit;
+  font-size: 0.72rem;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 999px;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  cursor: pointer;
+  transition: background-color 150ms, color 150ms, border-color 150ms;
+}
+
+.cvd-toggle button:hover {
+  border-color: var(--md-primary-fg-color);
+}
+
+.cvd-toggle button[aria-pressed="true"] {
+  background: var(--md-primary-fg-color);
+  border-color: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+}
+
+.cvd-toggle button:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cvd-toggle button {
+    transition: none;
+  }
+}
+
+.cvd-active .palette-strip,
+.cvd-active .color-swatch .chip,
+.cvd-active .md-content img[src*="preview"] {
+  filter: url(#cvd-filter);
 }

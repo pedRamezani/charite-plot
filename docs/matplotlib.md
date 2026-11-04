@@ -41,7 +41,7 @@ from charite_plot.mpl_themes import theme_charite
 import matplotlib as mpl
 
 params = theme_charite(palette="nineties", font_size=8)
-params["lines.linewidth"] = 2.0   # any extra overrides
+params["lines.linewidth"] = 2.0  # any extra overrides
 
 mpl.rcParams.update(params)
 ```
@@ -60,6 +60,16 @@ mpl.rcParams.update(params)
 | `background` | `str` | `"white"` | Figure and axes background color. |
 | `tiny_margins` | `bool` | `False` | Minimise all margins and paddings around the plot panel. Useful for dense layouts. |
 | `interactive` | `bool` | `False` | Enable interactive mode (equivalent to `plt.ion()`). Matplotlib-specific. |
+
+The theme also sets the default colormap (`image.cmap`) to the brand's sequential scale, white → primary color,
+so `imshow`, `pcolormesh` and `scatter(c=...)` match the brand without passing `cmap`. For other scales use
+`make_cmap` (see [Continuous colormaps](palettes.md#continuous-colormaps)):
+
+```python
+from charite_plot import make_cmap
+
+ax.imshow(diff, cmap=make_cmap("diverging"), vmin=-1, vmax=1)
+```
 
 ---
 
@@ -100,5 +110,5 @@ enable(tiny_margins=True)
 ### Interactive mode (notebooks / REPL)
 
 ```python
-enable(interactive=True)   # equivalent to plt.ion()
+enable(interactive=True)  # equivalent to plt.ion()
 ```

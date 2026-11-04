@@ -4,8 +4,9 @@ Run with:
     python examples/altair_showcase.py
 """
 
-import sys
 import pathlib
+import sys
+
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 
 import altair as alt
@@ -20,42 +21,45 @@ enable(palette="primary")
 #   enable(font="Arial", font_size=13)
 
 # ── datasets ───────────────────────────────────────────────────────────────
+# fmt: off
 us_10m       = data.us_10m.url
 unemployment = data.unemployment.url
 movies       = data.movies.url
 barley       = data.barley.url
 iowa_elec    = data.iowa_electricity.url
 
-common_data = alt.InlineData(
-    [
-        {"Index": 1,  "Value": 28, "Position": 1, "Category": "A"},
-        {"Index": 2,  "Value": 55, "Position": 2, "Category": "A"},
-        {"Index": 3,  "Value": 43, "Position": 3, "Category": "A"},
-        {"Index": 4,  "Value": 91, "Position": 4, "Category": "A"},
-        {"Index": 5,  "Value": 81, "Position": 5, "Category": "A"},
-        {"Index": 6,  "Value": 53, "Position": 6, "Category": "A"},
-        {"Index": 7,  "Value": 19, "Position": 1, "Category": "B"},
-        {"Index": 8,  "Value": 87, "Position": 2, "Category": "B"},
-        {"Index": 9,  "Value": 52, "Position": 3, "Category": "B"},
-        {"Index": 10, "Value": 48, "Position": 4, "Category": "B"},
-        {"Index": 11, "Value": 24, "Position": 5, "Category": "B"},
-        {"Index": 12, "Value": 49, "Position": 6, "Category": "B"},
-        {"Index": 13, "Value": 87, "Position": 1, "Category": "C"},
-        {"Index": 14, "Value": 66, "Position": 2, "Category": "C"},
-        {"Index": 15, "Value": 17, "Position": 3, "Category": "C"},
-        {"Index": 16, "Value": 27, "Position": 4, "Category": "C"},
-        {"Index": 17, "Value": 68, "Position": 5, "Category": "C"},
-        {"Index": 18, "Value": 16, "Position": 6, "Category": "C"},
-    ]
-)
+common_data = alt.InlineData([
+    {"Index": 1,  "Value": 28, "Position": 1, "Category": "A"},
+    {"Index": 2,  "Value": 55, "Position": 2, "Category": "A"},
+    {"Index": 3,  "Value": 43, "Position": 3, "Category": "A"},
+    {"Index": 4,  "Value": 91, "Position": 4, "Category": "A"},
+    {"Index": 5,  "Value": 81, "Position": 5, "Category": "A"},
+    {"Index": 6,  "Value": 53, "Position": 6, "Category": "A"},
+    {"Index": 7,  "Value": 19, "Position": 1, "Category": "B"},
+    {"Index": 8,  "Value": 87, "Position": 2, "Category": "B"},
+    {"Index": 9,  "Value": 52, "Position": 3, "Category": "B"},
+    {"Index": 10, "Value": 48, "Position": 4, "Category": "B"},
+    {"Index": 11, "Value": 24, "Position": 5, "Category": "B"},
+    {"Index": 12, "Value": 49, "Position": 6, "Category": "B"},
+    {"Index": 13, "Value": 87, "Position": 1, "Category": "C"},
+    {"Index": 14, "Value": 66, "Position": 2, "Category": "C"},
+    {"Index": 15, "Value": 17, "Position": 3, "Category": "C"},
+    {"Index": 16, "Value": 27, "Position": 4, "Category": "C"},
+    {"Index": 17, "Value": 68, "Position": 5, "Category": "C"},
+    {"Index": 18, "Value": 16, "Position": 6, "Category": "C"},
+])
+# fmt: on
 
+# fmt: off
 HEIGHT_SMALL = 140
 STANDARD     = 180
 WIDTH_GEO    = int(STANDARD * 1.667)
+# fmt: on
 
 # ── individual charts ──────────────────────────────────────────────────────
 bar = (
-    alt.Chart(common_data, height=HEIGHT_SMALL, width=STANDARD, title="Bar")
+    alt
+    .Chart(common_data, height=HEIGHT_SMALL, width=STANDARD, title="Bar")
     .mark_bar()
     .encode(
         x=alt.X("Index:O").axis(offset=1),
@@ -66,7 +70,8 @@ bar = (
 )
 
 line = (
-    alt.Chart(common_data, height=HEIGHT_SMALL, width=STANDARD, title="Line")
+    alt
+    .Chart(common_data, height=HEIGHT_SMALL, width=STANDARD, title="Line")
     .mark_line()
     .encode(
         x=alt.X("Position:O").axis(grid=False),
@@ -77,7 +82,8 @@ line = (
 )
 
 point_shape = (
-    alt.Chart(common_data, height=HEIGHT_SMALL, width=STANDARD, title="Point (Shape)")
+    alt
+    .Chart(common_data, height=HEIGHT_SMALL, width=STANDARD, title="Point (Shape)")
     .mark_point()
     .encode(
         x=alt.X("Position:O").axis(grid=False),
@@ -89,16 +95,13 @@ point_shape = (
 )
 
 point = (
-    alt.Chart(movies, height=STANDARD, width=STANDARD, title="Point")
+    alt
+    .Chart(movies, height=STANDARD, width=STANDARD, title="Point")
     .mark_point(tooltip=True)
     .transform_filter(alt.datum["IMDB Rating"] != None)
-    .transform_filter(
-        alt.FieldRangePredicate("Release Date", [None, alt.DateTime(year=2019)])
-    )
+    .transform_filter(alt.FieldRangePredicate("Release Date", [None, alt.DateTime(year=2019)]))
     .transform_joinaggregate(Average_Rating="mean(IMDB Rating)")
-    .transform_calculate(
-        Rating_Delta=alt.datum["IMDB Rating"] - alt.datum.Average_Rating
-    )
+    .transform_calculate(Rating_Delta=alt.datum["IMDB Rating"] - alt.datum.Average_Rating)
     .encode(
         x=alt.X("Release Date:T").title("Release Date"),
         y=alt.Y("Rating_Delta:Q").title("Rating Delta"),
@@ -107,7 +110,8 @@ point = (
 )
 
 bar_stack = (
-    alt.Chart(barley, height=STANDARD, width=STANDARD, title="Bar (Stacked)")
+    alt
+    .Chart(barley, height=STANDARD, width=STANDARD, title="Bar (Stacked)")
     .mark_bar(tooltip=True)
     .encode(
         x="sum(yield):Q",
@@ -117,26 +121,19 @@ bar_stack = (
 )
 
 area = (
-    alt.Chart(alt.UrlData(iowa_elec), height=STANDARD, width=STANDARD, title="Area")
+    alt
+    .Chart(alt.UrlData(iowa_elec), height=STANDARD, width=STANDARD, title="Area")
     .mark_area(tooltip=True)
     .encode(
         x=alt.X("year:T").title("Year"),
-        y=(
-            alt.Y("net_generation:Q")
-            .title("Share of net generation")
-            .stack("normalize")
-            .axis(format=".0%")
-        ),
-        color=(
-            alt.Color("source:N")
-            .title("Electricity source")
-            .legend(orient="bottom", columns=2)
-        ),
+        y=(alt.Y("net_generation:Q").title("Share of net generation").stack("normalize").axis(format=".0%")),
+        color=(alt.Color("source:N").title("Electricity source").legend(orient="bottom", columns=2)),
     )
 )
 
 geoshape = (
-    alt.Chart(
+    alt
+    .Chart(
         alt.topo_feature(us_10m, "counties"),
         height=STANDARD,
         width=WIDTH_GEO,
@@ -149,9 +146,7 @@ geoshape = (
 )
 
 # ── compose ────────────────────────────────────────────────────────────────
-compound_chart = (
-    (bar | line | point_shape) & (point | bar_stack) & (area | geoshape)
-).properties(
+compound_chart = ((bar | line | point_shape) & (point | bar_stack) & (area | geoshape)).properties(
     title=alt.Title(
         "Charité Vega-Altair Theme Test",
         fontSize=20,

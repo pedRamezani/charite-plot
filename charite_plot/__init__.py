@@ -21,19 +21,30 @@ Altair::
     # charts rendered after this call use the theme automatically
 """
 
+from . import altair_themes, mpl_themes
+from .brand import Brand, Roles, tint
+from .brands import BIH, BRANDS, CHARITE, get_brand, register_brand
 from .colors import *  # noqa: F403  (all color constants + CHARITE_COLORS)
 from .colors import __all__ as _COLOR_ALL
-from .palettes import PALETTES, make_palette
-from . import mpl_themes
-from . import altair_themes
+from .palettes import PALETTES, make_cmap, make_palette, make_ramp
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 __author__ = "Pedram Ramezani"
 
 __all__ = [
     *_COLOR_ALL,
+    "Brand",
+    "Roles",
+    "tint",
+    "BRANDS",
+    "CHARITE",
+    "BIH",
+    "get_brand",
+    "register_brand",
     "PALETTES",
     "make_palette",
+    "make_ramp",
+    "make_cmap",
     "mpl_themes",
     "altair_themes",
 ]
